@@ -43,13 +43,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 每日訂單</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/output.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // Initialize Supabase client
-        const supabase = Supabase.createClient(
-            process.env.SUPABASE_URL || 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            process.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+        const supabase = supabase.createClient(
+            process.env.SUPABASE_URL || 'YOUR_SUPABASE_URL',
+            process.env.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY'
         );
 
         async function displayDailyOrders() {

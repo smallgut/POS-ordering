@@ -43,7 +43,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 鮮肉類</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/output.css" rel="stylesheet">
     <script>
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -66,18 +66,18 @@
 <body class="bg-gray-100 font-sans">
     <header class="bg-blue-600 text-white p-4">
         <nav class="flex justify-center space-x-4">
-    <a href="index.html" class="hover:underline">簡介 | Introduction</a>
-    <a href="index.html#categories" class="hover:underline">分類 | Categories</a>
-    <a href="index.html#contact" class="hover:underline">聯絡 | Contact</a>
-    <a href="checkout.html" class="hover:underline">結帳 | Checkout</a>
-    <a href="summary.html" class="hover:underline">每日訂單 | Daily Summary</a>
-</nav>
+            <a href="index.html" class="hover:underline">簡介 | Introduction</a>
+            <a href="#categories" class="hover:underline">分類 | Categories</a>
+            <a href="#contact" class="hover:underline">聯絡 | Contact</a>
+            <a href="checkout.html" class="hover:underline">結帳 | Checkout</a>
+            <a href="summary.html" class="hover:underline">每日訂單 | Daily Summary</a>
+        </nav>
     </header>
 
     <main class="max-w-4xl mx-auto p-6">
         <section class="mb-8">
             <h1 class="text-3xl font-bold mb-4">二姐叫菜 - 鮮肉類</h1>
-            <p>Error: Invalid character in HTML content class="text-lg">精選鮮肉, 價錢相宜, 商品送達, 省錢省時</p>
+            <p class="text-lg">精選鮮肉, 價錢相宜, 商品送達, 省錢省時</p>
             <a href="index.html" class="text-blue-600 hover:underline">回到主頁 | Back to Home</a>
         </section>
 
