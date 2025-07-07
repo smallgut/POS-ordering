@@ -42,11 +42,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二姐叫菜下單系統</title>
+    <title>二姐叫菜 - 蔬果類</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Store selected items
-        let cart = [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
         function addToCart(item, qtyId) {
             const qty = parseInt(document.getElementById(qtyId).value) || 0;
@@ -76,37 +75,61 @@
 
     <main class="max-w-4xl mx-auto p-6">
         <section class="mb-8">
-            <h1 class="text-3xl font-bold mb-4">二姐叫菜下單系統</h1>
-            <p class="text-lg">簡單方便, 自行下單, 輕鬆送貨到店</p>
-        </section>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">二姐叫菜下單系統簡介 | Introduction</h2>
-            <p>點選所需商品及數量, 再下單。二姐再幫你準備商品及估價</p>
+            <h1 class="text-3xl font-bold mb-4">二姐叫菜 - 蔬果類</h1>
+            <p class="text-lg">精選蔬果, 價錢相宜, 商品送達, 省錢省時</p>
+            <a href="index.html" class="text-blue-600 hover:underline">回到主頁 | Back to Home</a>
         </section>
 
         <section id="categories" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">商品分類 | Goods Categories</h2>
+            <h2 class="text-2xl font-semibold mb-4">蔬果類目錄 | Fruit & Veg Catalog</h2>
             <table class="w-full border-collapse bg-white shadow-md">
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="border p-2">商品 | Item</th>
-                        
+                        <th class="border p-2">數量 | Quantity</th>
+                        <th class="border p-2">操作 | Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="border p-2"><a href="veg.html" class="text-blue-400 hover:underline">蔬果類 | Fruit & Veg</a></td>
-                        
+                        <td class="border p-2">大白菜</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-cabbage"></td>
+                        <td class="border p-2"><button onclick="addToCart('大白菜', 'qty-cabbage')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
                     </tr>
                     <tr>
-                        <td class="border p-2"><a href="meat.html" class="text-blue-400 hover:underline">肉類 | Meat</a></td>
-                       
+                        <td class="border p-2">小白菜</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-bokchoy"></td>
+                        <td class="border p-2"><button onclick="addToCart('小白菜', 'qty-bokchoy')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
+                    </tr>
                     <tr>
-                        <td class="border p-2"><a href="seafood.html" class="text-blue-400 hover:underline">海鮮類 | Sea Food</a></td>
-                     </tr>   
-                        <td class="border p-2"><a href="others.html" class="text-blue-400 hover:underline">其他 | Others</a></td>
-                       
+                        <td class="border p-2">通心菜</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-watercress"></td>
+                        <td class="border p-2"><button onclick="addToCart('通心菜', 'qty-watercress')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
+                    </tr>
+                    <tr>
+                        <td class="border p-2">花椰菜</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-cauliflower"></td>
+                        <td class="border p-2"><button onclick="addToCart('花椰菜', 'qty-cauliflower')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
+                    </tr>
+                    <tr>
+                        <td class="border p-2">蔬果更新中</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-veg1" disabled></td>
+                        <td class="border p-2"><button class="bg-gray-300 text-white px-2 py-1 rounded" disabled>加入購物車</button></td>
+                    </tr>
+                    <tr>
+                        <td class="border p-2">蔬果更新中</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-veg2" disabled></td>
+                        <td class="border p-2"><button class="bg-gray-300 text-white px-2 py-1 rounded" disabled>加入購物車</button></td>
+                    </tr>
+                    <tr>
+                        <td class="border p-2">蔬果更新中</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-veg3" disabled></td>
+                        <td class="border p-2"><button class="bg-gray-300 text-white px-2 py-1 rounded" disabled>加入購物車</button></td>
+                    </tr>
+                    <tr>
+                        <td class="border p-2">蔬果更新中</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-veg4" disabled></td>
+                        <td class="border p-2"><button class="bg-gray-300 text-white px-2 py-1 rounded" disabled>加入購物車</button></td>
                     </tr>
                 </tbody>
             </table>
@@ -122,6 +145,6 @@
     <footer class="bg-gray-800 text-white p-4 text-center">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
         <a href="#" class="text-blue-300 hover:underline">Back to Top</a>
-    footer>
+    </footer>
 </body>
 </html>
