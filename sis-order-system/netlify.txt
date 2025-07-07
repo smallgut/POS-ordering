@@ -1,3 +1,4 @@
 [build]
-       publish = "."
+       base = "sis-order-system"
+       publish = "sis-order-system"
        command = "npx tailwindcss -i ./input.css -o ./output.css --minify"

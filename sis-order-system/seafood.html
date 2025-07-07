@@ -43,25 +43,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 海鮮類</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        function addToCart(item, qtyId) {
-            const qty = parseInt(document.getElementById(qtyId).value) || 0;
-            if (qty > 0) {
-                const existingItem = cart.find(cartItem => cartItem.name === item);
-                if (existingItem) {
-                    existingItem.qty += qty;
-                } else {
-                    cart.push({ name: item, qty: qty });
-                }
-                alert(`${item} x${qty} 已加入購物車`);
-                document.getElementById(qtyId).value = '';
-                localStorage.setItem('cart', JSON.stringify(cart));
-            }
-        }
-    </script>
+    <link href="/output.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100 font-sans">
     <header class="bg-blue-600 text-white p-4">
@@ -70,6 +52,7 @@
             <a href="#categories" class="hover:underline">分類 | Categories</a>
             <a href="#contact" class="hover:underline">聯絡 | Contact</a>
             <a href="checkout.html" class="hover:underline">結帳 | Checkout</a>
+            <a href="summary.html" class="hover:underline">每日訂單 | Daily Summary</a>
         </nav>
     </header>
 
@@ -81,7 +64,7 @@
         </section>
 
         <section id="categories" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">海鮮類目錄 | Fruit & Veg Catalog</h2>
+            <h2 class="text-2xl font-semibold mb-4">海鮮類目錄 | Seafood Catalog</h2>
             <table class="w-full border-collapse bg-white shadow-md">
                 <thead>
                     <tr class="bg-gray-200">
@@ -146,5 +129,24 @@
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
         <a href="#" class="text-blue-300 hover:underline">Back to Top</a>
     </footer>
+
+    <script defer>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function addToCart(item, qtyId) {
+            const qty = parseInt(document.getElementById(qtyId).value) || 0;
+            if (qty > 0) {
+                const existingItem = cart.find(cartItem => cartItem.name === item);
+                if (existingItem) {
+                    existingItem.qty += qty;
+                } else {
+                    cart.push({ name: item, qty: qty });
+                }
+                alert(`${item} x${qty} 已加入購物車`);
+                document.getElementById(qtyId).value = '';
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        }
+    </script>
 </body>
 </html>
