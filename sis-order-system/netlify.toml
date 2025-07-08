@@ -1,0 +1,4 @@
+[build]
+       base = "sis-order-system"
+       publish = "sis-order-system"
+       command = "npm install && npx tailwindcss -i ./input.css -o ./output.css --minify"
