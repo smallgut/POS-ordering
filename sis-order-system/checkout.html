@@ -44,7 +44,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 結帳</title>
     <link href="/output.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-100 font-sans">
     <header class="bg-blue-600 text-white p-4">
@@ -109,7 +109,7 @@
 
     <script defer>
         // Initialize Supabase client
-        const supabase = supabase.createClient(
+        const supabase = window.supabase.createClient(
             process.env.SUPABASE_URL || 'YOUR_SUPABASE_URL',
             process.env.SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY'
         );
