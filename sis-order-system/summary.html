@@ -48,8 +48,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL',
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY'
         };
     </script>
 </head>
@@ -73,10 +73,22 @@
 
         <section class="mb-8">
             <h2 class="text-2xl font-semibold text-primary mb-4">訂單查詢</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md mb-4">
-                <label for="order-date" class="block text-lg text-gray-700 mb-2">選擇日期</label>
-                <input type="date" id="order-date" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
-                <button onclick="displayOrders()" class="bg-primary text-white px-4 py-2 rounded ml-2 hover:bg-blue-700 transition duration-200">查詢</button>
+            <div class="bg-white p-6 rounded-lg shadow-md mb-4 flex flex-col md:flex-row gap-4">
+                <div>
+                    <label for="order-date" class="block text-lg text-gray-700 mb-2">選擇日期</label>
+                    <input type="date" id="order-date" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+                </div>
+                <div>
+                    <label for="product-category" class="block text-lg text-gray-700 mb-2">商品類別</label>
+                    <select id="product-category" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+                        <option value="all">所有類別</option>
+                        <option value="蔬果類">蔬果類</option>
+                        <option value="鮮肉類">鮮肉類</option>
+                        <option value="海鮮類">海鮮類</option>
+                        <option value="其他類">其他類</option>
+                    </select>
+                </div>
+                <button onclick="displayOrders()" class="bg-primary text-white px-4 py-2 rounded mt-6 md:mt-8 hover:bg-blue-700 transition duration-200">查詢</button>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <table class="w-full border-collapse">
@@ -85,6 +97,7 @@
                             <th class="border p-3 text-left">顧客姓名</th>
                             <th class="border p-3 text-left">聯絡方式</th>
                             <th class="border p-3 text-left">訂單項目</th>
+                            <th class="border p-3 text-left">結帳時間</th>
                         </tr>
                     </thead>
                     <tbody id="orders-table"></tbody>
@@ -107,12 +120,14 @@
         async function displayOrders() {
             const dateInput = document.getElementById('order-date').value;
             const selectedDate = dateInput || new Date().toISOString().split('T')[0];
+            const category = document.getElementById('product-category').value;
+
             const startOfDayTaiwan = new Date(`${selectedDate}T00:00:00+08:00`);
             const endOfDayTaiwan = new Date(`${selectedDate}T23:59:59+08:00`);
             const startOfDayUTC = startOfDayTaiwan.toISOString();
             const endOfDayUTC = endOfDayTaiwan.toISOString();
 
-            console.log('Fetching orders for (UTC):', startOfDayUTC, 'to', endOfDayUTC);
+            console.log('Fetching orders for (UTC):', startOfDayUTC, 'to', endOfDayUTC, 'Category:', category);
 
             const { data, error } = await supabase
                 .from('orders')
@@ -125,20 +140,35 @@
             const ordersTable = document.getElementById('orders-table');
             ordersTable.innerHTML = '';
             if (error) {
-                ordersTable.innerHTML = `<tr><td colspan="3" class="border p-3 text-center">無法加載訂單: ${error.message}</td></tr>`;
+                ordersTable.innerHTML = `<tr><td colspan="4" class="border p-3 text-center">無法加載訂單: ${error.message}</td></tr>`;
                 return;
             }
-            if (!data || data.length === 0) {
-                ordersTable.innerHTML = '<tr><td colspan="3" class="border p-3 text-center text-gray-700">無訂單</td></tr>';
+            let filteredOrders = data;
+            if (category !== 'all') {
+                filteredOrders = data.filter(order =>
+                    order.items.some(item => {
+                        const itemName = item.name.toLowerCase();
+                        if (category === '蔬果類') return ['大白菜', '小白菜', '通心菜', '花椰菜'].includes(itemName);
+                        if (category === '鮮肉類') return ['牛肉', '雞肉', '豬肉'].includes(itemName);
+                        if (category === '海鮮類') return ['魚', '蝦', '蟹'].includes(itemName);
+                        if (category === '其他類') return !['大白菜', '小白菜', '通心菜', '花椰菜', '牛肉', '雞肉', '豬肉', '魚', '蝦', '蟹'].includes(itemName);
+                        return false;
+                    })
+                );
+            }
+            if (!filteredOrders || filteredOrders.length === 0) {
+                ordersTable.innerHTML = '<tr><td colspan="4" class="border p-3 text-center text-gray-700">無訂單</td></tr>';
                 return;
             }
-            data.forEach(order => {
+            filteredOrders.forEach(order => {
                 const row = document.createElement('tr');
                 const itemsList = order.items.map(item => `${item.name} x${item.qty}`).join(', ');
+                const checkoutTime = new Date(order.created_at).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
                 row.innerHTML = `
                     <td class="border p-3">${order.customer_name}</td>
                     <td class="border p-3">${order.customer_contact}</td>
                     <td class="border p-3">${itemsList}</td>
+                    <td class="border p-3">${checkoutTime}</td>
                 `;
                 ordersTable.appendChild(row);
             });
