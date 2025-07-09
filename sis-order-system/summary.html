@@ -46,10 +46,10 @@
     <link href="/output.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Inject Supabase credentials (replace with your actual values or use a build script)
+        // Replace with your actual Supabase credentials or use build script
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL', // e.g., https://abc123.supabase.co
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY' // e.g., eyJhbG...
         };
     </script>
 </head>
@@ -100,24 +100,36 @@
     </footer>
 
     <script defer>
-        // Initialize Supabase client using injected environment variables
+        // Initialize Supabase client
         const supabase = window.supabase.createClient(
             window.env.SUPABASE_URL,
             window.env.SUPABASE_ANON_KEY
         );
 
         async function displayDailyOrders() {
-            const today = new Date().toISOString().split('T')[0];
+            // Get current date in UTC and convert to Taiwan time (UTC+8)
+            const now = new Date();
+            const taiwanOffset = 8 * 60 * 60 * 1000; // UTC+8 in milliseconds
+            const taiwanDate = new Date(now.getTime() + taiwanOffset);
+            const today = taiwanDate.toISOString().split('T')[0]; // YYYY-MM-DD in Taiwan time
+            const startOfDay = `${today}T00:00:00+00:00`; // Start of day in UTC
+            const endOfDay = `${today}T23:59:59+00:00`;   // End of day in UTC
+
+            console.log('Fetching orders for:', startOfDay, 'to', endOfDay); // Debug log
+
             const { data, error } = await supabase
                 .from('orders')
                 .select('*')
-                .gte('created_at', `${today}T00:00:00+08:00`)
-                .lte('created_at', `${today}T23:59:59+08:00`);
-            
+                .gte('created_at', startOfDay)
+                .lte('created_at', endOfDay);
+
+            console.log('Supabase response:', { data, error }); // Debug log
+
             const ordersTable = document.getElementById('orders-table');
             ordersTable.innerHTML = '';
             if (error) {
-                ordersTable.innerHTML = '<tr><td colspan="3" class="border p-2 text-center">無法加載訂單：' + error.message + '</td></tr>';
+                ordersTable.innerHTML = `<tr><td colspan="3" class="border p-2 text-center">無法加載訂單：${error.message}</td></tr>`;
+                console.error('Supabase error:', error);
                 return;
             }
             if (!data || data.length === 0) {
