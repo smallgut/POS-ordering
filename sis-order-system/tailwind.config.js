@@ -4,11 +4,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#1E40AF', // Deep blue for headers
-        secondary: '#F3F4F6', // Light gray for backgrounds
+        primary: '#1E40AF', // Deep blue
+        secondary: '#F3F4F6', // Light gray
       },
       fontFamily: {
-        sans: ['Noto Sans TC', 'sans-serif'], // Professional Chinese font
+        sans: ['Noto Sans TC', 'sans-serif'],
       },
     },
   },
