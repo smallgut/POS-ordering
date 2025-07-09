@@ -48,8 +48,8 @@
     <script>
         // Replace with your actual Supabase credentials or use build script
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co', // e.g., https://abc123.supabase.co
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68' // e.g., eyJhbG...
+            SUPABASE_URL: 'YOUR_SUPABASE_URL', // e.g., https://abc123.supabase.co
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY' // e.g., eyJhbG...
         };
     </script>
 </head>
@@ -107,21 +107,25 @@
         );
 
         async function displayDailyOrders() {
-            // Get current date in UTC and convert to Taiwan time (UTC+8)
+            // Get current date in Taiwan time (UTC+8)
             const now = new Date();
             const taiwanOffset = 8 * 60 * 60 * 1000; // UTC+8 in milliseconds
             const taiwanDate = new Date(now.getTime() + taiwanOffset);
             const today = taiwanDate.toISOString().split('T')[0]; // YYYY-MM-DD in Taiwan time
-            const startOfDay = `${today}T00:00:00+00:00`; // Start of day in UTC
-            const endOfDay = `${today}T23:59:59+00:00`;   // End of day in UTC
 
-            console.log('Fetching orders for:', startOfDay, 'to', endOfDay); // Debug log
+            // Convert Taiwan day's start/end to UTC
+            const startOfDayTaiwan = new Date(`${today}T00:00:00+08:00`);
+            const endOfDayTaiwan = new Date(`${today}T23:59:59+08:00`);
+            const startOfDayUTC = startOfDayTaiwan.toISOString(); // e.g., 2025-07-09T16:00:00.000Z
+            const endOfDayUTC = endOfDayTaiwan.toISOString();     // e.g., 2025-07-10T15:59:59.000Z
+
+            console.log('Fetching orders for (UTC):', startOfDayUTC, 'to', endOfDayUTC); // Debug log
 
             const { data, error } = await supabase
                 .from('orders')
                 .select('*')
-                .gte('created_at', startOfDay)
-                .lte('created_at', endOfDay);
+                .gte('created_at', startOfDayUTC)
+                .lte('created_at', endOfDayUTC);
 
             console.log('Supabase response:', { data, error }); // Debug log
 
