@@ -44,78 +44,73 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 結帳</title>
     <link href="/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Inject Supabase credentials (replace with your actual values or use a build script)
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL',
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY'
         };
     </script>
 </head>
-<body class="bg-gray-100 font-sans">
-    <header class="bg-blue-600 text-white p-4">
-        <nav class="flex justify-center space-x-4">
-            <a href="index.html" class="hover:underline">簡介 | Introduction</a>
-            <a href="index.html#categories" class="hover:underline">分類 | Categories</a>
-            <a href="index.html#contact" class="hover:underline">聯絡 | Contact</a>
-            <a href="checkout.html" class="hover:underline">結帳 | Checkout</a>
-            <a href="summary.html" class="hover:underline">每日訂單 | Daily Summary</a>
+<body class="bg-secondary font-sans">
+    <header class="bg-primary text-white p-4 shadow-md">
+        <nav class="container mx-auto flex justify-center space-x-6">
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
+            <a href="index.html#categories" class="hover:underline transition duration-200">分類</a>
+            <a href="index.html#contact" class="hover:underline transition duration-200">聯絡</a>
+            <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
+            <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
     </header>
 
-    <main class="max-w-4xl mx-auto p-6">
+    <main class="container mx-auto p-6">
         <section class="mb-8">
-            <h1 class="text-3xl font-bold mb-4">二姐叫菜 - 結帳</h1>
-            <p class="text-lg">請確認您的訂單並填寫聯絡資訊</p>
-            <a href="index.html" class="text-blue-600 hover:underline">回到主頁 | Back to Home</a>
+            <h1 class="text-3xl font-bold text-primary mb-4">二姐叫菜 - 結帳</h1>
+            <p class="text-lg text-gray-700">請確認您的訂單並填寫聯絡資訊</p>
+            <a href="index.html" class="text-primary hover:underline">回到主頁</a>
         </section>
 
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">訂單總覽 | Order Summary</h2>
-            <table class="w-full border-collapse bg-white shadow-md">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-2">商品 | Item</th>
-                        <th class="border p-2">數量 | Quantity</th>
-                        <th class="border p-2">操作 | Action</th>
-                    </tr>
-                </thead>
-                <tbody id="cart-items">
-                    <!-- Cart items will be populated by JavaScript -->
-                </tbody>
-            </table>
-        </section>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">顧客資訊 | Customer Information</h2>
-            <div class="bg-white p-6 rounded shadow-md">
-                <div class="mb-4">
-                    <label for="customer-name" class="block text-lg">姓名 | Name:</label>
-                    <input type="text" id="customer-name" class="w-full p-2 border rounded" required>
-                </div>
-                <div class="mb-4">
-                    <label for="customer-contact" class="block text-lg">聯絡方式 | Contact (TEL/Line):</label>
-                    <input type="text" id="customer-contact" class="w-full p-2 border rounded" required>
-                </div>
-                <button onclick="submitOrder(event)" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">提交訂單 | Submit Order</button>
+            <h2 class="text-2xl font-semibold text-primary mb-4">訂單總覽</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3 text-left">商品</th>
+                            <th class="border p-3 text-left">數量</th>
+                            <th class="border p-3 text-left">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items"></tbody>
+                </table>
             </div>
         </section>
 
-        <section id="contact" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">聯絡 | Contact</h2>
-            <p>商店地點 | Collection: coming soon</p>
-            <p>TEL / Line: coming soon</p>
+        <section class="mb-8">
+            <h2 class="text-2xl font-semibold text-primary mb-4">顧客資訊</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="mb-4">
+                    <label for="customer-name" class="block text-lg text-gray-700">姓名</label>
+                    <input type="text" id="customer-name" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" required>
+                    <p id="name-error" class="text-red-500 text-sm hidden">請輸入姓名</p>
+                </div>
+                <div class="mb-4">
+                    <label for="customer-contact" class="block text-lg text-gray-700">聯絡方式 (電話/Line)</label>
+                    <input type="text" id="customer-contact" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" required>
+                    <p id="contact-error" class="text-red-500 text-sm hidden">請輸入聯絡方式</p>
+                </div>
+                <button onclick="submitOrder(event)" class="bg-primary text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-200">提交訂單</button>
+            </div>
         </section>
     </main>
 
     <footer class="bg-gray-800 text-white p-4 text-center">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="text-blue-300 hover:underline">Back to Top</a>
+        <a href="#" class="text-blue-300 hover:underline">回到頂部</a>
     </footer>
 
     <script defer>
-        // Initialize Supabase client using injected environment variables
         const supabase = window.supabase.createClient(
             window.env.SUPABASE_URL,
             window.env.SUPABASE_ANON_KEY
@@ -127,16 +122,16 @@
             const cartTable = document.getElementById('cart-items');
             cartTable.innerHTML = '';
             if (cart.length === 0) {
-                cartTable.innerHTML = '<tr><td colspan="3" class="border p-2 text-center">購物車為空</td></tr>';
+                cartTable.innerHTML = '<tr><td colspan="3" class="border p-3 text-center text-gray-700">購物車為空</td></tr>';
                 return;
             }
             cart.forEach((item, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="border p-2">${item.name}</td>
-                    <td class="border p-2">${item.qty}</td>
-                    <td class="border p-2">
-                        <button onclick="removeFromCart(${index})" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">移除</button>
+                    <td class="border p-3">${item.name}</td>
+                    <td class="border p-3">${item.qty}</td>
+                    <td class="border p-3">
+                        <button onclick="removeFromCart(${index})" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200">移除</button>
                     </td>
                 `;
                 cartTable.appendChild(row);
@@ -151,10 +146,20 @@
 
         async function submitOrder(event) {
             event.preventDefault();
-            const name = document.getElementById('customer-name').value;
-            const contact = document.getElementById('customer-contact').value;
-            if (!name || !contact) {
-                alert('請填寫所有必填欄位');
+            const name = document.getElementById('customer-name').value.trim();
+            const contact = document.getElementById('customer-contact').value.trim();
+            const nameError = document.getElementById('name-error');
+            const contactError = document.getElementById('contact-error');
+
+            nameError.classList.add('hidden');
+            contactError.classList.add('hidden');
+
+            if (!name) {
+                nameError.classList.remove('hidden');
+                return;
+            }
+            if (!contact) {
+                contactError.classList.remove('hidden');
                 return;
             }
             if (cart.length === 0) {
