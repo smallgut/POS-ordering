@@ -51,7 +51,8 @@
                 </div>
                 <button onclick="displayOrders()" class="bg-primary text-white px-4 py-2 rounded mt-6 md:mt-8 hover:bg-blue-700 transition duration-200">查詢</button>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
+            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+                <h3 class="text-xl font-semibold text-primary mb-4">訂單明細</h3>
                 <table class="w-full border-collapse">
                     <thead>
                         <tr class="bg-gray-200">
@@ -62,6 +63,18 @@
                         </tr>
                     </thead>
                     <tbody id="orders-table"></tbody>
+                </table>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-xl font-semibold text-primary mb-4">商品總量統計</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3 text-left">商品名稱</th>
+                            <th class="border p-3 text-left">總訂購數量</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summary-table"></tbody>
                 </table>
             </div>
         </section>
@@ -99,11 +112,16 @@
             console.log('Supabase response:', { data, error });
 
             const ordersTable = document.getElementById('orders-table');
+            const summaryTable = document.getElementById('summary-table');
             ordersTable.innerHTML = '';
+            summaryTable.innerHTML = '';
+
             if (error) {
                 ordersTable.innerHTML = `<tr><td colspan="4" class="border p-3 text-center">無法加載訂單: ${error.message}</td></tr>`;
+                summaryTable.innerHTML = `<tr><td colspan="2" class="border p-3 text-center">無法加載統計: ${error.message}</td></tr>`;
                 return;
             }
+
             let filteredOrders = data;
             if (category !== 'all') {
                 filteredOrders = data.filter(order =>
@@ -117,10 +135,14 @@
                     })
                 );
             }
+
             if (!filteredOrders || filteredOrders.length === 0) {
                 ordersTable.innerHTML = '<tr><td colspan="4" class="border p-3 text-center text-gray-700">無訂單</td></tr>';
+                summaryTable.innerHTML = '<tr><td colspan="2" class="border p-3 text-center text-gray-700">無商品統計</td></tr>';
                 return;
             }
+
+            // Populate orders table
             filteredOrders.forEach(order => {
                 const row = document.createElement('tr');
                 let itemsList;
@@ -145,6 +167,31 @@
                     <td class="border p-3">${checkoutTime}</td>
                 `;
                 ordersTable.appendChild(row);
+            });
+
+            // Aggregate and populate summary table
+            const productTotals = {};
+            filteredOrders.forEach(order => {
+                order.items.forEach(item => {
+                    const itemName = item.name.toLowerCase();
+                    if (category === 'all' || (
+                        (category === '蔬果類' && ['大白菜', '小白菜', '通心菜', '花椰菜'].includes(itemName)) ||
+                        (category === '鮮肉類' && ['牛肉', '雞肉', '豬肉'].includes(itemName)) ||
+                        (category === '海鮮類' && ['魚', '蝦', '蟹'].includes(itemName)) ||
+                        (category === '其他類' && !['大白菜', '小白菜', '通心菜', '花椰菜', '牛肉', '雞肉', '豬肉', '魚', '蝦', '蟹'].includes(itemName))
+                    )) {
+                        productTotals[item.name] = (productTotals[item.name] || 0) + item.qty;
+                    }
+                });
+            });
+
+            Object.entries(productTotals).sort().forEach(([product, total]) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="border p-3">${product}</td>
+                    <td class="border p-3">${total}</td>
+                `;
+                summaryTable.appendChild(row);
             });
         }
 
