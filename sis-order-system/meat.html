@@ -88,11 +88,11 @@
                         <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-chicken"></td>
                         <td class="border p-2"><button onclick="addToCart('雞肉', 'qty-chicken')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
                     </tr>
-                    <tr>
-                        <td class="border p-2">羊肉</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-lamb"></td>
-                        <td class="border p-2"><button onclick="addToCart('羊肉', 'qty-lamb')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                    <span class="text-lg">雞骨頭</span>
+                    <input type="number" min="0" class="w-20 p-2 border rounded mt-2" id="qty-bokchoy">
+                    <button onclick="addToCart('雞骨頭', 'qty-bokchoy')" class="bg-primary text-white px-4 py-2 rounded mt-2 hover:bg-blue-700 transition duration-200">加入購物車</button>
+                </div>
                     <tr>
                         <td class="border p-2">肉類更新中</td>
                         <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-meat1" disabled></td>
