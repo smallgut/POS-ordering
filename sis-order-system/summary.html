@@ -48,8 +48,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL',
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY'
         };
     </script>
 </head>
@@ -155,18 +155,11 @@
 
         function printQuotation(order) {
             const printArea = document.getElementById('print-area');
-            const itemsList = order.items.map(item => `${item.name} x${item.qty} ${item.unit || ''}`).join(', ');
-            const checkoutTime = new Date(order.created_at).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
             const quotation = order.quotation ? `$${order.quotation.toFixed(2)}` : '未提供';
             printArea.innerHTML = `
                 <div class="p-6 max-w-3xl mx-auto bg-white">
-                    <h1 class="text-2xl font-bold text-center mb-4">二姐叫菜 - 訂單報價</h1>
-                    <p class="text-lg mb-2"><strong>顧客姓名:</strong> ${order.customer_name}</p>
-                    <p class="text-lg mb-2"><strong>聯絡方式:</strong> ${order.customer_contact}</p>
-                    <p class="text-lg mb-2"><strong>訂單項目:</strong> ${itemsList}</p>
-                    <p class="text-lg mb-2"><strong>報價:</strong> ${quotation}</p>
-                    <p class="text-lg mb-2"><strong>結帳時間:</strong> ${checkoutTime}</p>
-                    <table class="w-full border-collapse mt-4">
+                    <h1 class="text-2xl font-bold text-center mb-4">二姐叫菜 - 報價單</h1>
+                    <table class="w-full border-collapse mb-4">
                         <thead>
                             <tr class="bg-gray-200">
                                 <th class="border p-3 text-left">商品</th>
@@ -184,6 +177,7 @@
                             `).join('')}
                         </tbody>
                     </table>
+                    <p class="text-lg font-semibold text-right"><strong>報價總額:</strong> ${quotation}</p>
                 </div>
             `;
             window.print();
@@ -249,7 +243,7 @@
                 } else {
                     const filteredItems = order.items.filter(item => {
                         const itemName = item.name.toLowerCase();
-                        if (category === '蔬果類') return ['大白菜', '小白菜', '通心菜', '花椰菜', '麻糬茄子', '大陸妹', '薑', '薑絲', '薑片', '九層塔', '豆豆', '蒜頭仁', '蒜泥', '蒜碎', '水蓮', '青江菜', '洋蔥', '秀珍菇', '小黃瓜', '空心菜', '白苦瓜', '青苦瓜', '菠菜', '絲瓜', '冬瓜', '金針菇', '�萝蔔', '青菜', '地瓜葉', '高麗菜'].includes(itemName);
+                        if (category === '蔬果類') return ['大白菜', '小白菜', '通心菜', '花椰菜', '麻糬茄子', '大陸妹', '薑', '薑絲', '薑片', '九層塔', '豆豆', '蒜頭仁', '蒜泥', '蒜碎', '水蓮', '青江菜', '洋蔥', '秀珍菇', '小黃瓜', '空心菜', '白苦瓜', '青苦瓜', '菠菜', '絲瓜', '冬瓜', '金針菇', '蘿蔔', '青菜', '地瓜葉', '高麗菜'].includes(itemName);
                         if (category === '鮮肉類') return ['牛肉', '豬肉', '雞肉', '雞頭骨', '絞肉', '肉絲'].includes(itemName);
                         if (category === '海鮮類') return ['吳郭魚', '虱目魚', '鯧魚', '秋刀魚'].includes(itemName);
                         if (category === '其他類') return ['台灣啤酒', '台灣啤酒 330ml', '可口可樂 330ml', '豆干', '豆漿'].includes(itemName);
