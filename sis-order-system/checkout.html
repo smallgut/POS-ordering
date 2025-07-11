@@ -48,16 +48,17 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL',
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY'
         };
     </script>
 </head>
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
         <nav class="container mx-auto flex justify-center space-x-6">
-           <a href="#categories" class="hover:underline transition duration-200">下單分類</a>
-           
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
+            <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
+            <a href="index.html#contact" class="hover:underline transition duration-200">聯絡</a>
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
@@ -78,6 +79,7 @@
                         <tr class="bg-gray-200">
                             <th class="border p-3 text-left">商品</th>
                             <th class="border p-3 text-left">數量</th>
+                            <th class="border p-3 text-left">單位</th>
                             <th class="border p-3 text-left">操作</th>
                         </tr>
                     </thead>
@@ -121,7 +123,7 @@
             const cartTable = document.getElementById('cart-items');
             cartTable.innerHTML = '';
             if (cart.length === 0) {
-                cartTable.innerHTML = '<tr><td colspan="3" class="border p-3 text-center text-gray-700">購物車為空</td></tr>';
+                cartTable.innerHTML = '<tr><td colspan="4" class="border p-3 text-center text-gray-700">購物車為空</td></tr>';
                 return;
             }
             cart.forEach((item, index) => {
@@ -129,6 +131,7 @@
                 row.innerHTML = `
                     <td class="border p-3">${item.name}</td>
                     <td class="border p-3">${item.qty}</td>
+                    <td class="border p-3">${item.unit}</td>
                     <td class="border p-3">
                         <button onclick="removeFromCart(${index})" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200">移除</button>
                     </td>
@@ -166,13 +169,11 @@
                 return;
             }
             try {
-                const { error } = await supabase.from('orders').insert([
-                    {
-                        customer_name: name,
-                        customer_contact: contact,
-                        items: cart
-                    }
-                ]);
+                const { error } = await supabase.from('orders').insert({
+                    customer_name: name,
+                    customer_contact: contact,
+                    items: cart.map(item => ({ name: item.name, qty: item.qty, unit: item.unit }))
+                });
                 if (error) throw error;
                 alert('訂單已提交！');
                 cart = [];

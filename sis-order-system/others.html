@@ -44,68 +44,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 其他商品</title>
     <link href="/output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans">
-    <header class="bg-blue-600 text-white p-4">
-        <nav class="flex justify-center space-x-4">
-            <a href="#categories" class="hover:underline transition duration-200">下單分類</a>
-           
+<body class="bg-secondary font-sans">
+    <header class="bg-primary text-white p-4 shadow-md">
+        <nav class="container mx-auto flex justify-center space-x-6">
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
+            <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
+            <a href="#contact" class="hover:underline transition duration-200">聯絡</a>
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
     </header>
 
-    <main class="max-w-4xl mx-auto p-6">
+    <main class="container mx-auto p-6">
         <section class="mb-8">
-            <h1 class="text-3xl font-bold mb-4">二姐叫菜 - 其他商品</h1>
-            <p class="text-lg">精選商品, 價錢相宜, 商品送達, 省錢省時</p>
-            <a href="index.html" class="text-blue-600 hover:underline">回到主頁 | Back to Home</a>
+            <h1 class="text-3xl font-bold text-primary mb-4">二姐叫菜 - 其他商品</h1>
+            <p class="text-lg text-gray-700">精選商品，價錢相宜，商品送達，省錢省時</p>
+            <a href="index.html" class="text-primary hover:underline">回到主頁 | Back to Home</a>
         </section>
 
         <section id="categories" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">其他商品目錄 | Others Catalog</h2>
-            <table class="w-full border-collapse bg-white shadow-md">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-2">商品 | Item</th>
-                        <th class="border p-2">數量 | Quantity</th>
-                        <th class="border p-2">操作 | Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border p-2">台灣啤酒</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-beer"></td>
-                        <td class="border p-2"><button onclick="addToCart('台灣啤酒', 'qty-beer')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">台灣啤酒 330ml</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-beer330"></td>
-                        <td class="border p-2"><button onclick="addToCart('台灣啤酒 330ml', 'qty-beer330')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">可口可樂 330ml</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-coke"></td>
-                        <td class="border p-2"><button onclick="addToCart('可口可樂 330ml', 'qty-coke')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">豆干</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-dried tofu"></td>
-                        <td class="border p-2"><button onclick="addToCart('豆干', 'qty-7up')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">豆漿</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-soy milk"></td>
-                        <td class="border p-2"><button onclick="addToCart('豆漿', 'qty-7up')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2 class="text-2xl font-semibold text-primary mb-4">其他商品目錄 | Others Catalog</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3 text-left">商品 | Item</th>
+                            <th class="border p-3 text-left">數量 | Quantity</th>
+                            <th class="border p-3 text-left">單位 | Unit</th>
+                            <th class="border p-3 text-left">操作 | Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="border p-3">台灣啤酒</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-台灣啤酒"></td><td class="border p-3"><select id="unit-台灣啤酒" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('台灣啤酒', 'qty-台灣啤酒', 'unit-台灣啤酒')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">台灣啤酒 330ml</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-台灣啤酒-330ml"></td><td class="border p-3"><select id="unit-台灣啤酒-330ml" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('台灣啤酒 330ml', 'qty-台灣啤酒-330ml', 'unit-台灣啤酒-330ml')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">可口可樂 330ml</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-可口可樂-330ml"></td><td class="border p-3"><select id="unit-可口可樂-330ml" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('可口可樂 330ml', 'qty-可口可樂-330ml', 'unit-可口可樂-330ml')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">豆干</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-豆干"></td><td class="border p-3"><select id="unit-豆干" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('豆干', 'qty-豆干', 'unit-豆干')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">豆漿</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-豆漿"></td><td class="border p-3"><select id="unit-豆漿" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('豆漿', 'qty-豆漿', 'unit-豆漿')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
 
         <section id="contact" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">聯絡 | Contact</h2>
-            <p>商店地點 | Collection: coming soon</p>
-            <p>TEL / Line: coming soon</p>
+            <h2 class="text-2xl font-semibold text-primary mb-4">聯絡 | Contact</h2>
+            <p class="text-gray-700">商店地點 | Collection: coming soon</p>
+            <p class="text-gray-700">TEL / Line: coming soon</p>
         </section>
     </main>
 
@@ -114,23 +99,55 @@
         <a href="#" class="text-blue-300 hover:underline">Back to Top</a>
     </footer>
 
+    <div id="cart-icon" class="fixed bottom-4 right-4 bg-primary text-white p-3 rounded-full shadow-lg cursor-pointer hover:bg-blue-700 transition duration-200" onclick="window.location.href='checkout.html'">
+        <span class="text-lg">🛒</span>
+        <span id="cart-count" class="bg-red-500 text-white text-xs rounded-full px-2 py-1"></span>
+    </div>
+
     <script defer>
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-        function addToCart(item, qtyId) {
+        // Define allowed units for each product (edit here to remove unmatched units)
+        const productUnits = {
+            '台灣啤酒': ['箱', '條'],
+            '台灣啤酒 330ml': ['箱', '條'],
+            '可口可樂 330ml': ['箱', '條'],
+            '豆干': ['包', '袋'],
+            '豆漿': ['箱', '條']
+        };
+
+        const allUnits = ['斤', '袋', '把', '箱', '條', '包'];
+
+        // Populate unit dropdowns
+        document.querySelectorAll('select[id^="unit-"]').forEach(select => {
+            const product = select.id.replace('unit-', '');
+            const units = productUnits[product] || allUnits;
+            select.innerHTML = units.map(unit => `<option value="${unit}">${unit}</option>`).join('');
+        });
+
+        function addToCart(item, qtyId, unitId) {
             const qty = parseInt(document.getElementById(qtyId).value) || 0;
+            const unit = document.getElementById(unitId).value;
             if (qty > 0) {
-                const existingItem = cart.find(cartItem => cartItem.name === item);
+                const existingItem = cart.find(cartItem => cartItem.name === item && cartItem.unit === unit);
                 if (existingItem) {
                     existingItem.qty += qty;
                 } else {
-                    cart.push({ name: item, qty: qty });
+                    cart.push({ name: item, qty: qty, unit: unit });
                 }
-                alert(`${item} x${qty} 已加入購物車`);
+                alert(`${item} x${qty} ${unit} 已加入購物車`);
                 document.getElementById(qtyId).value = '';
                 localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
             }
         }
+
+        function updateCartCount() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-count').textContent = totalItems || '';
+        }
+
+        window.onload = updateCartCount;
     </script>
 </body>
 </html>

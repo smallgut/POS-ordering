@@ -49,8 +49,9 @@
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
         <nav class="container mx-auto flex justify-center space-x-6">
-           <a href="#categories" class="hover:underline transition duration-200">下單分類</a>
-           
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
+            <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
+            <a href="#contact" class="hover:underline transition duration-200">聯絡</a>
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
@@ -63,156 +64,50 @@
             <a href="index.html" class="text-primary hover:underline">回到主頁</a>
         </section>
 
-            <section id="categories" class="mb-8">
-            <h2 class="text-2xl font-semibold mb-4">蔬果類目錄 | Vegetable Catalog</h2>
-            <table class="w-full border-collapse bg-white shadow-md">
-                <thead>
-                    <tr class="bg-gray-200">
-                        <th class="border p-2">商品 | Item</th>
-                        <th class="border p-2">數量 | Quantity</th>
-                        <th class="border p-2">操作 | Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="border p-2">麻糬茄子</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-eggplant"></td>
-                        <td class="border p-2"><button onclick="addToCart('麻糬茄子', 'qty-eggplant')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">大陸妹</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-lettuce"></td>
-                        <td class="border p-2"><button onclick="addToCart('大陸妹', 'qty-lettuce')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">薑</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-ginger"></td>
-                        <td class="border p-2"><button onclick="addToCart('薑', 'qty-ginger')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">薑絲</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-shredded ginger"></td>
-                        <td class="border p-2"><button onclick="addToCart('薑絲', 'qty-shredded ginger')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">薑片</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-ginger slices"></td>
-                        <td class="border p-2"><button onclick="addToCart('薑片', 'qty-ginger slices')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">九層塔</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-Thai Basil"></td>
-                        <td class="border p-2"><button onclick="addToCart('九層塔', 'qty-Thai Basil')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                    <tr>
-                        <td class="border p-2">豆豆</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-Doudou"></td>
-                        <td class="border p-2"><button onclick="addToCart('豆豆', 'qty-Doudou')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">蒜頭仁</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-Garlic kernels"></td>
-                        <td class="border p-2"><button onclick="addToCart('蒜頭仁', 'qty-Garlic kernels')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">蒜泥</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-Garlic paste"></td>
-                        <td class="border p-2"><button onclick="addToCart('蒜泥', 'qty-Garlic paste')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">蒜碎</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-minced garlic"></td>
-                        <td class="border p-2"><button onclick="addToCart('蒜碎', 'qty-minced garlic')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">水蓮</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-water lily"></td>
-                        <td class="border p-2"><button onclick="addToCart('水蓮', 'qty-water lily')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">青江菜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-pak choy"></td>
-                        <td class="border p-2"><button onclick="addToCart('青江菜', 'qty-pak choy')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">洋蔥</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-onion"></td>
-                        <td class="border p-2"><button onclick="addToCart('洋蔥', 'qty-onion')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">秀珍菇</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-oyster mushroom"></td>
-                        <td class="border p-2"><button onclick="addToCart('秀珍菇', 'qty-oyster mushroom')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">小黃瓜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-gherkin"></td>
-                        <td class="border p-2"><button onclick="addToCart('小黃瓜', 'qty-gherkin')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">空心菜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-water spinach"></td>
-                        <td class="border p-2"><button onclick="addToCart('空心菜', 'qty-water spinach')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">白苦瓜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-white bitter melon"></td>
-                        <td class="border p-2"><button onclick="addToCart('白苦瓜', 'qty-white bitter melon')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">青苦瓜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-green bitter melon"></td>
-                        <td class="border p-2"><button onclick="addToCart('青苦瓜', 'qty-green bitter melon')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                         <tr>
-                        <td class="border p-2">菠菜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-spinach"></td>
-                        <td class="border p-2"><button onclick="addToCart('菠菜', 'qty-spinach')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                         <tr>
-                        <td class="border p-2">絲瓜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-loofah"></td>
-                        <td class="border p-2"><button onclick="addToCart('絲瓜', 'qty-loofah')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                         <tr>
-                        <td class="border p-2">冬瓜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-winter melon"></td>
-                        <td class="border p-2"><button onclick="addToCart('冬瓜', 'qty-winter melon')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">金針菇</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-Enoki Mushroom"></td>
-                        <td class="border p-2"><button onclick="addToCart('金針菇', 'qty-Enoki Mushroom')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">蘿蔔</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-carrot"></td>
-                        <td class="border p-2"><button onclick="addToCart('蘿蔔', 'qty-carrot')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">青菜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-Green vegetables"></td>
-                        <td class="border p-2"><button onclick="addToCart('青菜', 'qty-Green vegetables')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">地瓜葉</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-sweet potato leaves"></td>
-                        <td class="border p-2"><button onclick="addToCart('地瓜葉', 'qty-sweet potato leaves')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">高麗菜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-cabbage"></td>
-                        <td class="border p-2"><button onclick="addToCart('高麗菜', 'qty-cabbage')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                        <tr>
-                        <td class="border p-2">花椰菜</td>
-                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-brocoli"></td>
-                        <td class="border p-2"><button onclick="addToCart('花椰菜', 'qty-brocoli')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
-                    </tr>
-                </tbody>
-            </table>
+        <section id="categories" class="mb-8">
+            <h2 class="text-2xl font-semibold text-primary mb-4">蔬果類目錄 | Vegetable Catalog</h2>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3 text-left">商品 | Item</th>
+                            <th class="border p-3 text-left">數量 | Quantity</th>
+                            <th class="border p-3 text-left">單位 | Unit</th>
+                            <th class="border p-3 text-left">操作 | Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="border p-3">麻糬茄子</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-麻糬茄子"></td><td class="border p-3"><select id="unit-麻糬茄子" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('麻糬茄子', 'qty-麻糬茄子', 'unit-麻糬茄子')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">大陸妹</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-大陸妹"></td><td class="border p-3"><select id="unit-大陸妹" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('大陸妹', 'qty-大陸妹', 'unit-大陸妹')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">薑</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-薑"></td><td class="border p-3"><select id="unit-薑" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('薑', 'qty-薑', 'unit-薑')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">薑絲</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-薑絲"></td><td class="border p-3"><select id="unit-薑絲" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('薑絲', 'qty-薑絲', 'unit-薑絲')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">薑片</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-薑片"></td><td class="border p-3"><select id="unit-薑片" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('薑片', 'qty-薑片', 'unit-薑片')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">九層塔</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-九層塔"></td><td class="border p-3"><select id="unit-九層塔" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('九層塔', 'qty-九層塔', 'unit-九層塔')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">豆豆</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-豆豆"></td><td class="border p-3"><select id="unit-豆豆" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('豆豆', 'qty-豆豆', 'unit-豆豆')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">蒜頭仁</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-蒜頭仁"></td><td class="border p-3"><select id="unit-蒜頭仁" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('蒜頭仁', 'qty-蒜頭仁', 'unit-蒜頭仁')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">蒜泥</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-蒜泥"></td><td class="border p-3"><select id="unit-蒜泥" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('蒜泥', 'qty-蒜泥', 'unit-蒜泥')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">蒜碎</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-蒜碎"></td><td class="border p-3"><select id="unit-蒜碎" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('蒜碎', 'qty-蒜碎', 'unit-蒜碎')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">水蓮</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-水蓮"></td><td class="border p-3"><select id="unit-水蓮" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('水蓮', 'qty-水蓮', 'unit-水蓮')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">青江菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-青江菜"></td><td class="border p-3"><select id="unit-青江菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('青江菜', 'qty-青江菜', 'unit-青江菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">洋蔥</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-洋蔥"></td><td class="border p-3"><select id="unit-洋蔥" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('洋蔥', 'qty-洋蔥', 'unit-洋蔥')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">秀珍菇</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-秀珍菇"></td><td class="border p-3"><select id="unit-秀珍菇" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('秀珍菇', 'qty-秀珍菇', 'unit-秀珍菇')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">小黃瓜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-小黃瓜"></td><td class="border p-3"><select id="unit-小黃瓜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('小黃瓜', 'qty-小黃瓜', 'unit-小黃瓜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">空心菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-空心菜"></td><td class="border p-3"><select id="unit-空心菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('空心菜', 'qty-空心菜', 'unit-空心菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">白苦瓜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-白苦瓜"></td><td class="border p-3"><select id="unit-白苦瓜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('白苦瓜', 'qty-白苦瓜', 'unit-白苦瓜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">青苦瓜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-青苦瓜"></td><td class="border p-3"><select id="unit-青苦瓜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('青苦瓜', 'qty-青苦瓜', 'unit-青苦瓜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">菠菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-菠菜"></td><td class="border p-3"><select id="unit-菠菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('菠菜', 'qty-菠菜', 'unit-菠菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">絲瓜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-絲瓜"></td><td class="border p-3"><select id="unit-絲瓜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('絲瓜', 'qty-絲瓜', 'unit-絲瓜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">冬瓜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-冬瓜"></td><td class="border p-3"><select id="unit-冬瓜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('冬瓜', 'qty-冬瓜', 'unit-冬瓜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">金針菇</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-金針菇"></td><td class="border p-3"><select id="unit-金針菇" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('金針菇', 'qty-金針菇', 'unit-金針菇')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">蘿蔔</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-蘿蔔"></td><td class="border p-3"><select id="unit-蘿蔔" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('蘿蔔', 'qty-蘿蔔', 'unit-蘿蔔')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">青菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-青菜"></td><td class="border p-3"><select id="unit-青菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('青菜', 'qty-青菜', 'unit-青菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">地瓜葉</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-地瓜葉"></td><td class="border p-3"><select id="unit-地瓜葉" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('地瓜葉', 'qty-地瓜葉', 'unit-地瓜葉')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">高麗菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-高麗菜"></td><td class="border p-3"><select id="unit-高麗菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('高麗菜', 'qty-高麗菜', 'unit-高麗菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">花椰菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-花椰菜"></td><td class="border p-3"><select id="unit-花椰菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('花椰菜', 'qty-花椰菜', 'unit-花椰菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
-        
 
         <section id="contact" class="mb-8">
             <h2 class="text-2xl font-semibold text-primary mb-4">聯絡我們</h2>
@@ -234,16 +129,61 @@
     <script defer>
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-        function addToCart(item, qtyId) {
+        // Define allowed units for each product (edit here to remove unmatched units)
+        const productUnits = {
+            '大白菜': ['斤', '袋', '把'],
+            '小白菜': ['斤', '袋', '把'],
+            '通心菜': ['斤', '袋', '把'],
+            '花椰菜': ['斤', '袋'],
+            '麻糬茄子': ['斤', '袋'],
+            '大陸妹': ['斤', '袋', '把'],
+            '薑': ['斤', '包'],
+            '薑絲': ['包', '袋'],
+            '薑片': ['包', '袋'],
+            '九層塔': ['把', '袋'],
+            '豆豆': ['袋', '箱'],
+            '蒜頭仁': ['包', '袋'],
+            '蒜泥': ['包', '袋'],
+            '蒜碎': ['包', '袋'],
+            '水蓮': ['斤', '袋', '把'],
+            '青江菜': ['斤', '袋', '把'],
+            '洋蔥': ['斤', '袋'],
+            '秀珍菇': ['包', '袋'],
+            '小黃瓜': ['斤', '條'],
+            '空心菜': ['斤', '袋', '把'],
+            '白苦瓜': ['斤', '條'],
+            '青苦瓜': ['斤', '條'],
+            '菠菜': ['斤', '袋', '把'],
+            '絲瓜': ['斤', '條'],
+            '冬瓜': ['斤', '條'],
+            '金針菇': ['包', '袋'],
+            '蘿蔔': ['斤', '條'],
+            '青菜': ['斤', '袋', '把'],
+            '地瓜葉': ['斤', '袋', '把'],
+            '高麗菜': ['斤', '袋']
+            // Add or remove units as needed
+        };
+
+        const allUnits = ['斤', '袋', '把', '箱', '條', '包'];
+
+        // Populate unit dropdowns
+        document.querySelectorAll('select[id^="unit-"]').forEach(select => {
+            const product = select.id.replace('unit-', '');
+            const units = productUnits[product] || allUnits;
+            select.innerHTML = units.map(unit => `<option value="${unit}">${unit}</option>`).join('');
+        });
+
+        function addToCart(item, qtyId, unitId) {
             const qty = parseInt(document.getElementById(qtyId).value) || 0;
+            const unit = document.getElementById(unitId).value;
             if (qty > 0) {
-                const existingItem = cart.find(cartItem => cartItem.name === item);
+                const existingItem = cart.find(cartItem => cartItem.name === item && cartItem.unit === unit);
                 if (existingItem) {
                     existingItem.qty += qty;
                 } else {
-                    cart.push({ name: item, qty: qty });
+                    cart.push({ name: item, qty: qty, unit: unit });
                 }
-                alert(`${item} x${qty} 已加入購物車`);
+                alert(`${item} x${qty} ${unit} 已加入購物車`);
                 document.getElementById(qtyId).value = '';
                 localStorage.setItem('cart', JSON.stringify(cart));
                 updateCartCount();
