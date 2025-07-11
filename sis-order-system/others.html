@@ -109,14 +109,14 @@
 
         // Define allowed units for each product (edit here to remove unmatched units)
         const productUnits = {
-            '台灣啤酒': ['箱', '條'],
-            '台灣啤酒 330ml': ['箱', '條'],
-            '可口可樂 330ml': ['箱', '條'],
+            '台灣啤酒': ['箱', '瓶'],
+            '台灣啤酒 330ml': ['箱', '罐'],
+            '可口可樂 330ml': ['箱', '罐'],
             '豆干': ['包', '袋'],
-            '豆漿': ['箱', '條']
+            '豆漿': ['瓶', '包']
         };
 
-        const allUnits = ['斤', '袋', '把', '箱', '條', '包'];
+        const allUnits = ['斤', '袋', '把', '箱', '條', '包', '瓶', '罐'];
 
         // Populate unit dropdowns
         document.querySelectorAll('select[id^="unit-"]').forEach(select => {
