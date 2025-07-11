@@ -78,8 +78,8 @@
                     </thead>
                     <tbody>
                         <tr><td class="border p-3">台灣啤酒</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-台灣啤酒"></td><td class="border p-3"><select id="unit-台灣啤酒" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('台灣啤酒', 'qty-台灣啤酒', 'unit-台灣啤酒')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                        <tr><td class="border p-3">台灣啤酒 330ml</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-台灣啤酒-330ml"></td><td class="border p-3"><select id="unit-台灣啤酒-330ml" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('台灣啤酒 330ml', 'qty-台灣啤酒-330ml', 'unit-台灣啤酒-330ml')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                        <tr><td class="border p-3">可口可樂 330ml</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-可口可樂-330ml"></td><td class="border p-3"><select id="unit-可口可樂-330ml" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('可口可樂 330ml', 'qty-可口可樂-330ml', 'unit-可口可樂-330ml')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">台灣啤酒 330ml</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-台灣啤酒 330ml"></td><td class="border p-3"><select id="unit-台灣啤酒 330ml" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('台灣啤酒 330ml', 'qty-台灣啤酒 330ml', 'unit-台灣啤酒 330ml')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">可口可樂 330ml</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-可口可樂 330ml"></td><td class="border p-3"><select id="unit-可口可樂 330ml" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('可口可樂 330ml', 'qty-可口可樂 330ml', 'unit-可口可樂 330ml')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
                         <tr><td class="border p-3">豆干</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-豆干"></td><td class="border p-3"><select id="unit-豆干" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('豆干', 'qty-豆干', 'unit-豆干')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
                         <tr><td class="border p-3">豆漿</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-豆漿"></td><td class="border p-3"><select id="unit-豆漿" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('豆漿', 'qty-豆漿', 'unit-豆漿')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
                     </tbody>
@@ -109,14 +109,14 @@
 
         // Define allowed units for each product (edit here to remove unmatched units)
         const productUnits = {
-            '台灣啤酒': ['箱', '條'],
-            '台灣啤酒 330ml': ['箱', '條'],
-            '可口可樂 330ml': ['箱', '條'],
-            '豆干': ['包', '袋'],
-            '豆漿': ['箱', '條']
+            '台灣啤酒': ['箱', '瓶'],
+            '台灣啤酒 330ml': ['箱', '罐'],
+            '可口可樂 330ml': ['箱', '罐'],
+            '豆干': ['斤'],
+            '豆漿': ['瓶', '包']
         };
 
-        const allUnits = ['斤', '袋', '把', '箱', '條', '包'];
+        const allUnits = ['斤', '袋', '把', '箱', '條', '瓶', '罐', '包'];
 
         // Populate unit dropdowns
         document.querySelectorAll('select[id^="unit-"]').forEach(select => {
