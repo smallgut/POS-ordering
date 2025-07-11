@@ -49,9 +49,9 @@
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
         <nav class="container mx-auto flex justify-center space-x-6">
-           
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
             <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            
+            <a href="#contact" class="hover:underline transition duration-200">聯絡</a>
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
@@ -109,14 +109,14 @@
 
         // Define allowed units for each product (edit here to remove unmatched units)
         const productUnits = {
-            '台灣啤酒': ['箱', '瓶'],
-            '台灣啤酒 330ml': ['箱', '罐'],
-            '可口可樂 330ml': ['箱', '罐'],
+            '台灣啤酒': ['箱', '條'],
+            '台灣啤酒 330ml': ['箱', '條'],
+            '可口可樂 330ml': ['箱', '條'],
             '豆干': ['包', '袋'],
-            '豆漿': ['瓶', '包']
+            '豆漿': ['箱', '條']
         };
 
-        const allUnits = ['斤', '袋', '把', '箱', '條', '包', '瓶', '罐'];
+        const allUnits = ['斤', '袋', '把', '箱', '條', '包'];
 
         // Populate unit dropdowns
         document.querySelectorAll('select[id^="unit-"]').forEach(select => {
