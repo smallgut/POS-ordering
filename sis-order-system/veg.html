@@ -63,6 +63,22 @@
             <a href="index.html" class="text-primary hover:underline">回到主頁</a>
         </section>
 
+            <section id="categories" class="mb-8">
+            <h2 class="text-2xl font-semibold mb-4">鮮肉類目錄 | Meat Catalog</h2>
+            <table class="w-full border-collapse bg-white shadow-md">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border p-2">商品 | Item</th>
+                        <th class="border p-2">數量 | Quantity</th>
+                        <th class="border p-2">操作 | Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border p-2">大白菜</td>
+                        <td class="border p-2"><input type="number" min="0" class="w-16 p-1 border" id="qty-cabbage"></td>
+                        <td class="border p-2"><button onclick="addToCart('大白菜', 'qty-cabbage')" class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">加入購物車</button></td>
+                    </tr>
         <section id="categories" class="mb-8">
             <h2 class="text-2xl font-semibold text-primary mb-4">蔬果類目錄</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
