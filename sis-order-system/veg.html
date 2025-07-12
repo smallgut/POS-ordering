@@ -108,6 +108,8 @@
                         <tr><td class="border p-3">香菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-香菜"></td><td class="border p-3"><select id="unit-香菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('香菜', 'qty-香菜', 'unit-香菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
                         <tr><td class="border p-3">芹菜</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-芹菜"></td><td class="border p-3"><select id="unit-芹菜" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('芹菜', 'qty-芹菜', 'unit-芹菜')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
                         <tr><td class="border p-3">香菇</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-香菇"></td><td class="border p-3"><select id="unit-香菇" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('香菇', 'qty-香菇', 'unit-香菇')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">馬鈴薯</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-馬鈴薯"></td><td class="border p-3"><select id="unit-馬鈴薯" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('馬鈴薯', 'qty-馬鈴薯', 'unit-馬鈴薯')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
+                        <tr><td class="border p-3">木耳</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-木耳"></td><td class="border p-3"><select id="unit-木耳" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('木耳', 'qty-木耳', 'unit-木耳')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
                         <tr><td class="border p-3">杏鮑菇</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-杏鮑菇"></td><td class="border p-3"><select id="unit-杏鮑菇" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('杏鮑菇', 'qty-杏鮑菇', 'unit-杏鮑菇')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
                         
                     </tbody>
@@ -172,11 +174,13 @@
             '芹菜': ['斤', '袋'],
             '香菇': ['袋'],
             '杏鮑菇': ['袋'],
+            '馬鈴薯': ['斤', '顆'],
+            '木耳': ['斤'],
             '花椰菜': ['斤', '袋']
             // Add or remove units as needed
         };
 
-        const allUnits = ['斤', '袋', '把', '箱', '條', '包'];
+        const allUnits = ['斤', '袋', '把', '箱', '條','顆', '包'];
 
         // Populate unit dropdowns
         document.querySelectorAll('select[id^="unit-"]').forEach(select => {
