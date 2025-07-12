@@ -48,17 +48,33 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL',
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY'
         };
     </script>
+    <style>
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #print-area, #print-area * {
+                visibility: visible;
+            }
+            #print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
         <nav class="container mx-auto flex justify-center space-x-6">
-           
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
             <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            
+            <a href="index.html#contact" class="hover:underline transition duration-200">聯絡</a>
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
@@ -159,6 +175,8 @@
             printArea.innerHTML = `
                 <div class="p-6 max-w-3xl mx-auto bg-white">
                     <h1 class="text-2xl font-bold text-center mb-4">二姐叫菜 - 報價單</h1>
+                    <p class="text-lg mb-2"><strong>顧客姓名:</strong> ${order.customer_name}</p>
+                    <p class="text-lg mb-4"><strong>聯絡方式:</strong> ${order.customer_contact}</p>
                     <table class="w-full border-collapse mb-4">
                         <thead>
                             <tr class="bg-gray-200">
@@ -274,7 +292,7 @@
                 order.items.forEach(item => {
                     const itemName = item.name.toLowerCase();
                     if (category === 'all' || (
-                        (category === '蔬果類' && ['大白菜', '小白菜', '通心菜', '花椰菜', '麻糬茄子', '大陸妹', '薑', '薑絲', '薑片', '九層塔', '豆豆', '蒜頭仁', '蒜泥', '蒜碎', '水蓮', '青江菜', '洋蔥', '秀珍菇', '小黃瓜', '空心菜', '白苦瓜', '青苦瓜', '菠菜', '絲瓜', '冬瓜', '金針菇', '蘿蔔', '青菜', '地瓜葉', '高麗菜'].includes(itemName)) ||
+                        (category === '蔬果類' && ['大白菜', '小白菜', '通心菜', '花椰菜', '麻糬茄子', '大陸妹', '薑', '薑絲', '�ging片', '九層塔', '豆豆', '蒜頭仁', '蒜泥', '蒜碎', '水蓮', '青江菜', '洋蔥', '秀珍菇', '小黃瓜', '空心菜', '白苦瓜', '青苦瓜', '菠菜', '絲瓜', '冬瓜', '金針菇', '蘿蔔', '青菜', '地瓜葉', '高麗菜'].includes(itemName)) ||
                         (category === '鮮肉類' && ['牛肉', '豬肉', '雞肉', '雞頭骨', '絞肉', '肉絲'].includes(itemName)) ||
                         (category === '海鮮類' && ['吳郭魚', '虱目魚', '鯧魚', '秋刀魚'].includes(itemName)) ||
                         (category === '其他類' && ['台灣啤酒', '台灣啤酒 330ml', '可口可樂 330ml', '豆干', '豆漿'].includes(itemName))
