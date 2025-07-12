@@ -48,17 +48,17 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL',
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY'
         };
     </script>
 </head>
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
         <nav class="container mx-auto flex justify-center space-x-6">
-            
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
             <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            
+            <a href="index.html#contact" class="hover:underline transition duration-200">聯絡</a>
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
@@ -106,6 +106,34 @@
         </section>
     </main>
 
+    <!-- Adjust Modal -->
+    <div id="adjust-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-md">
+            <h3 class="text-xl font-semibold text-primary mb-4">調整訂單</h3>
+            <div class="mb-4">
+                <label for="adjust-qty" class="block text-lg text-gray-700">數量</label>
+                <input type="number" id="adjust-qty" min="1" step="1" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+                <p id="adjust-qty-error" class="text-red-500 text-sm hidden">請輸入有效的數量</p>
+            </div>
+            <div class="mb-4">
+                <label for="adjust-unit" class="block text-lg text-gray-700">單位</label>
+                <select id="adjust-unit" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+                    <option value="">無單位</option>
+                    <option value="斤">斤</option>
+                    <option value="台斤">台斤</option>
+                    <option value="公斤">公斤</option>
+                    <option value="個">個</option>
+                    <option value="袋">袋</option>
+                    <option value="包">包</option>
+                </select>
+            </div>
+            <div class="flex justify-end space-x-4">
+                <button onclick="closeAdjustModal()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200">取消</button>
+                <button onclick="saveAdjust()" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">儲存</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-gray-800 text-white p-4 text-center">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
         <a href="#" class="text-blue-300 hover:underline">回到頂部</a>
@@ -118,6 +146,7 @@
         );
 
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let adjustIndex = null;
 
         function displayCart() {
             const cartTable = document.getElementById('cart-items');
@@ -132,12 +161,47 @@
                     <td class="border p-3">${item.name}</td>
                     <td class="border p-3">${item.qty}</td>
                     <td class="border p-3">${item.unit}</td>
-                    <td class="border p-3">
+                    <td class="border p-3 flex space-x-2">
+                        <button onclick="adjustItem(${index})" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition duration-200">調整</button>
                         <button onclick="removeFromCart(${index})" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200">移除</button>
                     </td>
                 `;
                 cartTable.appendChild(row);
             });
+        }
+
+        function adjustItem(index) {
+            adjustIndex = index;
+            const item = cart[index];
+            document.getElementById('adjust-qty').value = item.qty;
+            document.getElementById('adjust-unit').value = item.unit || '';
+            document.getElementById('adjust-modal').classList.remove('hidden');
+        }
+
+        function closeAdjustModal() {
+            document.getElementById('adjust-modal').classList.add('hidden');
+            document.getElementById('adjust-qty-error').classList.add('hidden');
+            adjustIndex = null;
+        }
+
+        function saveAdjust() {
+            const qty = parseInt(document.getElementById('adjust-qty').value);
+            const unit = document.getElementById('adjust-unit').value;
+            const qtyError = document.getElementById('adjust-qty-error');
+
+            if (!qty || qty < 1) {
+                qtyError.classList.remove('hidden');
+                return;
+            }
+            qtyError.classList.add('hidden');
+
+            if (adjustIndex !== null) {
+                cart[adjustIndex].qty = qty;
+                cart[adjustIndex].unit = unit || null;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                displayCart();
+                closeAdjustModal();
+            }
         }
 
         function removeFromCart(index) {
