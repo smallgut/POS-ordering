@@ -1,13 +1,5 @@
 {
   "scripts": {
-    "build": "node build.js && npx tailwindcss -i ./input.css -o ./output.css --minify"
-  },
-  "devDependencies": {
-    "tailwindcss": "^3.4.0"
-  }
-}
-{
-  "scripts": {
     "build": "vite build",
     "dev": "vite"
   },
