@@ -1,4 +1,3 @@
 [build]
-  base = "sis-order-system"
-  publish = "sis-order-system"
-  command = "npm install && npm run build"
+  command = "npm run build && npx tailwindcss -i ./input.css -o ./dist/output.css --minify"
+  publish = "dist"
