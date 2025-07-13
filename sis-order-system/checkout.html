@@ -45,13 +45,6 @@
     <title>二姐叫菜 - 結帳</title>
     <link href="/output.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
-        };
-    </script>
 </head>
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
@@ -67,41 +60,44 @@
     <main class="container mx-auto p-6">
         <section class="mb-8">
             <h1 class="text-3xl font-bold text-primary mb-4">二姐叫菜 - 結帳</h1>
-            <p class="text-lg text-gray-700">請確認您的訂單並填寫聯絡資訊</p>
-            <a href="index.html" class="text-primary hover:underline">回到主頁</a>
+            <p class="text-lg text-gray-700">請確認您的購物車並提交訂單</p>
+            <a href="veg.html" class="text-primary hover:underline">返回蔬果類目錄</a>
         </section>
 
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-primary mb-4">訂單總覽</h2>
+            <h2 class="text-2xl font-semibold text-primary mb-4">購物車 | Cart</h2>
             <div class="bg-white p-6 rounded-lg shadow-md">
-                <table class="w-full border-collapse">
+                <table class="w-full border-collapse" id="cartTable">
                     <thead>
                         <tr class="bg-gray-200">
-                            <th class="border p-3 text-left">商品</th>
-                            <th class="border p-3 text-left">數量</th>
-                            <th class="border p-3 text-left">單位</th>
-                            <th class="border p-3 text-left">操作</th>
+                            <th class="border p-3 text-left">商品 | Item</th>
+                            <th class="border p-3 text-left">數量 | Quantity</th>
+                            <th class="border p-3 text-left">單位 | Unit</th>
+                            <th class="border p-3 text-left">操作 | Action</th>
                         </tr>
                     </thead>
-                    <tbody id="cart-items"></tbody>
+                    <tbody id="cartBody"></tbody>
                 </table>
+                <p id="emptyCartMessage" class="text-gray-700 mt-4 hidden">購物車目前是空的</p>
             </div>
         </section>
 
         <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-primary mb-4">顧客資訊</h2>
+            <h2 class="text-2xl font-semibold text-primary mb-4">顧客資訊 | Customer Information</h2>
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <div class="mb-4">
-                    <label for="customer-name" class="block text-lg text-gray-700">姓名</label>
-                    <input type="text" id="customer-name" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" required>
-                    <p id="name-error" class="text-red-500 text-sm hidden">請輸入姓名</p>
+                    <label for="customerName" class="block text-lg text-gray-700">姓名 | Name</label>
+                    <input type="text" id="customerName" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" placeholder="請輸入姓名">
                 </div>
                 <div class="mb-4">
-                    <label for="customer-contact" class="block text-lg text-gray-700">聯絡方式 (電話/Line)</label>
-                    <input type="text" id="customer-contact" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" required>
-                    <p id="contact-error" class="text-red-500 text-sm hidden">請輸入聯絡方式</p>
+                    <label for="customerContact" class="block text-lg text-gray-700">聯絡電話 | Contact</label>
+                    <input type="text" id="customerContact" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" placeholder="請輸入聯絡電話">
                 </div>
-                <button onclick="submitOrder(event)" class="bg-primary text-white px-6 py-3 rounded hover:bg-blue-700 transition duration-200">提交訂單</button>
+                <div class="mb-4">
+                    <label for="customerRemark" class="block text-lg text-gray-700">備註 | Remark</label>
+                    <textarea id="customerRemark" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" placeholder="請輸入額外要求（可選）" rows="4"></textarea>
+                </div>
+                <button onclick="submitOrder()" class="bg-primary text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-200">提交訂單</button>
             </div>
         </section>
     </main>
@@ -112,124 +108,132 @@
     </footer>
 
     <script defer>
-        const supabase = window.supabase.createClient(
-            window.env.SUPABASE_URL,
-            window.env.SUPABASE_ANON_KEY
-        );
+        // Load cart from localStorage
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartBody = document.getElementById('cartBody');
+            const emptyCartMessage = document.getElementById('emptyCartMessage');
+            cartBody.innerHTML = '';
 
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        let editingIndex = null;
-
-        function displayCart() {
-            const cartTable = document.getElementById('cart-items');
-            cartTable.innerHTML = '';
             if (cart.length === 0) {
-                cartTable.innerHTML = '<tr><td colspan="4" class="border p-3 text-center text-gray-700">購物車為空</td></tr>';
+                emptyCartMessage.classList.remove('hidden');
                 return;
             }
+
+            emptyCartMessage.classList.add('hidden');
             cart.forEach((item, index) => {
                 const row = document.createElement('tr');
-                if (editingIndex === index) {
-                    row.innerHTML = `
-                        <td class="border p-3">${item.name}</td>
-                        <td class="border p-3">
-                            <input type="number" id="edit-qty-${index}" min="0.5" step="0.5" value="${item.qty}" class="w-20 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
-                            <p id="edit-qty-error-${index}" class="text-red-500 text-sm hidden">請輸入有效的數量 (至少0.5)</p>
-                        </td>
-                        <td class="border p-3">${item.unit || ''}</td>
-                        <td class="border p-3 flex space-x-2">
-                            <button onclick="saveEdit(${index})" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition duration-200">儲存</button>
-                            <button onclick="cancelEdit()" class="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 transition duration-200">取消</button>
-                        </td>
-                    `;
-                } else {
-                    row.innerHTML = `
-                        <td class="border p-3">${item.name}</td>
-                        <td class="border p-3">${item.qty}</td>
-                        <td class="border p-3">${item.unit || ''}</td>
-                        <td class="border p-3 flex space-x-2">
-                            <button onclick="adjustItem(${index})" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition duration-200">調整</button>
-                            <button onclick="removeFromCart(${index})" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200">移除</button>
-                        </td>
-                    `;
-                }
-                cartTable.appendChild(row);
+                row.innerHTML = `
+                    <td class="border p-3">${item.name}</td>
+                    <td class="border p-3" id="qty-${index}">${item.qty}</td>
+                    <td class="border p-3">${item.unit || '無單位'}</td>
+                    <td class="border p-3">
+                        <button onclick="adjustItem(${index})" class="text-primary hover:underline">Adjust</button>
+                        <button onclick="removeItem(${index})" class="text-red-600 hover:underline ml-4">Remove</button>
+                    </td>
+                `;
+                cartBody.appendChild(row);
             });
         }
 
+        // Adjust item quantity
         function adjustItem(index) {
-            editingIndex = index;
-            displayCart();
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const row = document.getElementById(`qty-${index}`).parentElement;
+            const originalQty = cart[index].qty;
+            row.cells[1].innerHTML = `
+                <input type="number" id="adjust-qty-${index}" value="${originalQty}" min="0.5" step="0.5" class="w-20 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+            `;
+            row.cells[3].innerHTML = `
+                <button onclick="saveAdjustment(${index})" class="text-primary hover:underline">Save</button>
+                <button onclick="cancelAdjustment(${index})" class="text-gray-600 hover:underline ml-4">Cancel</button>
+            `;
         }
 
-        function saveEdit(index) {
-            const qty = parseFloat(document.getElementById(`edit-qty-${index}`).value);
-            const qtyError = document.getElementById(`edit-qty-error-${index}`);
-
-            if (!qty || qty < 0.5) {
-                qtyError.classList.remove('hidden');
+        // Save adjusted quantity
+        function saveAdjustment(index) {
+            const qtyInput = document.getElementById(`adjust-qty-${index}`);
+            const qty = qtyInput.value ? parseFloat(qtyInput.value) : NaN;
+            if (isNaN(qty) || qty < 0.5) {
+                alert('請輸入有效的數量 (至少0.5)');
                 return;
             }
-            qtyError.classList.add('hidden');
-
+            if (qty % 1 !== 0 && qty % 1 !== 0.5) {
+                alert('數量必須是整數或整數加0.5（如0.5、1、1.5、2）');
+                return;
+            }
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
             cart[index].qty = qty;
             localStorage.setItem('cart', JSON.stringify(cart));
-            editingIndex = null;
-            displayCart();
+            loadCart();
         }
 
-        function cancelEdit() {
-            editingIndex = null;
-            displayCart();
+        // Cancel adjustment
+        function cancelAdjustment(index) {
+            loadCart();
         }
 
-        function removeFromCart(index) {
+        // Remove item from cart
+        function removeItem(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
             cart.splice(index, 1);
             localStorage.setItem('cart', JSON.stringify(cart));
-            displayCart();
+            loadCart();
         }
 
-        async function submitOrder(event) {
-            event.preventDefault();
-            const name = document.getElementById('customer-name').value.trim();
-            const contact = document.getElementById('customer-contact').value.trim();
-            const nameError = document.getElementById('name-error');
-            const contactError = document.getElementById('contact-error');
+        // Submit order to Supabase
+        async function submitOrder() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerContact = document.getElementById('customerContact').value.trim();
+            const customerRemark = document.getElementById('customerRemark').value.trim() || null;
 
-            nameError.classList.add('hidden');
-            contactError.classList.add('hidden');
-
-            if (!name) {
-                nameError.classList.remove('hidden');
-                return;
-            }
-            if (!contact) {
-                contactError.classList.remove('hidden');
-                return;
-            }
             if (cart.length === 0) {
-                alert('購物車為空，請先添加商品');
+                alert('購物車是空的，請先添加商品');
                 return;
             }
+            if (!customerName || !customerContact) {
+                alert('請輸入姓名和聯絡電話');
+                return;
+            }
+
+            const orderData = {
+                customer_name: customerName,
+                customer_contact: customerContact,
+                remark: customerRemark,
+                items: { items: cart },
+                category: '蔬果類',
+                submit_time: new Date().toISOString()
+            };
+
             try {
-                const { error } = await supabase.from('orders').insert({
-                    customer_name: name,
-                    customer_contact: contact,
-                    items: cart.map(item => ({ name: item.name, qty: item.qty, unit: item.unit }))
+                const response = await fetch('https://your-supabase-url/rest/v1/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': 'your-supabase-anon-key',
+                        'Authorization': 'Bearer your-supabase-anon-key'
+                    },
+                    body: JSON.stringify(orderData)
                 });
-                if (error) throw error;
-                alert('訂單已提交！');
-                cart = [];
-                localStorage.setItem('cart', JSON.stringify(cart));
-                displayCart();
-                document.getElementById('customer-name').value = '';
-                document.getElementById('customer-contact').value = '';
+
+                if (!response.ok) {
+                    throw new Error('提交訂單失敗');
+                }
+
+                alert('訂單已成功提交！');
+                localStorage.removeItem('cart');
+                document.getElementById('customerName').value = '';
+                document.getElementById('customerContact').value = '';
+                document.getElementById('customerRemark').value = '';
+                loadCart();
             } catch (error) {
-                alert('提交訂單失敗：' + error.message);
+                alert('提交訂單時發生錯誤：' + error.message);
             }
         }
 
-        window.onload = displayCart;
+        // Load cart on page load
+        window.onload = loadCart;
     </script>
 </body>
 </html>
