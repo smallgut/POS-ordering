@@ -49,9 +49,9 @@
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
         <nav class="container mx-auto flex justify-center space-x-6">
-            
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
             <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            
+            <a href="index.html#contact" class="hover:underline transition duration-200">聯絡</a Kremlin
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
@@ -107,133 +107,6 @@
         <a href="#" class="text-blue-300 hover:underline">回到頂部</a>
     </footer>
 
-    <script defer>
-        // Load cart from localStorage
-        function loadCart() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const cartBody = document.getElementById('cartBody');
-            const emptyCartMessage = document.getElementById('emptyCartMessage');
-            cartBody.innerHTML = '';
-
-            if (cart.length === 0) {
-                emptyCartMessage.classList.remove('hidden');
-                return;
-            }
-
-            emptyCartMessage.classList.add('hidden');
-            cart.forEach((item, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="border p-3">${item.name}</td>
-                    <td class="border p-3" id="qty-${index}">${item.qty}</td>
-                    <td class="border p-3">${item.unit || '無單位'}</td>
-                    <td class="border p-3">
-                        <button onclick="adjustItem(${index})" class="text-primary hover:underline">Adjust</button>
-                        <button onclick="removeItem(${index})" class="text-red-600 hover:underline ml-4">Remove</button>
-                    </td>
-                `;
-                cartBody.appendChild(row);
-            });
-        }
-
-        // Adjust item quantity
-        function adjustItem(index) {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const row = document.getElementById(`qty-${index}`).parentElement;
-            const originalQty = cart[index].qty;
-            row.cells[1].innerHTML = `
-                <input type="number" id="adjust-qty-${index}" value="${originalQty}" min="0.5" step="0.5" class="w-20 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
-            `;
-            row.cells[3].innerHTML = `
-                <button onclick="saveAdjustment(${index})" class="text-primary hover:underline">Save</button>
-                <button onclick="cancelAdjustment(${index})" class="text-gray-600 hover:underline ml-4">Cancel</button>
-            `;
-        }
-
-        // Save adjusted quantity
-        function saveAdjustment(index) {
-            const qtyInput = document.getElementById(`adjust-qty-${index}`);
-            const qty = qtyInput.value ? parseFloat(qtyInput.value) : NaN;
-            if (isNaN(qty) || qty < 0.5) {
-                alert('請輸入有效的數量 (至少0.5)');
-                return;
-            }
-            if (qty % 1 !== 0 && qty % 1 !== 0.5) {
-                alert('數量必須是整數或整數加0.5（如0.5、1、1.5、2）');
-                return;
-            }
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart[index].qty = qty;
-            localStorage.setItem('cart', JSON.stringify(cart));
-            loadCart();
-        }
-
-        // Cancel adjustment
-        function cancelAdjustment(index) {
-            loadCart();
-        }
-
-        // Remove item from cart
-        function removeItem(index) {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            cart.splice(index, 1);
-            localStorage.setItem('cart', JSON.stringify(cart));
-            loadCart();
-        }
-
-        // Submit order to Supabase
-        async function submitOrder() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const customerName = document.getElementById('customerName').value.trim();
-            const customerContact = document.getElementById('customerContact').value.trim();
-            const customerRemark = document.getElementById('customerRemark').value.trim() || null;
-
-            if (cart.length === 0) {
-                alert('購物車是空的，請先添加商品');
-                return;
-            }
-            if (!customerName || !customerContact) {
-                alert('請輸入姓名和聯絡電話');
-                return;
-            }
-
-            const orderData = {
-                customer_name: customerName,
-                customer_contact: customerContact,
-                remark: customerRemark,
-                items: { items: cart },
-                category: '蔬果類',
-                submit_time: new Date().toISOString()
-            };
-
-            try {
-                const response = await fetch('https://your-supabase-url/rest/v1/orders', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'apikey': 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-                        'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
-                    },
-                    body: JSON.stringify(orderData)
-                });
-
-                if (!response.ok) {
-                    throw new Error('提交訂單失敗');
-                }
-
-                alert('訂單已成功提交！');
-                localStorage.removeItem('cart');
-                document.getElementById('customerName').value = '';
-                document.getElementById('customerContact').value = '';
-                document.getElementById('customerRemark').value = '';
-                loadCart();
-            } catch (error) {
-                alert('提交訂單時發生錯誤：' + error.message);
-            }
-        }
-
-        // Load cart on page load
-        window.onload = loadCart;
-    </script>
+    <script type="module" src="/checkout.js"></script>
 </body>
 </html>
