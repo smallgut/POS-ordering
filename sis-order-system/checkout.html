@@ -48,17 +48,17 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
+            SUPABASE_URL: 'YOUR_SUPABASE_URL',
+            SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY'
         };
     </script>
 </head>
 <body class="bg-secondary font-sans">
     <header class="bg-primary text-white p-4 shadow-md">
         <nav class="container mx-auto flex justify-center space-x-6">
-            
+            <a href="index.html" class="hover:underline transition duration-200">簡介</a>
             <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            
+            <a href="index.html#contact" class="hover:underline transition duration-200">聯絡</a>
             <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
             <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
         </nav>
@@ -133,8 +133,8 @@
                     row.innerHTML = `
                         <td class="border p-3">${item.name}</td>
                         <td class="border p-3">
-                            <input type="number" id="edit-qty-${index}" min="1" step="1" value="${item.qty}" class="w-20 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
-                            <p id="edit-qty-error-${index}" class="text-red-500 text-sm hidden">請輸入有效的數量</p>
+                            <input type="number" id="edit-qty-${index}" min="0.5" step="0.5" value="${item.qty}" class="w-20 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+                            <p id="edit-qty-error-${index}" class="text-red-500 text-sm hidden">請輸入有效的數量 (至少0.5)</p>
                         </td>
                         <td class="border p-3">${item.unit || ''}</td>
                         <td class="border p-3 flex space-x-2">
@@ -163,10 +163,10 @@
         }
 
         function saveEdit(index) {
-            const qty = parseInt(document.getElementById(`edit-qty-${index}`).value);
+            const qty = parseFloat(document.getElementById(`edit-qty-${index}`).value);
             const qtyError = document.getElementById(`edit-qty-error-${index}`);
 
-            if (!qty || qty < 1) {
+            if (!qty || qty < 0.5) {
                 qtyError.classList.remove('hidden');
                 return;
             }
