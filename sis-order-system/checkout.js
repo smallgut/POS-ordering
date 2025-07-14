@@ -5,7 +5,7 @@ console.log('Environment variables (import.meta.env):', import.meta.env); // Deb
 
    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
        console.error('Supabase configuration missing:', { SUPABASE_URL, SUPABASE_ANON_KEY });
-       alert('伺服器配置錯誤，請聯繫管理員以檢查環境變數設置。');
+       alert('伺服器配置錯誤：環境變數 VITE_SUPABASE_URL 或 VITE_SUPABASE_ANON_KEY 缺失。請聯繫管理員檢查 Netlify 設置。');
        throw new Error('Missing Supabase configuration');
    }
 
