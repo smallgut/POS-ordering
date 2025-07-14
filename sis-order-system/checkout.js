@@ -1,5 +1,8 @@
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+console.log('Environment variables (import.meta.env):', import.meta.env); // Debug import.meta.env
+   console.log('Environment variables (process.env):', process.env); // Debug process.env
+
+   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
 
    function loadCart() {
        const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -84,6 +87,7 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
            return;
        }
        if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+           console.error('Missing Supabase configuration:', { SUPABASE_URL, SUPABASE_ANON_KEY });
            alert('伺服器配置錯誤，請聯繫管理員');
            return;
        }
@@ -119,6 +123,7 @@ const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
            document.getElementById('customerRemark').value = '';
            loadCart();
        } catch (error) {
+           console.error('Submit order error:', error);
            alert('提交訂單時發生錯誤：' + error.message);
        }
    }

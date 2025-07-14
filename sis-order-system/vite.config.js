@@ -19,8 +19,8 @@ import { defineConfig } from 'vite';
          }
        }
      },
-     envPrefix: 'VITE_', // Ensure VITE_ variables are exposed to client
+     envPrefix: 'VITE_', // Ensure VITE_ variables are exposed
      define: {
-       'import.meta.env': 'import.meta.env' // Ensure env variables are available
+       'process.env': process.env // Fallback to process.env for Netlify
      }
    });
