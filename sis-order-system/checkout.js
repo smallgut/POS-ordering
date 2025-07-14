@@ -1,8 +1,13 @@
 console.log('Environment variables (import.meta.env):', import.meta.env); // Debug import.meta.env
-   console.log('Environment variables (process.env):', process.env); // Debug process.env
 
-   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY;
+   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+   const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+       console.error('Supabase configuration missing:', { SUPABASE_URL, SUPABASE_ANON_KEY });
+       alert('伺服器配置錯誤，請聯繫管理員以檢查環境變數設置。');
+       throw new Error('Missing Supabase configuration');
+   }
 
    function loadCart() {
        const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -84,11 +89,6 @@ console.log('Environment variables (import.meta.env):', import.meta.env); // Deb
        }
        if (!customerName || !customerContact) {
            alert('請輸入姓名和聯絡電話');
-           return;
-       }
-       if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-           console.error('Missing Supabase configuration:', { SUPABASE_URL, SUPABASE_ANON_KEY });
-           alert('伺服器配置錯誤，請聯繫管理員');
            return;
        }
 
