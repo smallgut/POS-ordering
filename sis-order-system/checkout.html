@@ -43,68 +43,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 結帳</title>
-    <link href="/output.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/output.css">
 </head>
-<body class="bg-secondary font-sans">
-    <header class="bg-primary text-white p-4 shadow-md">
-        <nav class="container mx-auto flex justify-center space-x-6">
-            
-            <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            <a href="index.html#contact" class="hover:underline transition duration-200">聯絡</a Kremlin
-            <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
-            <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
-        </nav>
+<body>
+    <nav>
+        <a href="index.html">下單分類</a>
+        <a href="checkout.html">聯絡結帳</a>
+        <a href="summary.html">每日訂單</a>
+    </nav>
+
+    <header>
+        <h1>二姐叫菜 - 結帳</h1>
+        <p>請確認您的購物車並提交訂單</p>
+        <a href="veg.html">返回蔬果類目錄</a>
     </header>
 
-    <main class="container mx-auto p-6">
-        <section class="mb-8">
-            <h1 class="text-3xl font-bold text-primary mb-4">二姐叫菜 - 結帳</h1>
-            <p class="text-lg text-gray-700">請確認您的購物車並提交訂單</p>
-            <a href="veg.html" class="text-primary hover:underline">返回蔬果類目錄</a>
-        </section>
+    <section>
+        <h2>購物車 | Cart</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>商品 | Item</th>
+                    <th>數量 | Quantity</th>
+                    <th>單位 | Unit</th>
+                    <th>操作 | Action</th>
+                </tr>
+            </thead>
+            <tbody id="cartTable">
+                <tr>
+                    <td colspan="4">購物車目前是空的</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
 
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-primary mb-4">購物車 | Cart</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <table class="w-full border-collapse" id="cartTable">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="border p-3 text-left">商品 | Item</th>
-                            <th class="border p-3 text-left">數量 | Quantity</th>
-                            <th class="border p-3 text-left">單位 | Unit</th>
-                            <th class="border p-3 text-left">操作 | Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="cartBody"></tbody>
-                </table>
-                <p id="emptyCartMessage" class="text-gray-700 mt-4 hidden">購物車目前是空的</p>
+    <section>
+        <h2>顧客資訊 | Customer Information</h2>
+        <form id="customerForm">
+            <div>
+                <label for="customerName">姓名 | Name</label>
+                <input type="text" id="customerName" name="customerName" required>
             </div>
-        </section>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-primary mb-4">顧客資訊 | Customer Information</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <div class="mb-4">
-                    <label for="customerName" class="block text-lg text-gray-700">姓名 | Name</label>
-                    <input type="text" id="customerName" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" placeholder="請輸入姓名">
-                </div>
-                <div class="mb-4">
-                    <label for="customerContact" class="block text-lg text-gray-700">聯絡電話 | Contact</label>
-                    <input type="text" id="customerContact" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" placeholder="請輸入聯絡電話">
-                </div>
-                <div class="mb-4">
-                    <label for="customerRemark" class="block text-lg text-gray-700">備註 | Remark</label>
-                    <textarea id="customerRemark" class="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" placeholder="請輸入額外要求（可選）" rows="4"></textarea>
-                </div>
-                <button onclick="submitOrder()" class="bg-primary text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-200">提交訂單</button>
+            <div>
+                <label for="customerContact">聯絡電話 | Contact</label>
+                <input type="tel" id="customerContact" name="customerContact" required>
             </div>
-        </section>
-    </main>
+            <div>
+                <label for="customerRemark">備註 | Remark</label>
+                <textarea id="customerRemark" name="customerRemark"></textarea>
+            </div>
+            <button type="submit">提交訂單</button>
+        </form>
+    </section>
 
-    <footer class="bg-gray-800 text-white p-4 text-center">
+    <footer>
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="text-blue-300 hover:underline">回到頂部</a>
+        <a href="#top">回到頂部</a>
     </footer>
 
     <script type="module" src="/checkout.js"></script>
