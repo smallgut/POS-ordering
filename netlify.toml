@@ -1,5 +1,5 @@
 [build]
-     command = "cd sis-order-system && vite build --mode production && npx tailwindcss -i ./input.css -o ./dist/output.css --minify"
+     command = "cd sis-order-system && npm ci && vite build --mode production && npx tailwindcss -i ./input.css -o ./dist/output.css --minify"
      publish = "sis-order-system/dist"
 
    [[redirects]]
