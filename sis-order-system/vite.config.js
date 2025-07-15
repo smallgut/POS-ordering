@@ -12,7 +12,6 @@ export default defineConfig(({ mode }) => {
           checkout: './checkout.html',
           summary: './summary.html',
           veg: './veg.html',
-          checkout_js: './checkout.js'
         },
         output: {
           entryFileNames: '[name].js',
