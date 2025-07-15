@@ -1,327 +1,85 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 每日訂單</title>
-    <link href="/output.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        window.env = {
-            SUPABASE_URL: 'https://oyqxerutdwaiqoiabxyy.supabase.co',
-            SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95cXhlcnV0ZHdhaXFvaWFieHl5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MjQ5NTYsImV4cCI6MjA2NzUwMDk1Nn0.RTFFE3fptrpflHJLJ8GnuFr0KphJyIQ2XVakcet8i68'
-        };
-    </script>
-    <style>
-        @media print {
-            body * {
-                visibility: hidden;
-            }
-            #print-area, #print-area * {
-                visibility: visible;
-            }
-            #print-area {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/output.css">
 </head>
-<body class="bg-secondary font-sans">
-    <header class="bg-primary text-white p-4 shadow-md">
-        <nav class="container mx-auto flex justify-center space-x-6">
-            
-            <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            
-            <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
-            <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
-        </nav>
+<body>
+    <nav>
+        <a href="index.html">下單分類</a>
+        <a href="checkout.html">結帳</a>
+        <a href="summary.html">每日訂單</a>
+    </nav>
+
+    <header>
+        <h1>二姐叫菜 - 每日訂單</h1>
+        <p>查看訂單總覽</p>
+        <a href="index.html">回到主頁</a>
     </header>
 
-    <main class="container mx-auto p-6">
-        <section class="mb-8">
-            <h1 class="text-3xl font-bold text-primary mb-4">二姐叫菜 - 每日訂單</h1>
-            <p class="text-lg text-gray-700">查看訂單總覽</p>
-            <a href="index.html" class="text-primary hover:underline">回到主頁</a>
-        </section>
-
-        <section class="mb-8">
-            <h2 class="text-2xl font-semibold text-primary mb-4">訂單查詢</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md mb-4 flex flex-col md:flex-row gap-4">
-                <div>
-                    <label for="order-date" class="block text-lg text-gray-700 mb-2">選擇日期</label>
-                    <input type="date" id="order-date" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
-                </div>
-                <div>
-                    <label for="product-category" class="block text-lg text-gray-700 mb-2">商品類別</label>
-                    <select id="product-category" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
-                        <option value="all">所有類別</option>
-                        <option value="蔬果類">蔬果類</option>
-                        <option value="鮮肉類">鮮肉類</option>
-                        <option value="海鮮類">海鮮類</option>
-                        <option value="其他類">其他類</option>
-                    </select>
-                </div>
-                <button onclick="displayOrders()" class="bg-primary text-white px-4 py-2 rounded mt-6 md:mt-8 hover:bg-blue-700 transition duration-200">查詢</button>
+    <section>
+        <h2>訂單查詢</h2>
+        <form id="orderQuery">
+            <div>
+                <label for="queryDate">選擇日期</label>
+                <input type="date" id="queryDate" name="queryDate">
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                <h3 class="text-xl font-semibold text-primary mb-4">訂單明細</h3>
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="border p-3 text-left">顧客姓名</th>
-                            <th class="border p-3 text-left">聯絡方式</th>
-                            <th class="border p-3 text-left">訂單項目</th>
-                            <th class="border p-3 text-left">報價 ($)</th>
-                            <th class="border p-3 text-left">提交訂單時間</th>
-                            <th class="border p-3 text-left">操作</th>
-                        </tr>
-                    </thead>
-                    <tbody id="orders-table"></tbody>
-                </table>
+            <div>
+                <label for="queryCategory">商品類別</label>
+                <select id="queryCategory" name="queryCategory">
+                    <option value="all">所有類別</option>
+                    <option value="veg">蔬果類</option>
+                    <option value="meat">鮮肉類</option>
+                    <option value="seafood">海鮮類</option>
+                    <option value="other">其他類</option>
+                </select>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h3 class="text-xl font-semibold text-primary mb-4">商品總量統計</h3>
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="border p-3 text-left">商品名稱</th>
-                            <th class="border p-3 text-left">單位</th>
-                            <th class="border p-3 text-left">總訂購數量</th>
-                        </tr>
-                    </thead>
-                    <tbody id="summary-table"></tbody>
-                </table>
-            </div>
-        </section>
-    </main>
+            <button type="submit">查詢</button>
+        </form>
+    </section>
 
-    <div id="print-area" class="hidden"></div>
+    <section>
+        <h2>訂單明細</h2>
+        <table id="orderTable">
+            <thead>
+                <tr>
+                    <th>顧客姓名</th>
+                    <th>聯絡方式</th>
+                    <th>訂單項目</th>
+                    <th>報價 ($)</th>
+                    <th>提交訂單時間</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="orderBody">
+                <tr><td colspan="6">暫無訂單</td></tr>
+            </tbody>
+        </table>
+    </section>
 
-    <footer class="bg-gray-800 text-white p-4 text-center">
+    <section>
+        <h2>商品總量統計</h2>
+        <table id="summaryTable">
+            <thead>
+                <tr>
+                    <th>商品名稱</th>
+                    <th>單位</th>
+                    <th>總訂購數量</th>
+                </tr>
+            </thead>
+            <tbody id="summaryBody">
+                <tr><td colspan="3">暫無統計數據</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="text-blue-300 hover:underline">回到頂部</a>
+        <a href="#top">回到頂部</a>
     </footer>
 
-    <script defer>
-        const supabase = window.supabase.createClient(
-            window.env.SUPABASE_URL,
-            window.env.SUPABASE_ANON_KEY
-        );
-
-        async function updateQuotation(orderId, value) {
-            const quotation = parseFloat(value) || null;
-            if (value && (isNaN(quotation) || quotation < 0)) {
-                alert('請輸入有效的報價金額');
-                return;
-            }
-            try {
-                const { error } = await supabase
-                    .from('orders')
-                    .update({ quotation: quotation })
-                    .eq('id', orderId);
-                if (error) throw error;
-                alert('報價已更新');
-                await displayOrders(); // Refresh the orders table to reflect the updated quotation
-            } catch (error) {
-                alert('更新報價失敗：' + error.message);
-            }
-        }
-
-        function printQuotation(order) {
-            const printArea = document.getElementById('print-area');
-            const quotation = order.quotation ? `$${order.quotation.toFixed(2)}` : '未提供';
-            const submitTime = new Date(order.created_at).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
-            printArea.innerHTML = `
-                <div class="p-6 max-w-3xl mx-auto bg-white">
-                    <h1 class="text-2xl font-bold text-center mb-4">二姐叫菜 - 報價單</h1>
-                    <p class="text-lg mb-2"><strong>顧客姓名:</strong> ${order.customer_name}</p>
-                    <p class="text-lg mb-2"><strong>聯絡方式:</strong> ${order.customer_contact}</p>
-                    <p class="text-lg mb-4"><strong>提交訂單時間:</strong> ${submitTime}</p>
-                    <table class="w-full border-collapse mb-4">
-                        <thead>
-                            <tr class="bg-gray-200">
-                                <th class="border p-3 text-left">商品</th>
-                                <th class="border p-3 text-left">數量</th>
-                                <th class="border p-3 text-left">單位</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${order.items.map(item => `
-                                <tr>
-                                    <td class="border p-3">${item.name}</td>
-                                    <td class="border p-3">${item.qty}</td>
-                                    <td class="border p-3">${item.unit || ''}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                    <p class="text-lg font-semibold text-right"><strong>報價總額:</strong> ${quotation}</p>
-                </div>
-            `;
-            window.print();
-        }
-
-        async function displayOrders() {
-            const dateInput = document.getElementById('order-date').value;
-            const selectedDate = dateInput || new Date().toISOString().split('T')[0];
-            const category = document.getElementById('product-category').value;
-
-            const startOfDayTaiwan = new Date(`${selectedDate}T00:00:00+08:00`);
-            const endOfDayTaiwan = new Date(`${selectedDate}T23:59:59+08:00`);
-            const startOfDayUTC = startOfDayTaiwan.toISOString();
-            const endOfDayUTC = endOfDayTaiwan.toISOString();
-
-            console.log('Fetching orders for (UTC):', startOfDayUTC, 'to', endOfDayUTC, 'Category:', category);
-
-            const { data, error } = await supabase
-                .from('orders')
-                .select('*')
-                .gte('created_at', startOfDayUTC)
-                .lte('created_at', endOfDayUTC);
-
-            console.log('Supabase response:', { data, error });
-
-            const ordersTable = document.getElementById('orders-table');
-            const summaryTable = document.getElementById('summary-table');
-            ordersTable.innerHTML = '';
-            summaryTable.innerHTML = '';
-
-            if (error) {
-                ordersTable.innerHTML = `<tr><td colspan="6" class="border p-3 text-center">無法加載訂單: ${error.message}</td></tr>`;
-                summaryTable.innerHTML = `<tr><td colspan="3" class="border p-3 text-center">無法加載統計: ${error.message}</td></tr>`;
-                return;
-            }
-
-            let filteredOrders = data;
-            if (category !== 'all') {
-                filteredOrders = data.filter(order =>
-                    order.items.some(item => {
-                        const itemName = item.name.toLowerCase();
-                        if (category === '蔬果類') return ['大白菜', '小白菜', '通心菜', '花椰菜', '麻糬茄子', '大陸妹', '薑', '薑絲', '薑片', '九層塔', '豆豆', '蒜頭仁', '蒜泥', '蒜碎', '水蓮', '青江菜', '洋蔥', '秀珍菇', '小黃瓜', '空心菜', '白苦瓜', '青苦瓜', '菠菜', '絲瓜', '冬瓜', '金針菇', '蘿蔔', '青菜', '地瓜葉', '高麗菜'].includes(itemName);
-                        if (category === '鮮肉類') return ['牛肉', '豬肉', '雞肉', '雞頭骨', '絞肉', '肉絲'].includes(itemName);
-                        if (category === '海鮮類') return ['吳郭魚', '虱目魚', '鯧魚', '秋刀魚'].includes(itemName);
-                        if (category === '其他類') return ['台灣啤酒', '台灣啤酒 330ml', '可口可樂 330ml', '豆干', '豆漿'].includes(itemName);
-                        return false;
-                    })
-                );
-            }
-
-            if (!filteredOrders || filteredOrders.length === 0) {
-                ordersTable.innerHTML = '<tr><td colspan="6" class="border p-3 text-center text-gray-700">無訂單</td></tr>';
-                summaryTable.innerHTML = '<tr><td colspan="3" class="border p-3 text-center text-gray-700">無商品統計</td></tr>';
-                return;
-            }
-
-            // Populate orders table
-            filteredOrders.forEach(order => {
-                const row = document.createElement('tr');
-                let itemsList;
-                if (category === 'all') {
-                    itemsList = order.items.map(item => `${item.name} x${item.qty} ${item.unit || ''}`).join(', ');
-                } else {
-                    const filteredItems = order.items.filter(item => {
-                        const itemName = item.name.toLowerCase();
-                        if (category === '蔬果類') return ['大白菜', '小白菜', '通心菜', '花椰菜', '麻糬茄子', '大陸妹', '薑', '薑絲', '薑片', '九層塔', '豆豆', '蒜頭仁', '蒜泥', '蒜碎', '水蓮', '青江菜', '洋蔥', '秀珍菇', '小黃瓜', '空心菜', '白苦瓜', '青苦瓜', '菠菜', '絲瓜', '冬瓜', '金針菇', '蘿蔔', '青菜', '地瓜葉', '高麗菜'].includes(itemName);
-                        if (category === '鮮肉類') return ['牛肉', '豬肉', '雞肉', '雞頭骨', '絞肉', '肉絲'].includes(itemName);
-                        if (category === '海鮮類') return ['吳郭魚', '虱目魚', '鯧魚', '秋刀魚'].includes(itemName);
-                        if (category === '其他類') return ['台灣啤酒', '台灣啤酒 330ml', '可口可樂 330ml', '豆干', '豆漿'].includes(itemName);
-                        return false;
-                    });
-                    itemsList = filteredItems.length > 0 ? filteredItems.map(item => `${item.name} x${item.qty} ${item.unit || ''}`).join(', ') : '無匹配項目';
-                }
-                const submitTime = new Date(order.created_at).toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' });
-                const quotationValue = order.quotation ? order.quotation.toFixed(2) : '';
-                row.innerHTML = `
-                    <td class="border p-3">${order.customer_name}</td>
-                    <td class="border p-3">${order.customer_contact}</td>
-                    <td class="border p-3">${itemsList}</td>
-                    <td class="border p-3">
-                        <input type="number" step="0.01" min="0" value="${quotationValue}" class="w-24 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary" onchange="updateQuotation(${order.id}, this.value)">
-                    </td>
-                    <td class="border p-3">${submitTime}</td>
-                    <td class="border p-3">
-                        <button onclick='printQuotation(${JSON.stringify(order)})' class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition duration-200">列印報價</button>
-                    </td>
-                `;
-                ordersTable.appendChild(row);
-            });
-
-            // Aggregate and populate summary table
-            const productTotals = {};
-            filteredOrders.forEach(order => {
-                order.items.forEach(item => {
-                    const itemName = item.name.toLowerCase();
-                    if (category === 'all' || (
-                        (category === '蔬果類' && ['大白菜', '小白菜', '通心菜', '花椰菜', '麻糬茄子', '大陸妹', '薑', '薑絲', '薑片', '九層塔', '豆豆', '蒜頭仁', '蒜泥', '蒜碎', '水蓮', '青江菜', '洋蔥', '秀珍菇', '小黃瓜', '空心菜', '白苦瓜', '青苦瓜', '菠菜', '絲瓜', '冬瓜', '金針菇', '蘿蔔', '青菜', '地瓜葉', '高麗菜'].includes(itemName)) ||
-                        (category === '鮮肉類' && ['牛肉', '豬肉', '雞肉', '雞頭骨', '絞肉', '肉絲'].includes(itemName)) ||
-                        (category === '海鮮類' && ['吳郭魚', '虱目魚', '鯧魚', '秋刀魚'].includes(itemName)) ||
-                        (category === '其他類' && ['台灣啤酒', '台灣啤酒 330ml', '可口可樂 330ml', '豆干', '豆漿'].includes(itemName))
-                    )) {
-                        const key = `${item.name}|${item.unit || ''}`;
-                        productTotals[key] = (productTotals[key] || 0) + item.qty;
-                    }
-                });
-            });
-
-            Object.entries(productTotals).sort().forEach(([key, total]) => {
-                const [product, unit] = key.split('|');
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="border p-3">${product}</td>
-                    <td class="border p-3">${unit}</td>
-                    <td class="border p-3">${total}</td>
-                `;
-                summaryTable.appendChild(row);
-            });
-        }
-
-        window.onload = () => {
-            document.getElementById('order-date').value = new Date().toISOString().split('T')[0];
-            displayOrders();
-        };
-    </script>
+    <script type="module" src="/summary.js"></script> <!-- Adjust if you have a specific JS file -->
 </body>
 </html>
