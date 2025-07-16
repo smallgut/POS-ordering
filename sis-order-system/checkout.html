@@ -61,7 +61,27 @@
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
         <a href="#top">回到頂部</a>
     </footer>
+<table id="cartTable">
+    <thead>
+        <tr>
+            <th>商品 | Item</th>
+            <th>數量 | Quantity</th>
+            <th>單位 | Unit</th>
+            <th>操作 | Action</th>
+        </tr>
+    </thead>
+    <tbody id="cartBody"></tbody>
+</table>
+<form id="orderForm">
+    <label>客戶姓名 | Customer Name: <input type="text" id="customerName" required></label><br>
+    <label>聯絡電話 | Contact: <input type="tel" id="customerContact" required></label><br>
+    <label>備註 | Remark: <textarea id="customerRemark"></textarea></label><br>
+    <button type="submit">提交訂單 | Submit Order</button>
+</form>
 
+<script type="module" src="/checkout.js"></script>
+</body>
+</html>
     <script type="module" src="/checkout.js"></script>
 </body>
 </html>
