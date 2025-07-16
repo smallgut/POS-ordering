@@ -104,8 +104,8 @@ async function submitOrder() {
         customer_contact: customerContact,
         remark: customerRemark,
         items: cart,
-        quotation: null, // Placeholder; can be calculated later if needed
-        created_at: new Date().toISOString() // Matches Supabase timestamp
+        quotation: null,
+        created_at: new Date().toISOString()
     };
 
     try {
