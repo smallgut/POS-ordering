@@ -104,8 +104,8 @@ async function submitOrder() {
         customer_contact: customerContact,
         remark: customerRemark,
         items: cart,
-        category: '蔬果類',
-        submit_time: new Date().toISOString()
+        quotation: null, // Placeholder; can be calculated later if needed
+        created_at: new Date().toISOString() // Matches Supabase timestamp
     };
 
     try {
@@ -120,7 +120,8 @@ async function submitOrder() {
         });
 
         if (!response.ok) {
-            throw new Error('提交訂單失敗');
+            const errorText = await response.text();
+            throw new Error(`提交訂單失敗: ${errorText}`);
         }
 
         alert('訂單已成功提交！');
