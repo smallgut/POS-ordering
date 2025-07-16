@@ -103,7 +103,7 @@ async function submitOrder() {
         customer_name: customerName,
         customer_contact: customerContact,
         remark: customerRemark,
-        items: cart, // Changed from { items: cart } to direct array
+        items: cart,
         category: '蔬果類',
         submit_time: new Date().toISOString()
     };
@@ -135,6 +135,4 @@ async function submitOrder() {
     }
 }
 
-// Use DOMContentLoaded instead of window.onload to ensure scripts load correctly
 document.addEventListener('DOMContentLoaded', loadCart);
-</document>
