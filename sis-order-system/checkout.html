@@ -3,83 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二姐叫菜 - 結帳</title>
-    <link rel="stylesheet" href="/output.css">
+    <title>結帳 | Checkout</title>
+    <link href="/assets/output.css" rel="stylesheet">
 </head>
-<body>
-    <nav>
-        <a href="index.html">下單分類</a>
-        <a href="checkout.html">聯絡結帳</a>
-        <a href="summary.html">每日訂單</a>
-    </nav>
+<body class="bg-gray-100 p-4">
+    <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
+    <table id="cartTable" class="w-full border-collapse">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="border p-3">商品 | Item</th>
+                <th class="border p-3">數量 | Quantity</th>
+                <th class="border p-3">單位 | Unit</th>
+                <th class="border p-3">操作 | Action</th>
+            </tr>
+        </thead>
+        <tbody id="cartBody"></tbody>
+    </table>
+    <div id="emptyCartMessage" class="hidden text-red-600 p-3">購物車是空的！</div>
+    <form id="orderForm" class="mt-4">
+        <label class="block">客戶姓名 | Customer Name: <input type="text" id="customerName" required class="border p-2 mt-1 w-full"></label><br>
+        <label class="block">聯絡電話 | Contact: <input type="tel" id="customerContact" required class="border p-2 mt-1 w-full"></label><br>
+        <label class="block">備註 | Remark: <textarea id="customerRemark" class="border p-2 mt-1 w-full"></textarea></label><br>
+        <button type="submit" class="bg-primary text-white p-2 mt-2">提交訂單 | Submit Order</button>
+    </form>
 
-    <header>
-        <h1>二姐叫菜 - 結帳</h1>
-        <p>請確認您的購物車並提交訂單</p>
-        <a href="veg.html">返回蔬果類目錄</a>
-    </header>
-
-    <section>
-        <h2>購物車 | Cart</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>商品 | Item</th>
-                    <th>數量 | Quantity</th>
-                    <th>單位 | Unit</th>
-                    <th>操作 | Action</th>
-                </tr>
-            </thead>
-            <tbody id="cartTable">
-                <tr>
-                    <td colspan="4">購物車目前是空的</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-    <section>
-        <h2>顧客資訊 | Customer Information</h2>
-        <form id="customerForm">
-            <div>
-                <label for="customerName">姓名 | Name</label>
-                <input type="text" id="customerName" name="customerName" required>
-            </div>
-            <div>
-                <label for="customerContact">聯絡電話 | Contact</label>
-                <input type="tel" id="customerContact" name="customerContact" required>
-            </div>
-            <div>
-                <label for="customerRemark">備註 | Remark</label>
-                <textarea id="customerRemark" name="customerRemark"></textarea>
-            </div>
-            <button type="submit">提交訂單</button>
-        </form>
-    </section>
-
-    <footer>
-        <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#top">回到頂部</a>
-    </footer>
-<table id="cartTable" class="w-full border-collapse">
-    <thead>
-        <tr class="bg-gray-200">
-            <th class="border p-3">商品 | Item</th>
-            <th class="border p-3">數量 | Quantity</th>
-            <th class="border p-3">單位 | Unit</th>
-            <th class="border p-3">操作 | Action</th>
-        </tr>
-    </thead>
-    <tbody id="cartBody"></tbody>
-</table>
-<div id="emptyCartMessage" class="hidden text-red-600 p-3">購物車是空的！</div>
-<form id="orderForm" class="mt-4">
-    <label class="block">客戶姓名 | Customer Name: <input type="text" id="customerName" required class="border p-2 mt-1 w-full"></label><br>
-    <label class="block">聯絡電話 | Contact: <input type="tel" id="customerContact" required class="border p-2 mt-1 w-full"></label><br>
-    <label class="block">備註 | Remark: <textarea id="customerRemark" class="border p-2 mt-1 w-full"></textarea></label><br>
-    <button type="submit" class="bg-primary text-white p-2 mt-2">提交訂單 | Submit Order</button>
-</form>
-
-<script type="module" src="/checkout.js"></script>
+    <script type="module" src="/checkout.js"></script>
 </body>
 </html>
