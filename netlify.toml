@@ -1,8 +1,8 @@
 [build]
-     command = "cd sis-order-system && npm install && ./node_modules/.bin/vite build --mode production || exit 1 && npx tailwindcss -i ./input.css -o ./dist/output.css --minify || exit 1"
-     publish = "sis-order-system/dist"
+    command = "cd sis-order-system && npm install && ./node_modules/.bin/vite build --mode production && npx tailwindcss -i ./input.css -o ./dist/output.css --minify"
+    publish = "sis-order-system/dist"
 
-   [[redirects]]
-     from = "/*"
-     to = "/index.html"
-     status = 200
+[[redirects]]
+    from = "/*"
+    to = "/index.html"
+    status = 200
