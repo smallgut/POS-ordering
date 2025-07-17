@@ -7,7 +7,7 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     console.error('Supabase configuration missing:', { SUPABASE_URL, SUPABASE_ANON_KEY });
     alert('伺服器配置錯誤：環境變數 VITE_SUPABASE_URL 或 VITE_SUPABASE_ANON_KEY 缺失。');
-    return;
+    throw new Error('Missing Supabase configuration'); // Replace return with throw
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -28,9 +28,11 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
         console.log('Fetching orders with filters:', { dateFilter, categoryFilter });
         let query = supabase.from('orders').select('*').order('created_at', { ascending: false });
         if (dateFilter) {
-            query = query
-                .gte('created_at', `${dateFilter}T00:00:00Z`)
-                .lte('created_at', `${dateFilter}T23:59:59Z`);
+            // Adjust for Taiwan timezone (UTC+8)
+            const date = new Date(dateFilter);
+            const start = new Date(date.getTime() + 8 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00Z';
+            const end = new Date(date.getTime() + 8 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59Z';
+            query = query.gte('created_at', start).lte('created_at', end);
         }
 
         const { data: orders, error } = await query;
