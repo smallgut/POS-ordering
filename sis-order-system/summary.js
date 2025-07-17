@@ -81,6 +81,8 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         ? '<button class="print-btn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">列印估價單</button>'
                         : '';
 
+                    console.log('Generating row for order:', order.id, 'isFirstItem:', isFirstItem, 'printButton:', printButton); // Debug log
+
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="border p-3">${isFirstItem ? order.created_at.split('T')[0] : ''}</td>
@@ -91,7 +93,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         <td class="border p-3">${submitTime}</td>
                         <td class="border p-3">${remark}</td>
                         <td class="border p-3">${quotationInput}</td>
-                        <td class="border p-3">${printButton}</td>
+                        <td class="border p-3">${printButton}</td> <!-- Ensure button is in the correct column -->
                     `;
                     tableBody.appendChild(row);
 
@@ -110,6 +112,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         });
 
                         const printBtn = row.querySelector('.print-btn');
+                        console.log('Print button found:', printBtn); // Debug log
                         printBtn.addEventListener('click', () => printQuotation(order));
                     }
 
