@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build": "vite build --mode production",
+    "build": "npx update-browserslist-db@latest && vite build --mode production",
     "dev": "vite",
     "preview": "vite preview"
   },
