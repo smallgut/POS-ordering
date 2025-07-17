@@ -4,38 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 蔬果類</title>
-    <link rel="stylesheet" href="/output.css">
+    <link rel="stylesheet" href="/assets/output.css">
+    <script type="module" src="/veg.js"></script>
 </head>
-<body>
-    <nav>
-        <a href="index.html">下單分類</a>
-        <a href="checkout.html">結帳</a>
-        <a href="summary.html">每日訂單</a>
+<body class="bg-gray-50">
+    <nav class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="index.html" class="text-lg font-bold">下單分類</a>
+            <div>
+                <a href="checkout.html" class="px-2">結帳</a>
+                <a href="summary.html" class="px-2">每日訂單</a>
+            </div>
+        </div>
     </nav>
 
-    <header>
-        <h1>二姐叫菜 - 蔬果類</h1>
-        <p>精選新鮮蔬果，價錢親民，快速送達</p>
-        <a href="index.html">回到主頁</a>
-    </header>
+    <section class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 蔬果類</h1>
+        <p class="mb-4">精選新鮮蔬果，價錢相宜，商品送達，省錢省時</p>
+        <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
 
-    <section>
-        <h2>蔬果類目錄 | Vegetable Catalog</h2>
-        <table id="vegTable">
+        <h2 class="text-xl font-semibold mb-4">蔬果類目錄 | Seafood Catalog</h2>
+        <table class="w-full border-collapse">
             <thead>
-                <tr>
-                    <th>商品 | Item</th>
-                    <th>數量 | Quantity</th>
-                    <th>單位 | Unit</th>
-                    <th>操作 | Action</th>
+                <tr class="bg-secondary">
+                    <th class="border p-3">商品 | Item</th>
+                    <th class="border p-3">數量 | Quantity</th>
+                    <th class="border p-3">單位 | Unit</th>
+                    <th class="border p-3">操作 | Action</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>麻糬茄子</td>
-                    <td><input type="number" class="qty-input" min="0.5" step="0.5" value="0" data-item="麻糬茄子"></td>
-                    <td>
-                        <select class="unit-select" data-item="麻糬茄子">
+                    <td class="border p-3">麻糬茄子</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="麻糬茄子" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="麻糬茄子">
                             <option value="無單位">無單位</option>
                             <option value="斤">斤</option>
                             <option value="個">個</option>
@@ -43,13 +48,17 @@
                             <option value="包">包</option>
                         </select>
                     </td>
-                    <td><button class="add-to-cart" data-item="麻糬茄子">加入購物車</button></td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="麻糬茄子">加入購物車</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>大陸妹</td>
-                    <td><input type="number" class="qty-input" min="0.5" step="0.5" value="0" data-item="大陸妹"></td>
-                    <td>
-                        <select class="unit-select" data-item="大陸妹">
+                    <td class="border p-3">大陸妹</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="大陸妹" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="大陸妹">
                             <option value="無單位">無單位</option>
                             <option value="斤">斤</option>
                             <option value="個">個</option>
@@ -57,13 +66,17 @@
                             <option value="包">包</option>
                         </select>
                     </td>
-                    <td><button class="add-to-cart" data-item="大陸妹">加入購物車</button></td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="大陸妹">加入購物車</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>薑</td>
-                    <td><input type="number" class="qty-input" min="0.5" step="0.5" value="0" data-item="薑"></td>
-                    <td>
-                        <select class="unit-select" data-item="薑">
+                    <td class="border p-3">薑</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="薑" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="薑">
                             <option value="無單位">無單位</option>
                             <option value="斤">斤</option>
                             <option value="個">個</option>
@@ -71,13 +84,17 @@
                             <option value="包">包</option>
                         </select>
                     </td>
-                    <td><button class="add-to-cart" data-item="薑">加入購物車</button></td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="薑">加入購物車</button>
+                    </td>
                 </tr>
                 <tr>
-                    <td>薑絲</td>
-                    <td><input type="number" class="qty-input" min="0.5" step="0.5" value="0" data-item="薑絲"></td>
-                    <td>
-                        <select class="unit-select" data-item="薑絲">
+                    <td class="border p-3">薑絲</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="薑絲" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="薑絲">
                             <option value="無單位">無單位</option>
                             <option value="斤">斤</option>
                             <option value="個">個</option>
@@ -85,55 +102,25 @@
                             <option value="包">包</option>
                         </select>
                     </td>
-                    <td><button class="add-to-cart" data-item="薑絲">加入購物車</button></td>
-                </tr>
-                <tr>
-                    <td>薑片</td>
-                    <td><input type="number" class="qty-input" min="0.5" step="0.5" value="0" data-item="薑片"></td>
-                    <td>
-                        <select class="unit-select" data-item="薑片">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                            <option value="個">個</option>
-                            <option value="袋">袋</option>
-                            <option value="包">包</option>
-                        </select>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="薑絲">加入購物車</button>
                     </td>
-                    <td><button class="add-to-cart" data-item="薑片">加入購物車</button></td>
                 </tr>
-                <!-- Add remaining items (九層塔, 豆豆, etc.) similarly -->
-                <tr>
-                    <td>九層塔</td>
-                    <td><input type="number" class="qty-input" min="0.5" step="0.5" value="0" data-item="九層塔"></td>
-                    <td>
-                        <select class="unit-select" data-item="九層塔">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                            <option value="個">個</option>
-                            <option value="袋">袋</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td><button class="add-to-cart" data-item="九層塔">加入購物車</button></td>
-                </tr>
-                <!-- Include all other items (e.g., 豆豆, 蒜頭仁, etc.) in a similar manner -->
             </tbody>
         </table>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold mb-4">聯絡 | Contact</h2>
+            <p>商店地點 | Collection: coming soon</p>
+            <p>TEL / Line: coming soon</p>
+        </div>
     </section>
 
-    <section>
-        <h2>聯絡我們</h2>
-        <p>商店地點：即將公布</p>
-        <p>電話 / Line：即將公布</p>
-    </section>
-
-    <footer>
+    <footer class="bg-primary text-white text-center p-4 mt-8">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#top">回到頂部</a>
+        <a href="#" class="underline">Back to Top</a>
     </footer>
 
-    <button class="cart-button">🛒</button>
-
-    <script type="module" src="/veg.js"></script> <!-- Adjust if you have a specific JS file -->
+    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
 </body>
 </html>
