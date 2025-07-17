@@ -6,6 +6,13 @@
     <title>二姐叫菜 - 每日訂單</title>
     <link rel="stylesheet" href="/assets/output.css">
     <script type="module" src="/summary.js"></script>
+    <style>
+        @media print {
+            body * { visibility: hidden; }
+            #printQuotation, #printQuotation * { visibility: visible; }
+            #printQuotation { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+    </style>
 </head>
 <body class="bg-gray-50">
     <nav class="bg-primary text-white p-4">
@@ -53,6 +60,7 @@
                     <th class="border p-3">提交時間 | Submit Order Time</th>
                     <th class="border p-3">備註 | Remark</th>
                     <th class="border p-3">報價 | Quotation</th>
+                    <th class="border p-3">列印 | Print</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -72,6 +80,26 @@
         </table>
         <p id="noStatsMessage" class="text-red-600 hidden">暫無統計數據</p>
     </section>
+
+    <div id="printQuotation" style="display: none;">
+        <div style="text-align: center; font-size: 24px; margin: 20px 0;">二姐叫菜 - 估價單</div>
+        <div style="margin: 10px 0;">客戶姓名: <span id="printCustomerName"></span>, 聯絡電話: <span id="printCustomerContact"></span></div>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="border: 1px solid #ddd; padding: 8px;">日期 | Date</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">商品 | Item</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">數量 | Quantity</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">單位 | Unit</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">客戶 | Customer</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">提交時間 | Submit Order Time</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">備註 | Remark</th>
+                    <th style="border: 1px solid #ddd; padding: 8px;">報價 | Quotation</th>
+                </tr>
+            </thead>
+            <tbody id="printTableBody"></tbody>
+        </table>
+    </div>
 
     <footer class="bg-primary text-white text-center p-4 mt-8">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
