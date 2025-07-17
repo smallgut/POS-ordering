@@ -76,6 +76,11 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                           })
                         : '';
                     const remark = isFirstItem ? (order.remark || '(無)') : '';
+                    const quotationKey = `quotation_${order.created_at}`;
+                    const savedQuotation = localStorage.getItem(quotationKey) || '';
+                    const quotationInput = isFirstItem
+                        ? `<input type="text" class="quotation-input border p-1 rounded" value="${savedQuotation}" data-order="${order.created_at}" placeholder="$0.00" style="width: 80px;">`
+                        : '';
 
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -86,8 +91,20 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         <td class="border p-3">${isFirstItem ? order.customer_name : ''}</td>
                         <td class="border p-3">${submitTime}</td>
                         <td class="border p-3">${remark}</td>
+                        <td class="border p-3">${quotationInput}</td>
                     `;
                     tableBody.appendChild(row);
+
+                    // Add event listener for quotation input
+                    if (isFirstItem) {
+                        const input = row.querySelector('.quotation-input');
+                        input.addEventListener('change', (e) => {
+                            const value = e.target.value.replace(/[^0-9.]/g, ''); // Allow only numbers and decimal
+                            const formattedValue = value ? `$${parseFloat(value).toFixed(2)}` : '';
+                            e.target.value = formattedValue;
+                            localStorage.setItem(quotationKey, formattedValue);
+                        });
+                    }
 
                     // Update item totals for statistics table
                     const key = `${item.name}_${item.unit || '無單位'}`;
