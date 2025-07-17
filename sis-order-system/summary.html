@@ -4,96 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 每日訂單</title>
-    <link rel="stylesheet" href="/output.css">
+    <link rel="stylesheet" href="/assets/output.css">
+    <script type="module" src="/summary.js"></script>
 </head>
-<body>
-    <nav>
-        <a href="index.html">下單分類</a>
-        <a href="checkout.html">結帳</a>
-        <a href="summary.html">每日訂單</a>
+<body class="bg-gray-50">
+    <nav class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="index.html" class="text-lg font-bold">下單分類</a>
+            <div>
+                <a href="checkout.html" class="px-2">結帳</a>
+                <a href="summary.html" class="px-2">每日訂單</a>
+            </div>
+        </div>
     </nav>
 
-    <header>
-        <h1>二姐叫菜 - 每日訂單</h1>
-        <p>查看訂單總覽</p>
-        <a href="index.html">回到主頁</a>
-    </header>
+    <section class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 每日訂單</h1>
+        <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁</a>
 
-    <section>
-        <h2>訂單查詢</h2>
-        <form id="orderQuery">
+        <h2 class="text-xl font-semibold mb-4">訂單查詢</h2>
+        <div class="flex space-x-4 mb-4">
             <div>
-                <label for="queryDate">選擇日期</label>
-                <input type="date" id="queryDate" name="queryDate">
+                <label for="dateFilter" class="block mb-2">選擇日期</label>
+                <input type="date" id="dateFilter" class="p-2 border rounded">
             </div>
             <div>
-                <label for="queryCategory">商品類別</label>
-                <select id="queryCategory" name="queryCategory">
-                    <option value="all">所有類別</option>
-                    <option value="veg">蔬果類</option>
-                    <option value="meat">鮮肉類</option>
-                    <option value="seafood">海鮮類</option>
-                    <option value="other">其他類</option>
+                <label for="categoryFilter" class="block mb-2">商品類別</label>
+                <select id="categoryFilter" class="p-2 border rounded">
+                    <option value="">所有類別</option>
+                    <option value="蔬果類">蔬果類</option>
+                    <option value="鮮肉類">鮮肉類</option>
+                    <option value="海鮮類">海鮮類</option>
+                    <option value="其他類">其他類</option>
                 </select>
             </div>
-            <button type="submit">查詢</button>
-        </form>
-    </section>
+            <button id="searchButton" class="mt-6 bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">查詢</button>
+        </div>
 
-    <section>
-        <h2>訂單明細</h2>
-        <table id="orderTable">
+        <h2 class="text-xl font-semibold mb-4">訂單明細</h2>
+        <table id="orderSummary" class="w-full border-collapse mb-8">
             <thead>
-                <tr>
-                    <th>顧客姓名</th>
-                    <th>聯絡方式</th>
-                    <th>訂單項目</th>
-                    <th>報價 ($)</th>
-                    <th>提交訂單時間</th>
-                    <th>操作</th>
+                <tr class="bg-secondary">
+                    <th class="border p-3">日期 | Date</th>
+                    <th class="border p-3">商品 | Item</th>
+                    <th class="border p-3">數量 | Quantity</th>
+                    <th class="border p-3">單位 | Unit</th>
+                    <th class="border p-3">客戶 | Customer</th>
                 </tr>
             </thead>
-            <tbody id="orderBody">
-                <tr><td colspan="6">暫無訂單</td></tr>
-            </tbody>
+            <tbody></tbody>
         </table>
-    </section>
+        <p id="noOrdersMessage" class="text-red-600 hidden">暫無訂單</p>
 
-    <section>
-        <h2>商品總量統計</h2>
-        <table id="summaryTable">
+        <h2 class="text-xl font-semibold mb-4">商品總量統計</h2>
+        <table id="itemStats" class="w-full border-collapse">
             <thead>
-                <tr>
-                    <th>商品名稱</th>
-                    <th>單位</th>
-                    <th>總訂購數量</th>
+                <tr class="bg-secondary">
+                    <th class="border p-3">商品名稱</th>
+                    <th class="border p-3">單位</th>
+                    <th class="border p-3">總訂購數量</th>
                 </tr>
             </thead>
-            <tbody id="summaryBody">
-                <tr><td colspan="3">暫無統計數據</td></tr>
-            </tbody>
+            <tbody></tbody>
         </table>
+        <p id="noStatsMessage" class="text-red-600 hidden">暫無統計數據</p>
     </section>
 
-    <footer>
-        <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#top">回到頂部</a>
+    <footer class="bg-primary text-white text-center p-4 mt-8">
+        <p>&copy; 2025 二姐叫菜 | All Rights Reserved</p>
+        <a href="#" class="underline">回到頂部</a>
     </footer>
 
-    <script type="module" src="/summary.js"></script> <!-- Adjust if you have a specific JS file -->
-    <table id="orderSummary">
-    <thead>
-        <tr>
-            <th>日期 | Date</th>
-            <th>商品 | Item</th>
-            <th>數量 | Quantity</th>
-            <th>單位 | Unit</th>
-            <th>客戶 | Customer</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-
-<script type="module" src="/summary.js"></script>
+    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
 </body>
 </html>
