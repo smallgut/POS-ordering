@@ -1,4 +1,5 @@
-console.log('Environment variables (import.meta.env):', import.meta.env); // Debug import.meta.env
+// sis-order-system/checkout.js
+import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -8,6 +9,8 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     alert('伺服器配置錯誤：環境變數 VITE_SUPABASE_URL 或 VITE_SUPABASE_ANON_KEY 缺失。請聯繫管理員檢查 Netlify 設置。');
     throw new Error('Missing Supabase configuration');
 }
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 function loadCart() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -35,11 +38,19 @@ function loadCart() {
             <td class="border p-3" id="qty-${index}">${item.qty}</td>
             <td class="border p-3">${item.unit || '無單位'}</td>
             <td class="border p-3">
-                <button onclick="adjustItem(${index})" class="text-primary hover:underline">Adjust</button>
-                <button onclick="removeItem(${index})" class="text-red-600 hover:underline ml-4">Remove</button>
+                <button data-index="${index}" class="adjust-button text-primary hover:underline">Adjust</button>
+                <button data-index="${index}" class="remove-button text-red-600 hover:underline ml-4">Remove</button>
             </td>
         `;
         cartBody.appendChild(row);
+    });
+
+    // Attach event listeners to buttons
+    document.querySelectorAll('.adjust-button').forEach(button => {
+        button.addEventListener('click', () => adjustItem(parseInt(button.dataset.index)));
+    });
+    document.querySelectorAll('.remove-button').forEach(button => {
+        button.addEventListener('click', () => removeItem(parseInt(button.dataset.index)));
     });
 }
 
@@ -51,9 +62,11 @@ function adjustItem(index) {
         <input type="number" id="adjust-qty-${index}" value="${originalQty}" min="0.5" step="0.5" class="w-20 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
     `;
     row.cells[3].innerHTML = `
-        <button onclick="saveAdjustment(${index})" class="text-primary hover:underline">Save</button>
-        <button onclick="cancelAdjustment(${index})" class="text-gray-600 hover:underline ml-4">Cancel</button>
+        <button data-index="${index}" class="save-button text-primary hover:underline">Save</button>
+        <button data-index="${index}" class="cancel-button text-gray-600 hover:underline ml-4">Cancel</button>
     `;
+    document.querySelector(`.save-button[data-index="${index}"]`).addEventListener('click', () => saveAdjustment(index));
+    document.querySelector(`.cancel-button[data-index="${index}"]`).addEventListener('click', () => cancelAdjustment(index));
 }
 
 function saveAdjustment(index) {
@@ -109,20 +122,8 @@ async function submitOrder() {
     };
 
     try {
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_ANON_KEY,
-                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-            },
-            body: JSON.stringify(orderData)
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`提交訂單失敗: ${errorText}`);
-        }
+        const { error } = await supabase.from('orders').insert([orderData]);
+        if (error) throw error;
 
         alert('訂單已成功提交！');
         localStorage.removeItem('cart');
@@ -131,9 +132,12 @@ async function submitOrder() {
         document.getElementById('customerRemark').value = '';
         loadCart();
     } catch (error) {
-        console.error('Submit order error:', error);
+        console.error('Submit order error:', error, error.stack);
         alert('提交訂單時發生錯誤：' + error.message);
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadCart);
+document.addEventListener('DOMContentLoaded', () => {
+    loadCart();
+    document.getElementById('submitButton').addEventListener('click', submitOrder);
+});
