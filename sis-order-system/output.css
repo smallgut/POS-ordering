@@ -1,2 +1,0 @@
-cd sis-order-system
-npx tailwindcss -i ./input.css -o ./output.css --minify
