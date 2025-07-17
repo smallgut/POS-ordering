@@ -1,155 +1,162 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 鮮肉類</title>
-    <link href="/output.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/output.css">
+    <script type="module" src="/meat.js"></script>
 </head>
-<body class="bg-secondary font-sans">
-    <header class="bg-primary text-white p-4 shadow-md">
-        <nav class="container mx-auto flex justify-center space-x-6">
-            
-            <a href="index.html#categories" class="hover:underline transition duration-200">下單分類</a>
-            
-            <a href="checkout.html" class="hover:underline transition duration-200">結帳</a>
-            <a href="summary.html" class="hover:underline transition duration-200">每日訂單</a>
-        </nav>
-    </header>
-
-    <main class="container mx-auto p-6">
-        <section class="mb-8">
-            <h1 class="text-3xl font-bold text-primary mb-4">二姐叫菜 - 鮮肉類</h1>
-            <p class="text-lg text-gray-700">精選鮮肉，價錢相宜，商品送達，省錢省時</p>
-            <a href="index.html" class="text-primary hover:underline">回到主頁 | Back to Home</a>
-        </section>
-
-        <section id="categories" class="mb-8">
-            <h2 class="text-2xl font-semibold text-primary mb-4">鮮肉類目錄 | Meat Catalog</h2>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="border p-3 text-left">商品 | Item</th>
-                            <th class="border p-3 text-left">數量 | Quantity</th>
-                            <th class="border p-3 text-left">單位 | Unit</th>
-                            <th class="border p-3 text-left">操作 | Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td class="border p-3">牛肉</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-牛肉"></td><td class="border p-3"><select id="unit-牛肉" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('牛肉', 'qty-牛肉', 'unit-牛肉')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                        <tr><td class="border p-3">豬肉</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-豬肉"></td><td class="border p-3"><select id="unit-豬肉" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('豬肉', 'qty-豬肉', 'unit-豬肉')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                        <tr><td class="border p-3">雞肉</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-雞肉"></td><td class="border p-3"><select id="unit-雞肉" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('雞肉', 'qty-雞肉', 'unit-雞肉')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                        <tr><td class="border p-3">雞頭骨</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-雞頭骨"></td><td class="border p-3"><select id="unit-雞頭骨" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('雞頭骨', 'qty-雞頭骨', 'unit-雞頭骨')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                        <tr><td class="border p-3">絞肉</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-絞肉"></td><td class="border p-3"><select id="unit-絞肉" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('絞肉', 'qty-絞肉', 'unit-絞肉')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                        <tr><td class="border p-3">肉絲</td><td class="border p-3"><input type="number" min="0" class="w-20 p-2 border rounded" id="qty-肉絲"></td><td class="border p-3"><select id="unit-肉絲" class="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary"></select></td><td class="border p-3"><button onclick="addToCart('肉絲', 'qty-肉絲', 'unit-肉絲')" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200">加入購物車</button></td></tr>
-                    </tbody>
-                </table>
+<body class="bg-gray-50">
+    <nav class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="index.html" class="text-lg font-bold">下單分類</a>
+            <div>
+                <a href="checkout.html" class="px-2">結帳</a>
+                <a href="summary.html" class="px-2">每日訂單</a>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <section id="contact" class="mb-8">
-            <h2 class="text-2xl font-semibold text-primary mb-4">聯絡 | Contact</h2>
-            <p class="text-gray-700">商店地點 | Collection: coming soon</p>
-            <p class="text-gray-700">TEL / Line: coming soon</p>
-        </section>
-    </main>
+    <section class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 鮮肉類</h1>
+        <p class="mb-4">精選鮮肉，價錢相宜，商品送達，省錢省時</p>
+        <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
 
-    <footer class="bg-gray-800 text-white p-4 text-center">
+        <h2 class="text-xl font-semibold mb-4">鮮肉類目錄 | Meat Catalog</h2>
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-secondary">
+                    <th class="border p-3">商品 | Item</th>
+                    <th class="border p-3">數量 | Quantity</th>
+                    <th class="border p-3">單位 | Unit</th>
+                    <th class="border p-3">操作 | Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border p-3">牛肉</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="牛肉" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="牛肉">
+                            <option value="無單位">無單位</option>
+                            <option value="斤">斤</option>
+                            <option value="個">個</option>
+                            <option value="袋">袋</option>
+                            <option value="包">包</option>
+                        </select>
+                    </td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="牛肉">加入購物車</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border p-3">豬肉</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="豬肉" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="豬肉">
+                            <option value="無單位">無單位</option>
+                            <option value="斤">斤</option>
+                            <option value="個">個</option>
+                            <option value="袋">袋</option>
+                            <option value="包">包</option>
+                        </select>
+                    </td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="豬肉">加入購物車</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border p-3">雞肉</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="雞肉" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="雞肉">
+                            <option value="無單位">無單位</option>
+                            <option value="斤">斤</option>
+                            <option value="個">個</option>
+                            <option value="袋">袋</option>
+                            <option value="包">包</option>
+                        </select>
+                    </td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="雞肉">加入購物車</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border p-3">雞頭骨</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="雞頭骨" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="雞頭骨">
+                            <option value="無單位">無單位</option>
+                            <option value="斤">斤</option>
+                            <option value="個">個</option>
+                            <option value="袋">袋</option>
+                            <option value="包">包</option>
+                        </select>
+                    </td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="雞頭骨">加入購物車</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border p-3">絞肉</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="絞肉" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="絞肉">
+                            <option value="無單位">無單位</option>
+                            <option value="斤">斤</option>
+                            <option value="個">個</option>
+                            <option value="袋">袋</option>
+                            <option value="包">包</option>
+                        </select>
+                    </td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="絞肉">加入購物車</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="border p-3">肉絲</td>
+                    <td class="border p-3">
+                        <input type="number" class="qty-input w-20 p-2 border rounded" data-item="肉絲" value="0.5" min="0.5" step="0.5">
+                    </td>
+                    <td class="border p-3">
+                        <select class="unit-select p-2 border rounded" data-item="肉絲">
+                            <option value="無單位">無單位</option>
+                            <option value="斤">斤</option>
+                            <option value="個">個</option>
+                            <option value="袋">袋</option>
+                            <option value="包">包</option>
+                        </select>
+                    </td>
+                    <td class="border p-3">
+                        <button class="add-to-cart text-primary hover:underline" data-item="肉絲">加入購物車</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-semibold mb-4">聯絡 | Contact</h2>
+            <p>商店地點 | Collection: coming soon</p>
+            <p>TEL / Line: coming soon</p>
+        </div>
+    </section>
+
+    <footer class="bg-primary text-white text-center p-4 mt-8">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="text-blue-300 hover:underline">Back to Top</a>
+        <a href="#" class="underline">Back to Top</a>
     </footer>
 
-    <div id="cart-icon" class="fixed bottom-4 right-4 bg-primary text-white p-3 rounded-full shadow-lg cursor-pointer hover:bg-blue-700 transition duration-200" onclick="window.location.href='checkout.html'">
-        <span class="text-lg">🛒</span>
-        <span id="cart-count" class="bg-red-500 text-white text-xs rounded-full px-2 py-1"></span>
-    </div>
-
-    <script defer>
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-        // Define allowed units for each product (edit here to remove unmatched units)
-        const productUnits = {
-            '牛肉': ['斤', '包'],
-            '豬肉': ['斤', '包'],
-            '雞肉': ['斤', '包'],
-            '雞頭骨': ['斤', '袋'],
-            '絞肉': ['斤', '包'],
-            '肉絲': ['斤', '包']
-        };
-
-        const allUnits = ['斤', '袋', '把', '箱', '條', '包'];
-
-        // Populate unit dropdowns
-        document.querySelectorAll('select[id^="unit-"]').forEach(select => {
-            const product = select.id.replace('unit-', '');
-            const units = productUnits[product] || allUnits;
-            select.innerHTML = units.map(unit => `<option value="${unit}">${unit}</option>`).join('');
-        });
-
-        function addToCart(item, qtyId, unitId) {
-            const qty = parseInt(document.getElementById(qtyId).value) || 0;
-            const unit = document.getElementById(unitId).value;
-            if (qty > 0) {
-                const existingItem = cart.find(cartItem => cartItem.name === item && cartItem.unit === unit);
-                if (existingItem) {
-                    existingItem.qty += qty;
-                } else {
-                    cart.push({ name: item, qty: qty, unit: unit });
-                }
-                alert(`${item} x${qty} ${unit} 已加入購物車`);
-                document.getElementById(qtyId).value = '';
-                localStorage.setItem('cart', JSON.stringify(cart));
-                updateCartCount();
-            }
-        }
-
-        function updateCartCount() {
-            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
-            document.getElementById('cart-count').textContent = totalItems || '';
-        }
-
-        window.onload = updateCartCount;
-    </script>
+    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
 </body>
 </html>
