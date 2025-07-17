@@ -19,60 +19,74 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
     const noStatsMessage = document.getElementById('noStatsMessage');
 
     if (!tableBody || !noOrdersMessage || !statsBody || !noStatsMessage) {
-        console.error('Required elements missing');
+        console.error('Required elements missing:', { tableBody, noOrdersMessage, statsBody, noStatsMessage });
         alert('頁面載入錯誤：缺少必要的表格或訊息元素。');
         return;
     }
 
     try {
+        console.log('Fetching orders with filters:', { dateFilter, categoryFilter });
         let query = supabase.from('orders').select('*').order('created_at', { ascending: false });
         if (dateFilter) {
-            query = query.gte('created_at', `${dateFilter}T00:00:00Z`).lte('created_at', `${dateFilter}T23:59:59Z`);
+            query = query
+                .gte('created_at', `${dateFilter}T00:00:00Z`)
+                .lte('created_at', `${dateFilter}T23:59:59Z`);
         }
 
         const { data: orders, error } = await query;
-        if (error) throw error;
+        if (error) {
+            console.error('Supabase query error:', error);
+            throw new Error(`Supabase query failed: ${error.message}`);
+        }
+
+        console.log('Fetched orders:', orders);
 
         tableBody.innerHTML = '';
         noOrdersMessage.classList.add('hidden');
-
-        const itemTotals = {};
-        orders.forEach(order => {
-            order.items.forEach(item => {
-                const category = getItemCategory(item.name);
-                if (categoryFilter && category !== categoryFilter) return;
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="border p-3">${order.created_at.split('T')[0]}</td>
-                    <td class="border p-3">${item.name}</td>
-                    <td class="border p-3">${item.qty}</td>
-                    <td class="border p-3">${item.unit || '無單位'}</td>
-                    <td class="border p-3">${order.customer_name}</td>
-                `;
-                tableBody.appendChild(row);
-
-                const key = `${item.name}_${item.unit || '無單位'}`;
-                if (!itemTotals[key]) {
-                    itemTotals[key] = { name: item.name, unit: item.unit || '無單位', totalQty: 0 };
-                }
-                itemTotals[key].totalQty += item.qty;
-            });
-        });
-
         statsBody.innerHTML = '';
         noStatsMessage.classList.add('hidden');
-        Object.values(itemTotals).forEach(item => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="border p-3">${item.name}</td>
-                <td class="border p-3">${item.unit}</td>
-                <td class="border p-3">${item.totalQty}</td>
-            `;
-            statsBody.appendChild(row);
-        });
 
-        if (orders.length === 0 || Object.keys(itemTotals).length === 0) {
+        const itemTotals = {};
+        if (orders && orders.length > 0) {
+            orders.forEach(order => {
+                if (!order.items || !Array.isArray(order.items)) {
+                    console.warn('Invalid items format for order:', order);
+                    return;
+                }
+                order.items.forEach(item => {
+                    const category = getItemCategory(item.name);
+                    if (categoryFilter && category !== categoryFilter) return;
+
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="border p-3">${order.created_at.split('T')[0]}</td>
+                        <td class="border p-3">${item.name}</td>
+                        <td class="border p-3">${item.qty}</td>
+                        <td class="border p-3">${item.unit || '無單位'}</td>
+                        <td class="border p-3">${order.customer_name}</td>
+                    `;
+                    tableBody.appendChild(row);
+
+                    const key = `${item.name}_${item.unit || '無單位'}`;
+                    if (!itemTotals[key]) {
+                        itemTotals[key] = { name: item.name, unit: item.unit || '無單位', totalQty: 0 };
+                    }
+                    itemTotals[key].totalQty += item.qty;
+                });
+            });
+
+            Object.values(itemTotals).forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="border p-3">${item.name}</td>
+                    <td class="border p-3">${item.unit}</td>
+                    <td class="border p-3">${item.totalQty}</td>
+                `;
+                statsBody.appendChild(row);
+            });
+        }
+
+        if (!orders || orders.length === 0 || Object.keys(itemTotals).length === 0) {
             noOrdersMessage.classList.remove('hidden');
             noStatsMessage.classList.remove('hidden');
         }
@@ -96,10 +110,12 @@ function getItemCategory(itemName) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Summary page loaded, initializing...');
     loadOrders();
     document.getElementById('searchButton').addEventListener('click', () => {
         const dateFilter = document.getElementById('dateFilter').value;
         const categoryFilter = document.getElementById('categoryFilter').value;
+        console.log('Search button clicked with filters:', { dateFilter, categoryFilter });
         loadOrders(dateFilter, categoryFilter);
     });
 });
