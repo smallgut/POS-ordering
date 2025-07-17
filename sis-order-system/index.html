@@ -4,43 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜下單系統</title>
-    <link rel="stylesheet" href="/output.css">
+    <link rel="stylesheet" href="/assets/output.css">
+    <script type="module" src="/index.js"></script>
 </head>
-<body>
-    <nav>
-        <a href="index.html">下單分類</a>
-        <a href="checkout.html">結帳</a>
-        <a href="summary.html">每日訂單</a>
+<body class="bg-gray-50">
+    <nav class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between">
+            <a href="index.html" class="text-lg font-bold">下單分類</a>
+            <div>
+                <a href="checkout.html" class="px-2">結帳</a>
+                <a href="summary.html" class="px-2">每日訂單</a>
+            </div>
+        </div>
     </nav>
 
-    <header>
-        <h1>二姐叫菜下單系統</h1>
-        <p>簡單方便，快速下單，輕鬆送貨到店</p>
-    </header>
+    <section class="container mx-auto py-8">
+        <h1 class="text-2xl font-bold mb-4">二姐叫菜下單系統</h1>
+        <p class="mb-4">簡單方便，快速下單，輕鬆送貨到店</p>
 
-    <section>
-        <h2>商品分類</h2>
-        <ul>
-            <li><a href="veg.html">蔬果類</a></li>
-            <li><a href="meat.html">鮮肉類</a></li>
-            <li><a href="seafood.html">海鮮類</a></li>
-            <li><a href="others.html">其他類</a></li>
+        <h2 class="text-xl font-semibold mb-4">商品分類</h2>
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <li><a href="veg.html" class="text-primary hover:underline">蔬果類</a></li>
+            <li><a href="meat.html" class="text-primary hover:underline">鮮肉類</a></li>
+            <li><a href="seafood.html" class="text-primary hover:underline">海鮮類</a></li>
+            <li><a href="others.html" class="text-primary hover:underline">其他類</a></li>
         </ul>
     </section>
 
-    <section>
-        <h2>聯絡我們</h2>
+    <section class="container mx-auto py-4">
+        <h2 class="text-xl font-semibold mb-4">聯絡我們</h2>
         <p>商店地點：即將公布</p>
         <p>電話 / Line：即將公布</p>
     </section>
 
-    <footer>
+    <footer class="bg-primary text-white text-center p-4 mt-8">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#top">回到頂部</a>
+        <a href="#" class="underline">回到頂部</a>
     </footer>
 
-    <button class="cart-button">🛒</button>
-
-    <script type="module" src="/index.js"></script> <!-- Adjust if you have a specific JS file -->
+    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
 </body>
 </html>
