@@ -7,7 +7,7 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     console.error('Supabase configuration missing:', { SUPABASE_URL, SUPABASE_ANON_KEY });
     alert('伺服器配置錯誤：環境變數 VITE_SUPABASE_URL 或 VITE_SUPABASE_ANON_KEY 缺失。');
-    throw new Error('Missing Supabase configuration');
+    throw new Error('Missing Supabase configuration'); // Replace return with throw
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -28,6 +28,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
         console.log('Fetching orders with filters:', { dateFilter, categoryFilter });
         let query = supabase.from('orders').select('*').order('created_at', { ascending: false });
         if (dateFilter) {
+            // Adjust for Taiwan timezone (UTC+8)
             const date = new Date(dateFilter);
             const start = new Date(date.getTime() + 8 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00Z';
             const end = new Date(date.getTime() + 8 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59Z';
@@ -54,40 +55,20 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                     console.warn('Invalid items format for order:', order);
                     return;
                 }
+                order.items.forEach(item => {
+                    const category = getItemCategory(item.name);
+                    if (categoryFilter && category !== categoryFilter) return;
 
-                // Filter items by category if specified
-                const filteredItems = categoryFilter
-                    ? order.items.filter(item => getItemCategory(item.name) === categoryFilter)
-                    : order.items;
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="border p-3">${order.created_at.split('T')[0]}</td>
+                        <td class="border p-3">${item.name}</td>
+                        <td class="border p-3">${item.qty}</td>
+                        <td class="border p-3">${item.unit || '無單位'}</td>
+                        <td class="border p-3">${order.customer_name}</td>
+                    `;
+                    tableBody.appendChild(row);
 
-                if (filteredItems.length === 0) return;
-
-                // Create one row per order
-                const itemNames = filteredItems.map(item => item.name).join(', ');
-                const quantities = filteredItems.map(item => item.qty).join(', ');
-                const units = filteredItems.map(item => item.unit || '無單位').join(', ');
-                const submitTime = new Date(order.created_at).toLocaleTimeString('zh-TW', {
-                    hour12: false,
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit'
-                });
-                const remark = order.remark || '(無)';
-
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="border p-3">${order.created_at.split('T')[0]}</td>
-                    <td class="border p-3">${itemNames}</td>
-                    <td class="border p-3">${quantities}</td>
-                    <td class="border p-3">${units}</td>
-                    <td class="border p-3">${order.customer_name}</td>
-                    <td class="border p-3">${submitTime}</td>
-                    <td class="border p-3">${remark}</td>
-                `;
-                tableBody.appendChild(row);
-
-                // Update item totals for statistics table
-                filteredItems.forEach(item => {
                     const key = `${item.name}_${item.unit || '無單位'}`;
                     if (!itemTotals[key]) {
                         itemTotals[key] = { name: item.name, unit: item.unit || '無單位', totalQty: 0 };
