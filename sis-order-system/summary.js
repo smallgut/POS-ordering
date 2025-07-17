@@ -161,25 +161,25 @@ function getItemCategory(itemName) {
 }
 
 function printQuotation(order) {
-    // Create a temporary div for printing
-    const printDiv = document.createElement('div');
-    printDiv.id = 'printQuotation';
-    printDiv.style.position = 'absolute';
-    printDiv.style.left = '-9999px'; // Move off-screen instead of display: none
+    // Create a temporary print container
+    const printContainer = document.createElement('div');
+    printContainer.style.position = 'relative';
+    printContainer.style.width = '100%';
+    printContainer.style.height = '100%';
 
     // Add header
-    const header = document.createElement('div');
+    const header = document.createElement('h1');
     header.style.textAlign = 'center';
     header.style.fontSize = '24px';
     header.style.margin = '20px 0';
     header.textContent = '二姐叫菜 - 估價單';
-    printDiv.appendChild(header);
+    printContainer.appendChild(header);
 
     // Add customer details
     const customerDiv = document.createElement('div');
     customerDiv.style.margin = '10px 0';
-    customerDiv.innerHTML = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
-    printDiv.appendChild(customerDiv);
+    customerDiv.textContent = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
+    printContainer.appendChild(customerDiv);
 
     // Add table
     const table = document.createElement('table');
@@ -228,13 +228,28 @@ function printQuotation(order) {
         tbody.appendChild(row);
     });
     table.appendChild(tbody);
-    printDiv.appendChild(table);
+    printContainer.appendChild(table);
+
+    // Add print-specific styles to hide everything else
+    const style = document.createElement('style');
+    style.textContent = `
+        @media print {
+            body * { visibility: hidden; }
+            #printContainer, #printContainer * { visibility: visible; }
+            #printContainer { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+    `;
+    document.head.appendChild(style);
 
     // Append to body and print
-    document.body.appendChild(printDiv);
-    console.log('Print content generated:', printDiv.innerHTML); // Debug log
+    printContainer.id = 'printContainer';
+    document.body.appendChild(printContainer);
+    console.log('Print content generated:', printContainer.innerHTML);
     window.print();
-    document.body.removeChild(printDiv); // Clean up after printing
+
+    // Clean up
+    document.head.removeChild(style);
+    document.body.removeChild(printContainer);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
