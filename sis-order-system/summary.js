@@ -81,7 +81,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         ? '<button class="print-btn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">列印估價單</button>'
                         : '';
 
-                    console.log('Generating row for order:', order.id, 'isFirstItem:', isFirstItem, 'printButton:', printButton); // Debug log
+                    console.log('Generating row for order:', order.id, 'isFirstItem:', isFirstItem, 'printButton:', printButton);
 
                     const row = document.createElement('tr');
                     row.innerHTML = `
@@ -93,7 +93,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         <td class="border p-3">${submitTime}</td>
                         <td class="border p-3">${remark}</td>
                         <td class="border p-3">${quotationInput}</td>
-                        <td class="border p-3">${printButton}</td> <!-- Ensure button is in the correct column -->
+                        <td class="border p-3">${printButton}</td>
                     `;
                     tableBody.appendChild(row);
 
@@ -112,7 +112,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         });
 
                         const printBtn = row.querySelector('.print-btn');
-                        console.log('Print button found:', printBtn); // Debug log
+                        console.log('Print button found:', printBtn);
                         printBtn.addEventListener('click', () => printQuotation(order));
                     }
 
@@ -161,16 +161,48 @@ function getItemCategory(itemName) {
 }
 
 function printQuotation(order) {
-    const printDiv = document.getElementById('printQuotation');
-    const printTableBody = document.getElementById('printTableBody');
-    const printCustomerName = document.getElementById('printCustomerName');
-    const printCustomerContact = document.getElementById('printCustomerContact');
+    // Create a temporary div for printing
+    const printDiv = document.createElement('div');
+    printDiv.id = 'printQuotation';
+    printDiv.style.position = 'absolute';
+    printDiv.style.left = '-9999px'; // Move off-screen instead of display: none
 
-    printCustomerName.textContent = order.customer_name;
-    printCustomerContact.textContent = order.customer_contact || '(無)';
-    printTableBody.innerHTML = '';
+    // Add header
+    const header = document.createElement('div');
+    header.style.textAlign = 'center';
+    header.style.fontSize = '24px';
+    header.style.margin = '20px 0';
+    header.textContent = '二姐叫菜 - 估價單';
+    printDiv.appendChild(header);
 
+    // Add customer details
+    const customerDiv = document.createElement('div');
+    customerDiv.style.margin = '10px 0';
+    customerDiv.innerHTML = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
+    printDiv.appendChild(customerDiv);
+
+    // Add table
+    const table = document.createElement('table');
+    table.style.width = '100%';
+    table.style.borderCollapse = 'collapse';
+    table.style.margin = '20px 0';
+
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    headerRow.style.backgroundColor = '#f2f2f2';
+    ['日期 | Date', '商品 | Item', '數量 | Quantity', '單位 | Unit', '客戶 | Customer', '提交時間 | Submit Order Time', '備註 | Remark', '報價 | Quotation'].forEach(headerText => {
+        const th = document.createElement('th');
+        th.style.border = '1px solid #ddd';
+        th.style.padding = '8px';
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
     order.items.forEach((item, index) => {
+        const row = document.createElement('tr');
         const submitTime = index === 0
             ? new Date(order.created_at).toLocaleTimeString('zh-TW', {
                 hour12: false,
@@ -183,7 +215,6 @@ function printQuotation(order) {
         const remark = index === 0 ? (order.remark || '(無)') : '';
         const quotation = index === 0 && order.quotation ? `$${order.quotation.toFixed(2)}` : '';
 
-        const row = document.createElement('tr');
         row.innerHTML = `
             <td style="border: 1px solid #ddd; padding: 8px;">${index === 0 ? order.created_at.split('T')[0] : ''}</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
@@ -194,10 +225,16 @@ function printQuotation(order) {
             <td style="border: 1px solid #ddd; padding: 8px;">${remark}</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${quotation}</td>
         `;
-        printTableBody.appendChild(row);
+        tbody.appendChild(row);
     });
+    table.appendChild(tbody);
+    printDiv.appendChild(table);
 
+    // Append to body and print
+    document.body.appendChild(printDiv);
+    console.log('Print content generated:', printDiv.innerHTML); // Debug log
     window.print();
+    document.body.removeChild(printDiv); // Clean up after printing
 }
 
 document.addEventListener('DOMContentLoaded', () => {
