@@ -113,7 +113,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
 
                         const printBtn = row.querySelector('.print-btn');
                         console.log('Print button found:', printBtn);
-                        printBtn.addEventListener('click', () => printQuotation(order.id)); // Pass order ID
+                        printBtn.addEventListener('click', () => printQuotation(order));
                     }
 
                     const key = `${item.name}_${item.unit || '無單位'}`;
@@ -160,19 +160,7 @@ function getItemCategory(itemName) {
     return '其他類';
 }
 
-async function printQuotation(orderId) {
-    // Fetch the latest order data to reflect updated quotation
-    const { data: order, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', orderId)
-        .single();
-    if (error) {
-        console.error('Fetch order error:', error);
-        alert('載入訂單資料時發生錯誤：' + error.message);
-        return;
-    }
-
+function printQuotation(order) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
     printContainer.style.position = 'absolute';
@@ -180,17 +168,18 @@ async function printQuotation(orderId) {
     printContainer.style.height = '297mm'; // A4 height
     printContainer.style.padding = '20mm';
     printContainer.style.boxSizing = 'border-box';
+
     // Add header
     const header = document.createElement('h1');
     header.style.textAlign = 'center';
-    header.style.fontSize = '20px'; // Reduced font size
-    header.style.margin = '0 0 10px 0';
+    header.style.fontSize = '24px';
+    header.style.margin = '20px 0';
     header.textContent = '二姐叫菜 - 估價單';
     printContainer.appendChild(header);
 
     // Add customer details
     const customerDiv = document.createElement('div');
-    customerDiv.style.margin = '5px 0';
+    customerDiv.style.margin = '10px 0';
     customerDiv.textContent = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
     printContainer.appendChild(customerDiv);
 
@@ -198,16 +187,15 @@ async function printQuotation(orderId) {
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
-    table.style.margin = '10px 0';
-    table.style.fontSize = '12px'; // Reduced font size
+    table.style.margin = '20px 0';
 
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     headerRow.style.backgroundColor = '#f2f2f2';
-    ['日期', '商品', '數量', '單位', '客戶', '提交時間', '備註', '報價'].forEach(headerText => {
+    ['日期', '商品', '數量', '單位', '客戶', '提交時間', '備註|', '報價'].forEach(headerText => {
         const th = document.createElement('th');
         th.style.border = '1px solid #ddd';
-        th.style.padding = '6px'; // Reduced padding
+        th.style.padding = '8px';
         th.textContent = headerText;
         headerRow.appendChild(th);
     });
@@ -230,43 +218,40 @@ async function printQuotation(orderId) {
         const quotation = index === 0 && order.quotation ? `$${order.quotation.toFixed(2)}` : '';
 
         row.innerHTML = `
-            <td style="border: 1px solid #ddd; padding: 6px;">${index === 0 ? order.created_at.split('T')[0] : ''}</td>
-            <td style="border: 1px solid #ddd; padding: 6px;">${item.name}</td>
-            <td style="border: 1px solid #ddd; padding: 6px;">${item.qty}</td>
-            <td style="border: 1px solid #ddd; padding: 6px;">${item.unit || '無單位'}</td>
-            <td style="border: 1px solid #ddd; padding: 6px;">${customer}</td>
-            <td style="border: 1px solid #ddd; padding: 6px;">${submitTime}</td>
-            <td style="border: 1px solid #ddd; padding: 6px;">${remark}</td>
-            <td style="border: 1px solid #ddd; padding: 6px;">${quotation}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${index === 0 ? order.created_at.split('T')[0] : ''}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${item.qty}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${item.unit || '無單位'}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${customer}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${submitTime}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${remark}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${quotation}</td>
         `;
         tbody.appendChild(row);
     });
     table.appendChild(tbody);
     printContainer.appendChild(table);
 
-    // Add print-specific styles to fit one page
+    // Add print-specific styles to hide everything else
     const style = document.createElement('style');
     style.textContent = `
         @media print {
-            body * { display: none; }
-            #printContainer { display: block !important; }
-            @page { margin: 5mm; size: A4; }
-            #printContainer table { page-break-inside: avoid; }
-            #printContainer { overflow: hidden; } /* Prevent overflow to new page */
+            body * { visibility: hidden; }
+            #printContainer, #printContainer * { visibility: visible; }
+            #printContainer { position: absolute; left: 0; top: 0; width: 100%; }
         }
     `;
     document.head.appendChild(style);
 
-    // Append to body and delay print
+    // Append to body and print
     printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
     console.log('Print content generated:', printContainer.innerHTML);
+    window.print();
 
-    setTimeout(() => {
-        window.print();
-        document.head.removeChild(style);
-        document.body.removeChild(printContainer);
-    }, 100);
+    // Clean up
+    document.head.removeChild(style);
+    document.body.removeChild(printContainer);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
