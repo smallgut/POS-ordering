@@ -176,12 +176,11 @@ async function printQuotation(orderId) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
     printContainer.style.position = 'absolute';
-    printContainer.style.left = '-9999px'; // Move off-screen
-    printContainer.style.width = '190mm'; // Reduced A4 width
-    printContainer.style.height = '277mm'; // Reduced A4 height
-    printContainer.style.padding = '10mm'; // Reduced padding
+    printContainer.style.left = '-4000px'; // Move off-screen
+    printContainer.style.width = '210mm'; // A4 width
+    printContainer.style.height = '297mm'; // A4 height
+    printContainer.style.padding = '20mm';
     printContainer.style.boxSizing = 'border-box';
-
     // Add header
     const header = document.createElement('h1');
     header.style.textAlign = 'center';
