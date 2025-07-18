@@ -163,10 +163,11 @@ function getItemCategory(itemName) {
 function printQuotation(order) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
-    printContainer.style.position = 'relative';
-    printContainer.style.width = '100%';
-    printContainer.style.height = 'auto';
-    printContainer.style.padding = '20px';
+    printContainer.style.position = 'absolute';
+    printContainer.style.left = '-9999px'; // Move off-screen for hidden rendering
+    printContainer.style.width = '210mm'; // A4 width
+    printContainer.style.height = '297mm'; // A4 height
+    printContainer.style.padding = '20mm';
     printContainer.style.boxSizing = 'border-box';
 
     // Add header
@@ -183,7 +184,7 @@ function printQuotation(order) {
     table.style.borderCollapse = 'collapse';
     table.style.margin = '0';
     table.style.fontSize = '14px';
-    table.style.pageBreakInside = 'auto';
+    table.style.pageBreakInside = 'avoid';
 
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
@@ -226,29 +227,31 @@ function printQuotation(order) {
     table.appendChild(tbody);
     printContainer.appendChild(table);
 
-    // Add print-specific styles to hide everything else and control layout
+    // Add print-specific styles to hide first two pages and show content
     const style = document.createElement('style');
     style.textContent = `
         @media print {
             body * { display: none; }
             #printContainer { display: block !important; }
+            @page :nth(1), @page :nth(2) { display: none; } /* Hide first two pages */
+            @page :nth(3) { display: block; } /* Show content page (third page) */
+            @page { margin: 10mm; size: A4; }
             #printContainer table { page-break-inside: avoid; }
-            @page { margin: 0.5in; size: auto; }
         }
     `;
     document.head.appendChild(style);
 
-    // Append to body and ensure DOM is ready before printing
+    // Append to body and delay print to ensure rendering
     printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
     console.log('Print content generated:', printContainer.innerHTML);
 
-    // Force DOM update and delay print to ensure content renders
+    // Delay to ensure DOM and CSS are applied
     setTimeout(() => {
         window.print();
         document.head.removeChild(style);
         document.body.removeChild(printContainer);
-    }, 0);
+    }, 100); // Increased delay to 100ms
 }
 
 document.addEventListener('DOMContentLoaded', () => {
