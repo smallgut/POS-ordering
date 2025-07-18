@@ -113,7 +113,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
 
                         const printBtn = row.querySelector('.print-btn');
                         console.log('Print button found:', printBtn);
-                        printBtn.addEventListener('click', () => printQuotation(order));
+                        printBtn.addEventListener('click', () => printQuotation(order.id)); // Pass order ID
                     }
 
                     const key = `${item.name}_${item.unit || '無單位'}`;
@@ -160,7 +160,19 @@ function getItemCategory(itemName) {
     return '其他類';
 }
 
-function printQuotation(order) {
+async function printQuotation(orderId) {
+    // Fetch the latest order data to reflect updated quotation
+    const { data: order, error } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('id', orderId)
+        .single();
+    if (error) {
+        console.error('Fetch order error:', error);
+        alert('載入訂單資料時發生錯誤：' + error.message);
+        return;
+    }
+
     // Create a temporary print container
     const printContainer = document.createElement('div');
     printContainer.style.position = 'absolute';
