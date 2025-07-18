@@ -182,8 +182,8 @@ function printQuotation(order) {
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
     table.style.margin = '0';
-    table.style.fontSize = '14px'; // Reduce font size to fit content
-    table.style.pageBreakInside = 'auto'; // Control page breaks
+    table.style.fontSize = '14px';
+    table.style.pageBreakInside = 'auto';
 
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
@@ -238,15 +238,17 @@ function printQuotation(order) {
     `;
     document.head.appendChild(style);
 
-    // Append to body and print
+    // Append to body and ensure DOM is ready before printing
     printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
     console.log('Print content generated:', printContainer.innerHTML);
-    window.print();
 
-    // Clean up
-    document.head.removeChild(style);
-    document.body.removeChild(printContainer);
+    // Force DOM update and delay print to ensure content renders
+    setTimeout(() => {
+        window.print();
+        document.head.removeChild(style);
+        document.body.removeChild(printContainer);
+    }, 0);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
