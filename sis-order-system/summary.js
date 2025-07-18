@@ -176,7 +176,6 @@ async function printQuotation(orderId) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
     printContainer.style.position = 'absolute';
-    printContainer.style.left = '-4000px'; // Move off-screen
     printContainer.style.width = '210mm'; // A4 width
     printContainer.style.height = '297mm'; // A4 height
     printContainer.style.padding = '20mm';
