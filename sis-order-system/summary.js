@@ -164,8 +164,10 @@ function printQuotation(order) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
     printContainer.style.position = 'relative';
-    printContainer.style.width = '100%';
-    printContainer.style.height = '100%';
+    printContainer.style.width = '210mm'; // A4 width
+    printContainer.style.height = '297mm'; // A4 height
+    printContainer.style.padding = '20mm';
+    printContainer.style.boxSizing = 'border-box';
 
     // Add header
     const header = document.createElement('h1');
