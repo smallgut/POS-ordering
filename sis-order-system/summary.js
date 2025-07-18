@@ -163,33 +163,34 @@ function getItemCategory(itemName) {
 function printQuotation(order) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
-    printContainer.style.position = 'absolute';
-    printContainer.style.left = '-9999px'; // Move off-screen for hidden rendering
-    printContainer.style.width = '210mm'; // A4 width
-    printContainer.style.height = '297mm'; // A4 height
-    printContainer.style.padding = '20mm';
-    printContainer.style.boxSizing = 'border-box';
+    printContainer.style.position = 'relative';
+    printContainer.style.width = '100%';
+    printContainer.style.height = '100%';
 
     // Add header
     const header = document.createElement('h1');
     header.style.textAlign = 'center';
     header.style.fontSize = '24px';
-    header.style.margin = '0 0 20px 0';
+    header.style.margin = '20px 0';
     header.textContent = '二姐叫菜 - 估價單';
     printContainer.appendChild(header);
+
+    // Add customer details
+    const customerDiv = document.createElement('div');
+    customerDiv.style.margin = '10px 0';
+    customerDiv.textContent = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
+    printContainer.appendChild(customerDiv);
 
     // Add table
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
-    table.style.margin = '0';
-    table.style.fontSize = '14px';
-    table.style.pageBreakInside = 'avoid';
+    table.style.margin = '20px 0';
 
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     headerRow.style.backgroundColor = '#f2f2f2';
-    ['日期', '商品', '數量', '單位', '提交時間', '備註', '報價'].forEach(headerText => {
+    ['日期 | Date', '商品 | Item', '數量 | Quantity', '單位 | Unit', '客戶 | Customer', '提交時間 | Submit Order Time', '備註 | Remark', '報價 | Quotation'].forEach(headerText => {
         const th = document.createElement('th');
         th.style.border = '1px solid #ddd';
         th.style.padding = '8px';
@@ -210,6 +211,7 @@ function printQuotation(order) {
                 second: '2-digit'
               })
             : '';
+        const customer = index === 0 ? order.customer_name : '';
         const remark = index === 0 ? (order.remark || '(無)') : '';
         const quotation = index === 0 && order.quotation ? `$${order.quotation.toFixed(2)}` : '';
 
@@ -218,6 +220,7 @@ function printQuotation(order) {
             <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${item.qty}</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${item.unit || '無單位'}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${customer}</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${submitTime}</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${remark}</td>
             <td style="border: 1px solid #ddd; padding: 8px;">${quotation}</td>
@@ -227,31 +230,26 @@ function printQuotation(order) {
     table.appendChild(tbody);
     printContainer.appendChild(table);
 
-    // Add print-specific styles to hide first two pages and show content
+    // Add print-specific styles to hide everything else
     const style = document.createElement('style');
     style.textContent = `
         @media print {
-            body * { display: none; }
-            #printContainer { display: block !important; }
-            @page :nth(1), @page :nth(2) { display: none; } /* Hide first two pages */
-            @page :nth(3) { display: block; } /* Show content page (third page) */
-            @page { margin: 10mm; size: A4; }
-            #printContainer table { page-break-inside: avoid; }
+            body * { visibility: hidden; }
+            #printContainer, #printContainer * { visibility: visible; }
+            #printContainer { position: absolute; left: 0; top: 0; width: 100%; }
         }
     `;
     document.head.appendChild(style);
 
-    // Append to body and delay print to ensure rendering
+    // Append to body and print
     printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
     console.log('Print content generated:', printContainer.innerHTML);
+    window.print();
 
-    // Delay to ensure DOM and CSS are applied
-    setTimeout(() => {
-        window.print();
-        document.head.removeChild(style);
-        document.body.removeChild(printContainer);
-    }, 100); // Increased delay to 100ms
+    // Clean up
+    document.head.removeChild(style);
+    document.body.removeChild(printContainer);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
