@@ -163,7 +163,7 @@ function getItemCategory(itemName) {
 function printQuotation(order) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
-    printContainer.style.position = 'relative';
+    printContainer.style.position = 'absolute';
     printContainer.style.width = '210mm'; // A4 width
     printContainer.style.height = '297mm'; // A4 height
     printContainer.style.padding = '20mm';
@@ -192,7 +192,7 @@ function printQuotation(order) {
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     headerRow.style.backgroundColor = '#f2f2f2';
-    ['日期 | Date', '商品 | Item', '數量 | Quantity', '單位 | Unit', '客戶 | Customer', '提交時間 | Submit Order Time', '備註 | Remark', '報價 | Quotation'].forEach(headerText => {
+    ['日期 |', '商品 |', '數量 |', '單位 |', '客戶 | ', '提交時間 |', '備註 |', '報價 '].forEach(headerText => {
         const th = document.createElement('th');
         th.style.border = '1px solid #ddd';
         th.style.padding = '8px';
