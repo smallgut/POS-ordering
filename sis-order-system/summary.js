@@ -159,18 +159,7 @@ function getItemCategory(itemName) {
     if (otherItems.includes(itemName)) return '其他類';
     return '其他類';
 }
-async function printQuotation(orderId) {
-    // Fetch the latest order data to reflect updated quotation
-    const { data: order, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', orderId)
-        .single();
-    if (error) {
-        console.error('Fetch order error:', error);
-        alert('載入訂單資料時發生錯誤：' + error.message);
-        return;
-    }
+
 function printQuotation(order) {
     // Create a temporary print container
     const printContainer = document.createElement('div');
