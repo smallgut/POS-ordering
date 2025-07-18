@@ -192,7 +192,7 @@ function printQuotation(order) {
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     headerRow.style.backgroundColor = '#f2f2f2';
-    ['日期 |', '商品 |', '數量 |', '單位 |', '客戶 | ', '提交時間 |', '備註 |', '報價 '].forEach(headerText => {
+    ['日期', '商品', '數量', '單位', '客戶', '提交時間', '備註|', '報價'].forEach(headerText => {
         const th = document.createElement('th');
         th.style.border = '1px solid #ddd';
         th.style.padding = '8px';
