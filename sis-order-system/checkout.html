@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>結帳 | Checkout</title>
+    <title>二姐叫菜 - 每日訂單</title>
     <link rel="stylesheet" href="/assets/output.css">
-    <script type="module" src="/checkout.js"></script>
+    <script type="module" src="/summary.js"></script>
 </head>
 <body class="bg-gray-50">
     <nav class="bg-primary text-white p-4">
@@ -19,33 +19,63 @@
     </nav>
 
     <section class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
-        <table class="w-full border-collapse mb-8">
+        <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 每日訂單</h1>
+        <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁</a>
+
+        <h2 class="text-xl font-semibold mb-4">訂單查詢</h2>
+        <div class="flex space-x-4 mb-4">
+            <div>
+                <label for="dateFilter" class="block mb-2">選擇日期</label>
+                <input type="date" id="dateFilter" class="p-2 border rounded">
+            </div>
+            <div>
+                <label for="categoryFilter" class="block mb-2">商品類別</label>
+                <select id="categoryFilter" class="p-2 border rounded">
+                    <option value="">所有類別</option>
+                    <option value="蔬果類">蔬果類</option>
+                    <option value="鮮肉類">鮮肉類</option>
+                    <option value="海鮮類">海鮮類</option>
+                    <option value="其他類">其他類</option>
+                </select>
+            </div>
+            <button id="searchButton" class="mt-6 bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">查詢</button>
+        </div>
+
+        <h2 class="text-xl font-semibold mb-4">訂單明細</h2>
+        <table id="orderSummary" class="w-full border-collapse mb-8">
             <thead>
                 <tr class="bg-secondary">
+                    <th class="border p-3">日期 | Date</th>
                     <th class="border p-3">商品 | Item</th>
                     <th class="border p-3">數量 | Quantity</th>
                     <th class="border p-3">單位 | Unit</th>
-                    <th class="border p-3">操作 | Action</th>
+                    <th class="border p-3">客戶 | Customer</th>
+                    <th class="border p-3">提交時間 | Submit Order Time</th>
+                    <th class="border p-3">備註 | Remark</th>
+                    <th class="border p-3">報價 | Quotation</th>
+                    <th class="border p-3">列印 | Print</th>
                 </tr>
             </thead>
-            <tbody id="cartBody"></tbody>
+            <tbody></tbody>
         </table>
-        <p id="emptyCartMessage" class="text-red-600 hidden">購物車是空的！</p>
+        <p id="noOrdersMessage" class="text-red-600 hidden">暫無訂單</p>
 
-        <div class="mt-8">
-            <label class="block mb-2">客戶姓名 | Customer Name:</label>
-            <input type="text" id="customerName" class="w-full p-2 border rounded">
-            <label class="block mt-4 mb-2">聯絡電話 | Contact:</label>
-            <input type="text" id="customerContact" class="w-full p-2 border rounded">
-            <label class="block mt-4 mb-2">備註 | Remark:</label>
-            <textarea id="customerRemark" class="w-full p-2 border rounded"></textarea>
-            <button id="submitButton" class="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">提交訂單 | Submit Order</button>
-        </div>
+        <h2 class="text-xl font-semibold mb-4">商品總量統計</h2>
+        <table id="itemStats" class="w-full border-collapse">
+            <thead>
+                <tr class="bg-secondary">
+                    <th class="border p-3">商品名稱</th>
+                    <th class="border p-3">單位</th>
+                    <th class="border p-3">總訂購數量</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p id="noStatsMessage" class="text-red-600 hidden">暫無統計數據</p>
     </section>
 
     <footer class="bg-primary text-white text-center p-4 mt-8">
-        <p>&copy; 2025 二姐叫菜 | All Rights Reserved</p>
+        <p>© 2025 二姐叫菜 | All Rights Reserved</p>
         <a href="#" class="underline">回到頂部</a>
     </footer>
 
