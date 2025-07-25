@@ -38,8 +38,8 @@
             <p class="mb-4 text-gray-600">精選新鮮蔬果，價錢相宜，商品送達，省錢省時</p>
             <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
 
-            <!-- Three Parallel Dropdown Lists -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Six Parallel Dropdown Lists -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
                 <!-- Vegetables Dropdown -->
                 <div class="bg-white p-4 rounded-lg shadow">
                     <h2 class="text-xl font-semibold mb-2">蔬菜</h2>
@@ -47,10 +47,6 @@
                         <option value="">選擇蔬菜</option>
                         <option value="麻糬茄子">麻糬茄子</option>
                         <option value="茄子">茄子</option>
-                        <option value="薑">薑</option>
-                        <option value="薑絲">薑絲</option>
-                        <option value="老薑">老薑</option>
-                        <option value="嫩薑">嫩薑</option>
                         <option value="青江菜">青江菜</option>
                         <option value="蚵白菜">蚵白菜</option>
                         <option value="香菜 (巴西利)">香菜 (巴西利)</option>
@@ -64,7 +60,6 @@
                         <option value="條">條</option>
                         <option value="顆">顆</option>
                         <option value="箱">箱</option>
-                        <!-- Add more units as needed -->
                     </select>
                     <button id="vegAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
@@ -85,6 +80,7 @@
                         <option value="芭樂">芭樂</option>
                         <option value="葡萄柚">葡萄柚</option>
                         <option value="巨峰葡萄">巨峰葡萄</option>
+
                         <!-- Add more fruits as needed -->
                     </select>
                     <input type="number" id="fruitQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
@@ -92,14 +88,38 @@
                         <option value="無單位">無單位</option>
                         <option value="斤">斤</option>
                         <option value="顆">顆</option>
-                        <!-- Add more units as needed -->
                     </select>
                     <button id="fruitAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
-                <!-- ingredients  Dropdown -->
+
+                <!-- Mushrooms Dropdown -->
                 <div class="bg-white p-4 rounded-lg shadow">
-                    <h2 class="text-xl font-semibold mb-2">配料</h2>
-                    <select id="fruitDropdown" class="w-full p-2 border rounded-lg mb-2">
+                    <h2 class="text-xl font-semibold mb-2">菇類</h2>
+                    <select id="mushroomDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇菇類</option>
+                        <option value="香菇">香菇</option>
+                        <option value="杏鮑菇">杏鮑菇</option>
+                        <option value="鴻禧菇">鴻禧菇</option>
+                        <option value="秀珍菇">秀珍菇</option>
+                        <option value="金針菇">金針菇</option>
+                        <option value="白精靈菇">白精靈菇</option>
+                        <option value="美白菇">美白菇</option>
+                        <!-- Add more mushrooms as needed -->
+                    </select>
+                    <input type="number" id="mushroomQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="mushroomUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="袋">袋</option>
+                        
+                    </select>
+                    <button id="mushroomAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
+
+                <!-- Seasonings Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">配料類</h2>
+                    <select id="seasoningDropdown" class="w-full p-2 border rounded-lg mb-2">
                         <option value="">選擇配料</option>
                         <option value="枸杞">枸杞</option>
                         <option value="紅棗">紅棗</option>
@@ -125,42 +145,66 @@
                         <option value="蒜仁">蒜仁</option>
                         <option value="蒜頭">蒜頭</option>
                         <option value="蒜苗">蒜苗</option>
-                        <!-- Add more fruits as needed -->
+                        <!-- Add more seasonings as needed -->
                     </select>
-                    <input type="number" id="ingredientsQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
-                    <select id="ingredientsUnit" class="w-full p-2 border rounded-lg mb-2">
+                    <input type="number" id="seasoningQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="seasoningUnit" class="w-full p-2 border rounded-lg mb-2">
                         <option value="無單位">無單位</option>
                         <option value="斤">斤</option>
                         <option value="條">條</option>
                         <option value="包">包</option>
-                        <!-- Add more units as needed -->
                     </select>
-                    <button id="IngredientsAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                    <button id="seasoningAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
 
-                <!-- Mushrooms Dropdown -->
+                <!-- Root Vegetables Dropdown -->
                 <div class="bg-white p-4 rounded-lg shadow">
-                    <h2 class="text-xl font-semibold mb-2">菇類</h2>
-                    <select id="mushroomDropdown" class="w-full p-2 border rounded-lg mb-2">
-                        <option value="">選擇菇類</option>
-                        <option value="香菇">香菇</option>
-                        <option value="杏鮑菇">杏鮑菇</option>
-                        <option value="鴻禧菇">鴻禧菇</option>
-                        <option value="秀珍菇">秀珍菇</option>
-                        <option value="金針菇">金針菇</option>
-                        <option value="白精靈菇">白精靈菇</option>
-                        <option value="美白菇">美白菇</option>
-                        <!-- Add more mushrooms as needed -->
+                    <h2 class="text-xl font-semibold mb-2">根莖類</h2>
+                    <select id="rootVegDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇根莖</option>
+                        <option value="薑">薑</option>
+                        <option value="老薑">老薑</option>
+                        <option value="嫩薑">嫩薑</option>
+                        <option value="紅蘿蔔 (紅K)">紅蘿蔔 (紅K)</option>
+                        <option value="白蘿蔔 (白K)">白蘿蔔 (白K)</option>
+                        <option value="山藥">山藥</option>
+                        <option value="牛蒡">牛蒡</option>
+                        <!-- Add more root vegetables as needed -->
                     </select>
-                    <input type="number" id="mushroomQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
-                    <select id="mushroomUnit" class="w-full p-2 border rounded-lg mb-2">
+                    <input type="number" id="rootVegQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="rootVegUnit" class="w-full p-2 border rounded-lg mb-2">
                         <option value="無單位">無單位</option>
                         <option value="斤">斤</option>
-                        <option value="袋">袋</option>
-                        
-                        <!-- Add more units as needed -->
+                        <option value="條">條</option>
+                        <option value="支">支</option>
                     </select>
-                    <button id="mushroomAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                    <button id="rootVegAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
+
+                <!-- Gourds Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">瓜類</h2>
+                    <select id="gourdDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇瓜類</option>
+                        <option value="小黃瓜">小黃瓜</option>
+                        <option value="苦瓜">苦瓜</option>
+                        <option value="白苦瓜">白苦瓜</option>
+                        <option value="山苦瓜">山苦瓜</option>
+                        <option value="絲瓜">絲瓜</option>
+                        <option value="大黃瓜">大黃瓜</option>
+                        <option value="木瓜 (青木瓜)">木瓜 (青木瓜)</option>
+                        <option value="菜瓜">菜瓜</option>
+                        <!-- Add more gourds as needed -->
+                    </select>
+                    <input type="number" id="gourdQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="gourdUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="條">條</option>
+                        <option value="顆">顆</option>
+                        <option value="箱">箱</option>
+                    </select>
+                    <button id="gourdAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
             </div>
         </div>
@@ -219,6 +263,57 @@
                 // Reset dropdown and quantity
                 document.getElementById('mushroomDropdown').selectedIndex = 0;
                 document.getElementById('mushroomQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('seasoningAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('seasoningDropdown').value;
+            const qty = parseFloat(document.getElementById('seasoningQty').value) || 0;
+            const unit = document.getElementById('seasoningUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('seasoningDropdown').selectedIndex = 0;
+                document.getElementById('seasoningQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('rootVegAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('rootVegDropdown').value;
+            const qty = parseFloat(document.getElementById('rootVegQty').value) || 0;
+            const unit = document.getElementById('rootVegUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('rootVegDropdown').selectedIndex = 0;
+                document.getElementById('rootVegQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('gourdAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('gourdDropdown').value;
+            const qty = parseFloat(document.getElementById('gourdQty').value) || 0;
+            const unit = document.getElementById('gourdUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('gourdDropdown').selectedIndex = 0;
+                document.getElementById('gourdQty').value = '';
             } else {
                 alert('請選擇商品並輸入至少0.5的數量');
             }
