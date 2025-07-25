@@ -39,7 +39,7 @@
             <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
 
             <!-- Three Parallel Dropdown Lists -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <!-- Vegetables Dropdown -->
                 <div class="bg-white p-4 rounded-lg shadow">
                     <h2 class="text-xl font-semibold mb-2">蔬菜</h2>
@@ -83,6 +83,35 @@
                         <option value="奇異果">奇異果</option>
                         <option value="紅棗">紅棗</option>
                         <option value="芭樂">芭樂</option>
+                        <option value="葡萄柚">葡萄柚</option>
+                        <option value="巨峰葡萄">巨峰葡萄</option>
+                        <!-- Add more fruits as needed -->
+                    </select>
+                    <input type="number" id="fruitQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="fruitUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="顆">顆</option>
+                        <!-- Add more units as needed -->
+                    </select>
+                    <button id="fruitAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
+<!-- Fruits Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">水果</h2>
+                    <select id="fruitDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇水果</option>
+                        <option value="檸檬">檸檬</option>
+                        <option value="柳丁">柳丁</option>
+                        <option value="香蕉">香蕉</option>
+                        <option value="蘋果">蘋果</option>
+                        <option value="金桔">金桔</option>
+                        <option value="鳳梨">鳳梨</option>
+                        <option value="奇異果">奇異果</option>
+                        <option value="紅棗">紅棗</option>
+                        <option value="芭樂">芭樂</option>
+                        <option value="葡萄柚">葡萄柚</option>
+                        <option value="巨峰葡萄">巨峰葡萄</option>
                         <!-- Add more fruits as needed -->
                     </select>
                     <input type="number" id="fruitQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
@@ -114,7 +143,7 @@
                         <option value="無單位">無單位</option>
                         <option value="斤">斤</option>
                         <option value="袋">袋</option>
-                        <option value="包">包</option>
+                        
                         <!-- Add more units as needed -->
                     </select>
                     <button id="mushroomAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
