@@ -123,7 +123,7 @@
                 cart.push({ name: item, qty, unit });
                 localStorage.setItem('cart', JSON.stringify(cart));
                 alert(`${item} (${qty} ${unit}) 已加入購物車！`);
-                window.location.href = 'checkout.html'; // Redirect to checkout
+                // Removed redirect to stay on the same page
             } else {
                 alert('請選擇商品並輸入至少0.5的數量');
             }
@@ -138,7 +138,7 @@
                 cart.push({ name: item, qty, unit });
                 localStorage.setItem('cart', JSON.stringify(cart));
                 alert(`${item} (${qty} ${unit}) 已加入購物車！`);
-                window.location.href = 'checkout.html'; // Redirect to checkout
+                // Removed redirect to stay on the same page
             } else {
                 alert('請選擇商品並輸入至少0.5的數量');
             }
@@ -153,7 +153,7 @@
                 cart.push({ name: item, qty, unit });
                 localStorage.setItem('cart', JSON.stringify(cart));
                 alert(`${item} (${qty} ${unit}) 已加入購物車！`);
-                window.location.href = 'checkout.html'; // Redirect to checkout
+                // Removed redirect to stay on the same page
             } else {
                 alert('請選擇商品並輸入至少0.5的數量');
             }
