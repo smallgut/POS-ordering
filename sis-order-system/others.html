@@ -4,1124 +4,256 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 其他商品</title>
-    <link rel="stylesheet" href="/assets/output.css">
-    <script type="module" src="/others.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/images/Others.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .content-overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
+<body class="font-sans">
     <nav class="bg-primary text-white p-4">
-        <div class="container mx-auto flex justify-between">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="index.html" class="text-lg font-bold">下單分類</a>
-            <div>
-                <a href="checkout.html" class="px-2">結帳</a>
-                <a href="summary.html" class="px-2">每日訂單</a>
+            <div class="space-x-4">
+                <a href="checkout.html" class="px-2 hover:underline">結帳</a>
+                <a href="summary.html" class="px-2 hover:underline">每日訂單</a>
             </div>
         </div>
     </nav>
 
     <section class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 其他商品</h1>
-        <p class="mb-4">精選商品，價錢相宜，商品送達，省錢省時</p>
-        <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
+        <div class="content-overlay">
+            <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 其他商品</h1>
+            <p class="mb-4 text-gray-600">精選商品，價錢相宜，商品送達，省錢省時</p>
+            <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
 
-        <h2 class="text-xl font-semibold mb-4">其他商品目錄 | Others Catalog</h2>
-        <table class="w-full border-collapse mb-8">
-            <thead>
-                <tr class="bg-secondary">
-                    <th class="border p-3">商品 | Item</th>
-                    <th class="border p-3">數量 | Quantity</th>
-                    <th class="border p-3">單位 | Unit</th>
-                    <th class="border p-3">操作 | Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                 <tr>
-                    <td class="border p-3">台灣啤酒 330ml</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="台灣啤酒 330ml" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="台灣啤酒 330ml">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="台灣啤酒 330ml">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">可口可樂 330ml</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="可口可樂 330ml" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="可口可樂 330ml">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="可口可樂 330ml">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">豆漿</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="豆漿" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="豆漿">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="豆漿">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">豆乾</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="豆乾" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="豆乾">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="豆乾">加入購物車</button>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td class="border p-3">四角油豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="四角油豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="四角油豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="個">個</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="四角油豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">中華豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="中華豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="中華豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="中華豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">板豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="板豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="板豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="件">件</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="板豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">雞蛋豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="雞蛋豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="雞蛋豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="件">件</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="雞蛋豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">五香豆乾</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="五香豆乾" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="五香豆乾">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="五香豆乾">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">豆乾絲</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="豆乾絲" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="豆乾絲">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="豆乾絲">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">油豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="油豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="油豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="個">個</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="油豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">豆皮</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="豆皮" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="豆皮">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="豆皮">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">白豆乾</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="白豆乾" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="白豆乾">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="白豆乾">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">炸豆皮</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="炸豆皮" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="炸豆皮">
-                            <option value="無單位">無單位</option>
-                            <option value="件">件</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="炸豆皮">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">芙蓉豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="芙蓉豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="芙蓉豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="芙蓉豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">油豆腐</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="油豆腐" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="油豆腐">
-                            <option value="無單位">無單位</option>
-                            <option value="個">個</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="油豆腐">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">素獅子頭</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="素獅子頭" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="素獅子頭">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="素獅子頭">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">杏仁粉粿</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="杏仁粉粿" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="杏仁粉粿">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="杏仁粉粿">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">甜不辣</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="甜不辣" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="甜不辣">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="甜不辣">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">米腸</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="米腸" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="米腸">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="米腸">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">糯米腸</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="糯米腸" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="糯米腸">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="糯米腸">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">士林大香腸</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="士林大香腸" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="士林大香腸">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="士林大香腸">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">蒜味香腸</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="蒜味香腸" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="蒜味香腸">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="蒜味香腸">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">雞米花</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="雞米花" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="雞米花">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="雞米花">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">米血</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="米血" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="米血">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="米血">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">麵</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="麵" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="麵">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="麵">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">涼麵</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="涼麵" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="涼麵">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="涼麵">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">油麵</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="油麵" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="油麵">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="油麵">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">意麵</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="意麵" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="意麵">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="意麵">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">陽春麵</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="陽春麵" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="陽春麵">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="陽春麵">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">土豆麵筋</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="土豆麵筋" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="土豆麵筋">
-                            <option value="無單位">無單位</option>
-                            <option value="缶">缶</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="土豆麵筋">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">酸菜</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="酸菜" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="酸菜">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="酸菜">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">紅油蔥</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="紅油蔥" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="紅油蔥">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="紅油蔥">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">菜脯 (細)</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="菜脯 (細)" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="菜脯 (細)">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="菜脯 (細)">加入購物車</button>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td class="border p-3">洪牌豬血糕</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="洪牌豬血糕" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="洪牌豬血糕">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="洪牌豬血糕">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">芋籤</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="芋籤" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="芋籤">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="芋籤">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">山藥卷</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="山藥卷" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="山藥卷">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="山藥卷">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">春捲皮</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="春捲皮" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="春捲皮">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="春捲皮">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">蒜花生</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="蒜花生" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="蒜花生">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="蒜花生">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">白大蛋</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="白大蛋" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="白大蛋">
-                            <option value="無單位">無單位</option>
-                            <option value="顆">顆</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="白大蛋">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">皮蛋</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="皮蛋" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="皮蛋">
-                            <option value="無單位">無單位</option>
-                            <option value="顆">顆</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="皮蛋">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">鳥蛋</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="鳥蛋" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="鳥蛋">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="鳥蛋">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">滷蛋</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="滷蛋" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="滷蛋">
-                            <option value="無單位">無單位</option>
-                            <option value="顆">顆</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="滷蛋">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">三色蛋</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="三色蛋" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="三色蛋">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="三色蛋">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">碎菜脯</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="碎菜脯" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="碎菜脯">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="碎菜脯">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">酸菜</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="酸菜" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="酸菜">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="酸菜">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">肉羹</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="肉羹" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="肉羹">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="肉羹">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">肉鬆</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="肉鬆" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="肉鬆">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="肉鬆">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">素肉鬆</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="素肉鬆" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="素肉鬆">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="素肉鬆">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">沙拉</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="沙拉" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="沙拉">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="沙拉">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">白魚丸</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="白魚丸" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="白魚丸">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="白魚丸">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">花枝丸</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="花枝丸" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="花枝丸">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="花枝丸">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">新竹貢丸</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="新竹貢丸" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="新竹貢丸">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="新竹貢丸">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">仙草</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="仙草" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="仙草">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="仙草">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">珍珠圓</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="珍珠圓" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="珍珠圓">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="珍珠圓">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">椰子絲</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="椰子絲" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="椰子絲">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="椰子絲">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">愛玉</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="愛玉" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="愛玉">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="愛玉">加入購物車</button>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td class="border p-3">福茂大貢</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="福茂大貢" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="福茂大貢">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="福茂大貢">加入購物車</button>
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td class="border p-3">香椿醬</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="香椿醬" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="香椿醬">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="香椿醬">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">黑胡椒醬</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="黑胡椒醬" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="黑胡椒醬">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="黑胡椒醬">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">味噌</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="味噌" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="味噌">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="味噌">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">月亮蝦餅</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="月亮蝦餅" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="月亮蝦餅">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="月亮蝦餅">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">薯條</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="薯條" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="薯條">
-                            <option value="無單位">無單位</option>
-                            <option value="盒">盒</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="薯條">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">鳗魚缶頭</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="鳗魚缶頭" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="鳗魚缶頭">
-                            <option value="無單位">無單位</option>
-                            <option value="缶">缶</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="鳗魚缶頭">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">辣筍絲</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="辣筍絲" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="辣筍絲">
-                            <option value="無單位">無單位</option>
-                            <option value="缶">缶</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="辣筍絲">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">礦泉水</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="礦泉水" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="礦泉水">
-                            <option value="無單位">無單位</option>
-                            <option value="瓶">瓶</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="礦泉水">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">純瑪琳</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="純瑪琳" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="純瑪琳">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="純瑪琳">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">玉米粒</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="玉米粒" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="玉米粒">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="玉米粒">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">大茂黑瓜</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="大茂黑瓜" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="大茂黑瓜">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="大茂黑瓜">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">番茄鲭魚</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="番茄鲭魚" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="番茄鲭魚">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="番茄鲭魚">加入購物車</button>
-                    </td>
-                </tr>
-                
-            </tbody>
-        </table>
+            <!-- Four Parallel Dropdown Lists -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Cooked Food Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">熟食</h2>
+                    <select id="cookedFoodDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇熟食</option>
+                        <option value="肉羹">肉羹</option>
+                        <option value="肉鬆">肉鬆</option>
+                        <option value="素肉鬆">素肉鬆</option>
+                        <option value="滷蛋">滷蛋</option>
+                        <option value="三色蛋">三色蛋</option>
+                        <option value="甜不辣">甜不辣</option>
+                        <option value="米血">米血</option>
+                    </select>
+                    <input type="number" id="cookedFoodQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="cookedFoodUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="顆">顆</option>
+                    </select>
+                    <button id="cookedFoodAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
 
-        <h2 class="text-xl font-semibold mb-4">聯絡 | Contact</h2>
-        <p>商店地點 | Collection: coming soon</p>
-        <p>TEL / Line: coming soon</p>
+                <!-- Processed Food Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">加工食品</h2>
+                    <select id="processedFoodDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇加工食品</option>
+                        <option value="台灣啤酒 330ml">台灣啤酒 330ml</option>
+                        <option value="可口可樂 330ml">可口可樂 330ml</option>
+                        <option value="礦泉水">礦泉水</option>
+                        <option value="純瑪琳">純瑪琳</option>
+                        <option value="玉米粒">玉米粒</option>
+                        <option value="大茂黑瓜">大茂黑瓜</option>
+                        <option value="番茄鲭魚">番茄鲭魚</option>
+                        <option value="鳗魚缶頭">鳗魚缶頭</option>
+                        <option value="辣筍絲">辣筍絲</option>
+                        <option value="月亮蝦餅">月亮蝦餅</option>
+                        <option value="薯條">薯條</option>
+                    </select>
+                    <input type="number" id="processedFoodQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="processedFoodUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="罐">罐</option>
+                        <option value="瓶">瓶</option>
+                        <option value="盒">盒</option>
+                        <option value="缶">缶</option>
+                    </select>
+                    <button id="processedFoodAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
+
+                <!-- Beans and Noodles Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">豆麵類</h2>
+                    <select id="beansNoodlesDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇豆麵類</option>
+                        <option value="豆漿">豆漿</option>
+                        <option value="豆乾">豆乾</option>
+                        <option value="四角油豆腐">四角油豆腐</option>
+                        <option value="中華豆腐">中華豆腐</option>
+                        <option value="板豆腐">板豆腐</option>
+                        <option value="雞蛋豆腐">雞蛋豆腐</option>
+                        <option value="五香豆乾">五香豆乾</option>
+                        <option value="豆乾絲">豆乾絲</option>
+                        <option value="油豆腐">油豆腐</option>
+                        <option value="豆皮">豆皮</option>
+                        <option value="白豆乾">白豆乾</option>
+                        <option value="炸豆皮">炸豆皮</option>
+                        <option value="豆腐">豆腐</option>
+                        <option value="芙蓉豆腐">芙蓉豆腐</option>
+                        <option value="素獅子頭">素獅子頭</option>
+                        <option value="杏仁粉粿">杏仁粉粿</option>
+                        <option value="麵">麵</option>
+                        <option value="涼麵">涼麵</option>
+                        <option value="油麵">油麵</option>
+                        <option value="意麵">意麵</option>
+                        <option value="陽春麵">陽春麵</option>
+                        <option value="土豆麵筋">土豆麵筋</option>
+                    </select>
+                    <input type="number" id="beansNoodlesQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="beansNoodlesUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="包">包</option>
+                        <option value="個">個</option>
+                        <option value="盒">盒</option>
+                        <option value="件">件</option>
+                        <option value="缶">缶</option>
+                    </select>
+                    <button id="beansNoodlesAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
+
+                <!-- Others Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">其他</h2>
+                    <select id="othersDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇其他</option>
+                        <option value="米腸">米腸</option>
+                        <option value="糯米腸">糯米腸</option>
+                        <option value="士林大香腸">士林大香腸</option>
+                        <option value="蒜味香腸">蒜味香腸</option>
+                        <option value="雞米花">雞米花</option>
+                        <option value="酸菜">酸菜</option>
+                        <option value="紅油蔥">紅油蔥</option>
+                        <option value="菜脯 (細)">菜脯 (細)</option>
+                        <option value="洪牌豬血糕">洪牌豬血糕</option>
+                        <option value="芋籤">芋籤</option>
+                        <option value="山藥卷">山藥卷</option>
+                        <option value="春捲皮">春捲皮</option>
+                        <option value="蒜花生">蒜花生</option>
+                        <option value="白大蛋">白大蛋</option>
+                        <option value="皮蛋">皮蛋</option>
+                        <option value="鳥蛋">鳥蛋</option>
+                        <option value="碎菜脯">碎菜脯</option>
+                        <option value="沙拉">沙拉</option>
+                        <option value="白魚丸">白魚丸</option>
+                        <option value="花枝丸">花枝丸</option>
+                        <option value="新竹貢丸">新竹貢丸</option>
+                        <option value="仙草">仙草</option>
+                        <option value="珍珠圓">珍珠圓</option>
+                        <option value="椰子絲">椰子絲</option>
+                        <option value="愛玉">愛玉</option>
+                        <option value="福茂大貢">福茂大貢</option>
+                        <option value="香椿醬">香椿醬</option>
+                        <option value="黑胡椒醬">黑胡椒醬</option>
+                        <option value="味噌">味噌</option>
+                    </select>
+                    <input type="number" id="othersQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="othersUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="包">包</option>
+                        <option value="盒">盒</option>
+                        <option value="顆">顆</option>
+                        <option value="罐">罐</option>
+                    </select>
+                    <button id="othersAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer class="bg-primary text-white text-center p-4 mt-8">
+    <footer class="bg-gray-800 text-white p-4 text-center">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="underline">Back to Top</a>
+        <a href="#top" class="text-primary hover:underline">Back to Top</a>
     </footer>
 
-    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
+    <script>
+        // Add to Cart functionality for each category
+        document.getElementById('cookedFoodAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('cookedFoodDropdown').value;
+            const qty = parseFloat(document.getElementById('cookedFoodQty').value) || 0;
+            const unit = document.getElementById('cookedFoodUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('cookedFoodDropdown').selectedIndex = 0;
+                document.getElementById('cookedFoodQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('processedFoodAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('processedFoodDropdown').value;
+            const qty = parseFloat(document.getElementById('processedFoodQty').value) || 0;
+            const unit = document.getElementById('processedFoodUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('processedFoodDropdown').selectedIndex = 0;
+                document.getElementById('processedFoodQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('beansNoodlesAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('beansNoodlesDropdown').value;
+            const qty = parseFloat(document.getElementById('beansNoodlesQty').value) || 0;
+            const unit = document.getElementById('beansNoodlesUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('beansNoodlesDropdown').selectedIndex = 0;
+                document.getElementById('beansNoodlesQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('othersAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('othersDropdown').value;
+            const qty = parseFloat(document.getElementById('othersQty').value) || 0;
+            const unit = document.getElementById('othersUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('othersDropdown').selectedIndex = 0;
+                document.getElementById('othersQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+    </script>
 </body>
 </html>
