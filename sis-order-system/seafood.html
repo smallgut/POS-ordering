@@ -4,170 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 海鮮類</title>
-    <link rel="stylesheet" href="/assets/output.css">
-    <script type="module" src="/seafood.js"></script> <!-- Assuming a similar JS file exists or will be added -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/images/Seafood.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .content-overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
+<body class="font-sans">
     <nav class="bg-primary text-white p-4">
-        <div class="container mx-auto flex justify-between">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="index.html" class="text-lg font-bold">下單分類</a>
-            <div>
-                <a href="checkout.html" class="px-2">結帳</a>
-                <a href="summary.html" class="px-2">每日訂單</a>
+            <div class="space-x-4">
+                <a href="checkout.html" class="px-2 hover:underline">結帳</a>
+                <a href="summary.html" class="px-2 hover:underline">每日訂單</a>
             </div>
         </div>
     </nav>
 
     <section class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 海鮮類</h1>
-        <p class="mb-4">精選海鮮，價錢相宜，商品送達，省錢省時</p>
-        <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
+        <div class="content-overlay">
+            <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 海鮮類</h1>
+            <p class="mb-4 text-gray-600">精選海鮮，價錢相宜，商品送達，省錢省時</p>
+            <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
 
-        <h2 class="text-xl font-semibold mb-4">海鮮類目錄 | Seafood Catalog</h2>
-        <table class="w-full border-collapse mb-8">
-            <thead>
-                <tr class="bg-secondary">
-                    <th class="border p-3">商品 | Item</th>
-                    <th class="border p-3">數量 | Quantity</th>
-                    <th class="border p-3">單位 | Unit</th>
-                    <th class="border p-3">操作 | Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <tr>
-                    <td class="border p-3">蚵仔</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="蚵仔" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="蚵仔">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="蚵仔">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">蝦米</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="蝦米" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="蝦米">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="蝦米">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">鮭魚片</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="鮭魚片" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="鮭魚片">
-                            <option value="無單位">無單位</option>
-                            <option value="片">片</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="鮭魚片">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">小魚干</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="小魚干" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="小魚干">
-                            <option value="無單位">無單位</option>
-                            <option value="包">包</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="小魚干">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">小石斑</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="小石斑" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="小石斑">
-                            <option value="無單位">無單位</option>
-                            <option value="尾">尾</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="小石斑">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">軟絲</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="軟絲" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="軟絲">
-                            <option value="無單位">無單位</option>
-                            <option value="尾">尾</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="軟絲">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">蛤仔</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="蛤仔" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="蛤仔">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="蛤仔">加入購物車</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="border p-3">圓鱈</td>
-                    <td class="border p-3">
-                        <input type="number" class="qty-input border p-1 rounded" data-item="圓鱈" step="0.5" min="0.5" value="">
-                    </td>
-                    <td class="border p-3">
-                        <select class="unit-select border p-1 rounded" data-item="圓鱈">
-                            <option value="無單位">無單位</option>
-                            <option value="片">片</option>
-                        </select>
-                    </td>
-                    <td class="border p-3">
-                        <button class="add-to-cart bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700" data-item="圓鱈">加入購物車</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h2 class="text-xl font-semibold mb-4">聯絡 | Contact</h2>
-        <p>商店地點 | Collection: coming soon</p>
-        <p>TEL / Line: coming soon</p>
+            <!-- Seafood Dropdown -->
+            <div class="grid grid-cols-1 gap-6">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">海鮮類</h2>
+                    <select id="seafoodDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇海鮮</option>
+                        <option value="蚵仔">蚵仔</option>
+                        <option value="蝦米">蝦米</option>
+                        <option value="鮭魚片">鮭魚片</option>
+                        <option value="小魚干">小魚干</option>
+                        <option value="小石斑">小石斑</option>
+                        <option value="軟絲">軟絲</option>
+                        <option value="蛤仔">蛤仔</option>
+                        <option value="圓鱈">圓鱈</option>
+                    </select>
+                    <input type="number" id="seafoodQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="seafoodUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="包">包</option>
+                        <option value="片">片</option>
+                        <option value="尾">尾</option>
+                    </select>
+                    <button id="seafoodAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer class="bg-primary text-white text-center p-4 mt-8">
+    <footer class="bg-gray-800 text-white p-4 text-center">
         <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="underline">Back to Top</a>
+        <a href="#top" class="text-primary hover:underline">Back to Top</a>
     </footer>
 
-    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
+    <script>
+        // Add to Cart functionality for seafood
+        document.getElementById('seafoodAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('seafoodDropdown').value;
+            const qty = parseFloat(document.getElementById('seafoodQty').value) || 0;
+            const unit = document.getElementById('seafoodUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('seafoodDropdown').selectedIndex = 0;
+                document.getElementById('seafoodQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+    </script>
 </body>
 </html>
