@@ -3,37 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>結帳</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-image: url('/images/store.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-        .content-overlay {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            border-radius: 10px;
-        }
-    </style>
+    <title>結帳 | Checkout</title>
+    <link rel="stylesheet" href="/assets/output.css">
+    <script type="module" src="/checkout.js"></script>
 </head>
-<body class="font-sans">
+<body class="bg-gray-50">
     <nav class="bg-primary text-white p-4">
-        <div class="container mx-auto flex justify-between items-center">
+        <div class="container mx-auto flex justify-between">
             <a href="index.html" class="text-lg font-bold">下單分類</a>
-            <div class="space-x-4">
-                <a href="checkout.html" class="px-2 hover:underline">結帳</a>
-                <a href="summary.html" class="px-2 hover:underline">每日訂單</a>
+            <div>
+                <a href="checkout.html" class="px-2">結帳</a>
+                <a href="summary.html" class="px-2">每日訂單</a>
             </div>
         </div>
     </nav>
 
-
     <section class="container mx-auto py-8">
-        <nav class="bg-primary text-white p-4">
         <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
         <table class="w-full border-collapse mb-8">
             <thead>
@@ -57,7 +42,6 @@
             <textarea id="customerRemark" class="w-full p-2 border rounded"></textarea>
             <button id="submitButton" class="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">提交訂單 | Submit Order</button>
         </div>
-            </nav>
     </section>
 
     <footer class="bg-primary text-white text-center p-4 mt-8">
