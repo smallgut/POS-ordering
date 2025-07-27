@@ -3,52 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>結帳 | Checkout</title>
-    <link rel="stylesheet" href="/assets/output.css">
-    <script type="module" src="/checkout.js"></script>
+    <title>二姐叫菜 - 結帳</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/images/store.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .content-overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="/checkout.js" defer></script>
 </head>
-<body class="bg-gray-50">
+<body class="font-sans">
     <nav class="bg-primary text-white p-4">
-        <div class="container mx-auto flex justify-between">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="index.html" class="text-lg font-bold">下單分類</a>
-            <div>
-                <a href="checkout.html" class="px-2">結帳</a>
-                <a href="summary.html" class="px-2">每日訂單</a>
+            <div class="space-x-4">
+                <a href="checkout.html" class="px-2 hover:underline">結帳</a>
+                <a href="summary.html" class="px-2 hover:underline">每日訂單</a>
             </div>
         </div>
     </nav>
 
     <section class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
-        <table class="w-full border-collapse mb-8">
-            <thead>
-                <tr class="bg-secondary">
-                    <th class="border p-3">商品 | Item</th>
-                    <th class="border p-3">數量 | Quantity</th>
-                    <th class="border p-3">單位 | Unit</th>
-                    <th class="border p-3">操作 | Action</th>
-                </tr>
-            </thead>
-            <tbody id="cartBody"></tbody>
-        </table>
-        <p id="emptyCartMessage" class="text-red-600 hidden">購物車是空的！</p>
+        <div class="content-overlay">
+            <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
 
-        <div class="mt-8">
-            <label class="block mb-2">客戶姓名 | Customer Name:</label>
-            <input type="text" id="customerName" class="w-full p-2 border rounded">
-            <label class="block mt-4 mb-2">聯絡電話 | Contact:</label>
-            <input type="text" id="customerContact" class="w-full p-2 border rounded">
-            <label class="block mt-4 mb-2">備註 | Remark:</label>
-            <textarea id="customerRemark" class="w-full p-2 border rounded"></textarea>
-            <button id="submitButton" class="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">提交訂單 | Submit Order</button>
+            <div class="mb-6">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="border p-3">商品 | Item</th>
+                            <th class="border p-3">數量 | Quantity</th>
+                            <th class="border p-3">單位 | Unit</th>
+                            <th class="border p-3">操作 | Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartBody"></tbody>
+                </table>
+                <p id="emptyCartMessage" class="text-center text-red-600 mt-4">購物車是空的！</p>
+            </div>
+
+            <form id="orderForm">
+                <div>
+                    <label for="customerName" class="block text-lg">客戶姓名 | Customer Name:</label>
+                    <input type="text" id="customerName" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                </div>
+                <div>
+                    <label for="customerContact" class="block text-lg">聯絡電話 | Contact:</label>
+                    <input type="tel" id="customerContact" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                </div>
+                <div>
+                    <label for="customerRemark" class="block text-lg">備註 | Remark:</label>
+                    <textarea id="customerRemark" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" rows="3"></textarea>
+                </div>
+                <button type="submit" id="submitButton" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">提交訂單 | Submit Order</button>
+            </form>
         </div>
     </section>
 
-    <footer class="bg-primary text-white text-center p-4 mt-8">
-        <p>&copy; 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="underline">回到頂部</a>
+    <footer class="bg-gray-800 text-white p-4 text-center">
+        <p>© 2025 二姐叫菜 | All Rights Reserved</p>
+        <a href="#top" class="text-primary hover:underline">回到頂部</a>
     </footer>
-
-    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
 </body>
 </html>
