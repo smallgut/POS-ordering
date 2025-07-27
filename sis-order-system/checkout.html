@@ -3,52 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>結帳 | Checkout</title>
-    <link rel="stylesheet" href="/assets/output.css">
-    <script type="module" src="/checkout.js"></script>
+    <title>二姐叫菜 - 結帳</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/images/store.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .content-overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
+<body class="font-sans">
     <nav class="bg-primary text-white p-4">
-        <div class="container mx-auto flex justify-between">
+        <div class="container mx-auto flex justify-between items-center">
             <a href="index.html" class="text-lg font-bold">下單分類</a>
-            <div>
-                <a href="checkout.html" class="px-2">結帳</a>
-                <a href="summary.html" class="px-2">每日訂單</a>
+            <div class="space-x-4">
+                <a href="checkout.html" class="px-2 hover:underline">結帳</a>
+                <a href="summary.html" class="px-2 hover:underline">每日訂單</a>
             </div>
         </div>
     </nav>
 
     <section class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
-        <table class="w-full border-collapse mb-8">
-            <thead>
-                <tr class="bg-secondary">
-                    <th class="border p-3">商品 | Item</th>
-                    <th class="border p-3">數量 | Quantity</th>
-                    <th class="border p-3">單位 | Unit</th>
-                    <th class="border p-3">操作 | Action</th>
-                </tr>
-            </thead>
-            <tbody id="cartBody"></tbody>
-        </table>
-        <p id="emptyCartMessage" class="text-red-600 hidden">購物車是空的！</p>
+        <div class="content-overlay">
+            <nav class="bg-primary text-white p-4">
+            <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
 
-        <div class="mt-8">
-            <label class="block mb-2">客戶姓名 | Customer Name:</label>
-            <input type="text" id="customerName" class="w-full p-2 border rounded">
-            <label class="block mt-4 mb-2">聯絡電話 | Contact:</label>
-            <input type="text" id="customerContact" class="w-full p-2 border rounded">
-            <label class="block mt-4 mb-2">備註 | Remark:</label>
-            <textarea id="customerRemark" class="w-full p-2 border rounded"></textarea>
-            <button id="submitButton" class="mt-4 bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">提交訂單 | Submit Order</button>
+            <div class="mb-6">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="border p-3">商品 | Item</th>
+                            <th class="border p-3">數量 | Quantity</th>
+                            <th class="border p-3">單位 | Unit</th>
+                            <th class="border p-3">操作 | Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cartBody"></tbody>
+                </table>
+                <p id="emptyCartMessage" class="text-center text-red-600 mt-4">購物車是空的！</p>
+            </div>
+
+            <form id="orderForm" class="space-y-4">
+                <div>
+                    <label for="customerName" class="block text-lg">客戶姓名 | Customer Name:</label>
+                    <input type="text" id="customerName" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                </div>
+                <div>
+                    <label for="customerContact" class="block text-lg">聯絡電話 | Contact:</label>
+                    <input type="tel" id="customerContact" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                </div>
+                <div>
+                    <label for="customerRemark" class="block text-lg">備註 | Remark:</label>
+                    <textarea id="customerRemark" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" rows="3"></textarea>
+                </div>
+                <button type="submit" id="submitButton" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">提交訂單 | Submit Order</button>
+            </form>
         </div>
+        </nav>
     </section>
 
-    <footer class="bg-primary text-white text-center p-4 mt-8">
-        <p>&copy; 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="underline">回到頂部</a>
+    <footer class="bg-gray-800 text-white p-4 text-center">
+        <p>© 2025 二姐叫菜 | All Rights Reserved</p>
+        <a href="#top" class="text-primary hover:underline">回到頂部</a>
     </footer>
 
-    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
+    <script>
+        // Placeholder Supabase configuration (replace with your actual values)
+        const SUPABASE_URL = 'https://your-supabase-url.supabase.co';
+        const SUPABASE_ANON_KEY = 'your-supabase-anon-key';
+
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+            console.error('Supabase configuration missing:', { SUPABASE_URL, SUPABASE_ANON_KEY });
+            alert('伺服器配置錯誤：環境變數 VITE_SUPABASE_URL 或 VITE_SUPABASE_ANON_KEY 缺失。請聯繫管理員檢查設置。');
+            throw new Error('Missing Supabase configuration');
+        }
+
+        // Supabase client
+        const { createClient } = window['@supabase/supabase-js'];
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartBody = document.getElementById('cartBody');
+            const emptyCartMessage = document.getElementById('emptyCartMessage');
+
+            if (!cartBody || !emptyCartMessage) {
+                console.error('Required elements missing:', { cartBody, emptyCartMessage });
+                alert('頁面載入錯誤：缺少必要的表格或訊息元素。');
+                return;
+            }
+
+            cartBody.innerHTML = '';
+
+            if (cart.length === 0) {
+                emptyCartMessage.classList.remove('hidden');
+                return;
+            }
+
+            emptyCartMessage.classList.add('hidden');
+            cart.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="border p-3">${item.name}</td>
+                    <td class="border p-3" id="qty-${index}">${item.qty}</td>
+                    <td class="border p-3">${item.unit || '無單位'}</td>
+                    <td class="border p-3">
+                        <button data-index="${index}" class="adjust-button text-primary hover:underline">Adjust</button>
+                        <button data-index="${index}" class="remove-button text-red-600 hover:underline ml-4">Remove</button>
+                    </td>
+                `;
+                cartBody.appendChild(row);
+            });
+
+            // Attach event listeners to buttons
+            document.querySelectorAll('.adjust-button').forEach(button => {
+                button.addEventListener('click', () => adjustItem(parseInt(button.dataset.index)));
+            });
+            document.querySelectorAll('.remove-button').forEach(button => {
+                button.addEventListener('click', () => removeItem(parseInt(button.dataset.index)));
+            });
+        }
+
+        function adjustItem(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const row = document.getElementById(`qty-${index}`).parentElement;
+            const originalQty = cart[index].qty;
+            row.cells[1].innerHTML = `
+                <input type="number" id="adjust-qty-${index}" value="${originalQty}" min="0.5" step="0.5" class="w-20 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary">
+            `;
+            row.cells[3].innerHTML = `
+                <button data-index="${index}" class="save-button text-primary hover:underline">Save</button>
+                <button data-index="${index}" class="cancel-button text-gray-600 hover:underline ml-4">Cancel</button>
+            `;
+            document.querySelector(`.save-button[data-index="${index}"]`).addEventListener('click', () => saveAdjustment(index));
+            document.querySelector(`.cancel-button[data-index="${index}"]`).addEventListener('click', () => cancelAdjustment(index));
+        }
+
+        function saveAdjustment(index) {
+            const qtyInput = document.getElementById(`adjust-qty-${index}`);
+            const qty = qtyInput.value ? parseFloat(qtyInput.value) : NaN;
+            if (isNaN(qty) || qty < 0.5) {
+                alert('請輸入有效的數量 (至少0.5)');
+                return;
+            }
+            if (qty % 1 !== 0 && qty % 1 !== 0.5) {
+                alert('數量必須是整數或整數加0.5（如0.5、1、1.5、2）');
+                return;
+            }
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart[index].qty = qty;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function cancelAdjustment(index) {
+            loadCart();
+        }
+
+        function removeItem(index) {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        async function submitOrder(event) {
+            event.preventDefault(); // Prevent form submission
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerContact = document.getElementById('customerContact').value.trim();
+            const customerRemark = document.getElementById('customerRemark').value.trim() || null;
+
+            if (cart.length === 0) {
+                alert('購物車是空的，請先添加商品');
+                return;
+            }
+            if (!customerName || !customerContact) {
+                alert('請輸入姓名和聯絡電話');
+                return;
+            }
+
+            const orderData = {
+                customer_name: customerName,
+                customer_contact: customerContact,
+                remark: customerRemark,
+                items: cart,
+                quotation: null,
+                created_at: new Date().toISOString()
+            };
+
+            try {
+                const { error } = await supabase.from('orders').insert([orderData]);
+                if (error) throw error;
+
+                alert('訂單已成功提交！');
+                localStorage.removeItem('cart');
+                document.getElementById('customerName').value = '';
+                document.getElementById('customerContact').value = '';
+                document.getElementById('customerRemark').value = '';
+                loadCart();
+            } catch (error) {
+                console.error('Submit order error:', error, error.stack);
+                alert('提交訂單時發生錯誤：' + error.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            document.getElementById('orderForm').addEventListener('submit', submitOrder);
+        });
+    </script>
 </body>
 </html>
