@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="/assets/output.css">
     <script type="module" src="/checkout.js"></script>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50" 
+      style="background-image: url('/images/store.jpg'); 
+             background-size: cover; 
+             background-position: center; 
+             background-attachment: fixed;">
+
     <nav class="bg-primary text-white p-4">
         <div class="container mx-auto flex justify-between">
             <a href="index.html" class="text-lg font-bold">下單分類</a>
@@ -18,7 +23,9 @@
         </div>
     </nav>
 
-    <section class="container mx-auto py-8">
+    <!-- Added wrapper with minimal inline style -->
+    <section class="container mx-auto py-8" 
+             style="background: rgba(255,255,255,0.85); padding: 20px; border-radius: 12px;">
         <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
         <table class="w-full border-collapse mb-8">
             <thead>
@@ -50,5 +57,8 @@
     </footer>
 
     <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
+
+    <!-- JS at bottom (optional but better for load speed) -->
+    <script type="module" src="/checkout.js"></script>
 </body>
 </html>
