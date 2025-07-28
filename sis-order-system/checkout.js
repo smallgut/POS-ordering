@@ -122,6 +122,7 @@ async function submitOrder() {
     };
 
     try {
+        console.log('Sending order data:', orderData); // Debug log
         const { error } = await supabase.from('orders').insert([orderData]);
         if (error) throw error;
 
@@ -132,8 +133,17 @@ async function submitOrder() {
         document.getElementById('customerRemark').value = '';
         loadCart();
     } catch (error) {
-        console.error('Submit order error:', error, error.stack);
-        alert('提交訂單時發生錯誤：' + error.message);
+        console.error('Submit order error:', {
+            message: error.message,
+            details: error.details,
+            stack: error.stack,
+            status: error.status, // May not be available
+        });
+        if (error.message.includes('Failed to fetch')) {
+            alert('提交訂單失敗：網絡錯誤，請檢查連接或聯繫管理員。');
+        } else {
+            alert('提交訂單時發生錯誤：' + error.message);
+        }
     }
 }
 
