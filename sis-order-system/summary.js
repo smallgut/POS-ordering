@@ -247,11 +247,31 @@ async function printQuotation(orderId) {
     // Add print-specific styles to hide everything else
     const style = document.createElement('style');
     style.textContent = `
-        @media print {
-            body * { visibility: hidden; }
-            #printContainer, #printContainer * { visibility: visible; }
-            #printContainer { position: absolute; left: 0; top: 0; width: 100%; }
+        @page {
+        size: A4;
+        margin: 10mm; /* reduce margin to avoid extra blank page */
+    }
+    @media print {
+        body * { visibility: hidden; }
+        #printContainer, #printContainer * { visibility: visible; }
+        #printContainer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 190mm;  /* keep inside margins */
+            max-height: 277mm; /* prevent overflow */
+            padding: 10mm;
+            box-sizing: border-box;
+            page-break-after: avoid;
         }
+        table {
+            page-break-inside: avoid;
+        }
+        tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }
+    }
     `;
     document.head.appendChild(style);
 
