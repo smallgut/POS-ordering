@@ -177,7 +177,7 @@ async function printQuotation(orderId) {
     const printContainer = document.createElement('div');
     printContainer.style.position = 'absolute';
     printContainer.style.width = '210mm'; // A4 width
-    printContainer.style.height = '297mm'; // A4 height
+    
     printContainer.style.padding = '20mm';
     printContainer.style.boxSizing = 'border-box';
 
