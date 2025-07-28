@@ -8,26 +8,29 @@
     <script type="module" src="/checkout.js"></script>
 </head>
 <body class="bg-gray-50" 
-      style="background-image: url('/images/store.jpg'); 
+      style="background-image: url('/assets/background.jpg'); 
              background-size: cover; 
              background-position: center; 
              background-attachment: fixed;">
 
-    <nav class="bg-primary text-white p-4">
+    <nav class="bg-primary p-4" style="color: white;">
         <div class="container mx-auto flex justify-between">
-            <nav class="bg-primary text-white p-4">
-            <a href="index.html" class="text-lg font-bold">下單分類</a>
+            <a href="index.html" class="text-lg font-bold" style="color:white;">下單分類</a>
             <div>
-                <a href="checkout.html" class="px-2">結帳</a>
-                <a href="summary.html" class="px-2">每日訂單</a>
+                <a href="checkout.html" class="px-2" style="color:white;">結帳</a>
+                <a href="summary.html" class="px-2" style="color:white;">每日訂單</a>
             </div>
         </div>
-        </nav>
     </nav>
 
-    <!-- Added wrapper with minimal inline style -->
+    <!-- Frosted-glass wrapper -->
     <section class="container mx-auto py-8" 
-             style="background: rgba(255,255,255,0.85); padding: 20px; border-radius: 12px;">
+             style="background: rgba(255,255,255,0.65); 
+                    padding: 20px; 
+                    border-radius: 12px; 
+                    backdrop-filter: blur(8px); 
+                    -webkit-backdrop-filter: blur(8px); 
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
         <h1 class="text-2xl font-bold mb-4">結帳 | Checkout</h1>
         <table class="w-full border-collapse mb-8">
             <thead>
@@ -53,16 +56,14 @@
         </div>
     </section>
 
-    <footer class="bg-primary text-white text-center p-4 mt-8">
-        <nav class="bg-primary text-white p-4">
+    <footer class="bg-primary text-center p-4 mt-8" style="color:white;">
         <p>&copy; 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="underline">回到頂部</a>
-            </nav>
+        <a href="#" class="underline" style="color:white;">回到頂部</a>
     </footer>
 
     <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
 
-    <!-- JS at bottom (optional but better for load speed) -->
+    <!-- JS at bottom -->
     <script type="module" src="/checkout.js"></script>
 </body>
 </html>
