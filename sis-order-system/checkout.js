@@ -122,7 +122,13 @@ async function submitOrder() {
     };
 
     try {
-        console.log('Sending order data:', orderData); // Debug log
+        console.log('Sending order data:', orderData);
+        // Test fetch to Supabase root endpoint
+        const testResponse = await fetch(`${SUPABASE_URL}/rest/v1/`, {
+            method: 'GET',
+            headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+        });
+        console.log('Test fetch response:', await testResponse.text());
         const { error } = await supabase.from('orders').insert([orderData]);
         if (error) throw error;
 
@@ -137,7 +143,7 @@ async function submitOrder() {
             message: error.message,
             details: error.details,
             stack: error.stack,
-            status: error.status, // May not be available
+            status: error.status,
         });
         if (error.message.includes('Failed to fetch')) {
             alert('提交訂單失敗：網絡錯誤，請檢查連接或聯繫管理員。');
@@ -146,7 +152,6 @@ async function submitOrder() {
         }
     }
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     loadCart();
     document.getElementById('submitButton').addEventListener('click', submitOrder);
