@@ -224,7 +224,7 @@ async function printQuotation(orderId) {
     `;
     printContainer.appendChild(table);
 
-    // Print style
+    // Print style (fixed)
     const style = document.createElement('style');
     style.textContent = `
         @page {
@@ -233,23 +233,22 @@ async function printQuotation(orderId) {
         }
         @media print {
             body * {
-                display: none !important; /* Completely remove others */
+                visibility: hidden !important; /* Hide visually, keep layout */
+            }
+            #printContainer, #printContainer * {
+                visibility: visible !important; /* Show print container */
             }
             #printContainer {
-                display: block !important;
                 position: static !important;
-                width: auto !important;
                 margin: 0 auto;
-                background: white !important;
-            }
-            #printContainer table {
-                page-break-inside: auto;
-            }
-            #printContainer tr {
-                page-break-inside: avoid;
+                background: white;
+                width: auto !important;
             }
             #printContainer thead {
                 display: table-header-group;
+            }
+            #printContainer tr {
+                page-break-inside: avoid;
             }
         }
     `;
@@ -262,6 +261,7 @@ async function printQuotation(orderId) {
     document.head.removeChild(style);
     document.body.removeChild(printContainer);
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
