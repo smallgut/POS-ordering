@@ -232,21 +232,22 @@ async function printQuotation(orderId) {
         }
         @media print {
             body * {
-                display: none !important;
+                visibility: hidden !important; /* Hide all visually */
+            }
+            #printContainer, #printContainer * {
+                visibility: visible !important; /* Show only print container */
             }
             #printContainer {
-                display: block !important;
-                width: auto !important;
-                position: static !important;
-            }
-            #printContainer table {
-                page-break-inside: auto;
-            }
-            #printContainer tr {
-                page-break-inside: avoid;
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
             }
             #printContainer thead {
                 display: table-header-group;
+            }
+            #printContainer tr {
+                page-break-inside: avoid;
             }
         }
     `;
