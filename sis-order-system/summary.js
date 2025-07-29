@@ -175,91 +175,87 @@ async function printQuotation(orderId) {
     // Create print container
     const printContainer = document.createElement('div');
     printContainer.id = 'printContainer';
+    printContainer.style.background = 'white';
     printContainer.style.padding = '10mm';
     printContainer.style.boxSizing = 'border-box';
-    printContainer.style.background = 'white';
+    printContainer.style.width = '100%';
+    printContainer.style.maxWidth = '180mm'; // Prevent overflow
 
     // Header
-    const header = document.createElement('h1');
+    const header = document.createElement('h2');
     header.style.textAlign = 'center';
     header.textContent = '二姐叫菜 - 估價單';
     printContainer.appendChild(header);
 
-    // Customer info
-    const customerDiv = document.createElement('div');
-    customerDiv.textContent = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
-    printContainer.appendChild(customerDiv);
+    // Order Info (vertical layout)
+    const info = document.createElement('div');
+    info.style.margin = '10px 0';
+    info.innerHTML = `
+        <div>日期: ${order.created_at.split('T')[0]}</div>
+        <div>提交時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false})}</div>
+        <div>客戶姓名: ${order.customer_name || '(無)'}</div>
+        <div>聯絡電話: ${order.customer_contact || '(無)'}</div>
+        <div>備註: ${order.remark || '(無)'}</div>
+        <div>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(未提供)'}</div>
+    `;
+    printContainer.appendChild(info);
 
-    // Table
+    // Table (only 商品 / 數量 / 單位)
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
     table.innerHTML = `
         <thead>
             <tr style="background:#f2f2f2;">
-                <th style="border:1px solid #ddd;padding:8px;">日期</th>
-                <th style="border:1px solid #ddd;padding:8px;">商品</th>
-                <th style="border:1px solid #ddd;padding:8px;">數量</th>
-                <th style="border:1px solid #ddd;padding:8px;">單位</th>
-                <th style="border:1px solid #ddd;padding:8px;">客戶</th>
-                <th style="border:1px solid #ddd;padding:8px;">提交時間</th>
-                <th style="border:1px solid #ddd;padding:8px;">備註</th>
-                <th style="border:1px solid #ddd;padding:8px;">報價</th>
+                <th style="border:1px solid #ddd;padding:5px;">商品</th>
+                <th style="border:1px solid #ddd;padding:5px;">數量</th>
+                <th style="border:1px solid #ddd;padding:5px;">單位</th>
             </tr>
         </thead>
         <tbody>
-            ${order.items.map((item, i) => `
+            ${order.items.map(item => `
                 <tr>
-                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? order.created_at.split('T')[0] : ''}</td>
-                    <td style="border:1px solid #ddd;padding:8px;">${item.name}</td>
-                    <td style="border:1px solid #ddd;padding:8px;">${item.qty}</td>
-                    <td style="border:1px solid #ddd;padding:8px;">${item.unit || '無單位'}</td>
-                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? order.customer_name : ''}</td>
-                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false}) : ''}</td>
-                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? (order.remark||'(無)') : ''}</td>
-                    <td style="border:1px solid #ddd;padding:8px;">${i===0 && order.quotation ? `$${order.quotation.toFixed(2)}` : ''}</td>
+                    <td style="border:1px solid #ddd;padding:5px;">${item.name}</td>
+                    <td style="border:1px solid #ddd;padding:5px;">${item.qty}</td>
+                    <td style="border:1px solid #ddd;padding:5px;">${item.unit || '無單位'}</td>
                 </tr>
             `).join('')}
         </tbody>
     `;
     printContainer.appendChild(table);
 
-    // Print style (fixes blank pages)
+    // Print style
     const style = document.createElement('style');
     style.textContent = `
-    @page {
-        size: A4;
-        margin: 10mm;
-    }
-    @media print {
-        /* Hide all other elements but keep layout space out */
-        body * {
-            visibility: hidden !important;
+        @page {
+            size: A4;
+            margin: 10mm;
         }
-        /* Show the container and place it at top */
-        #printContainer, #printContainer * {
-            visibility: visible !important;
+        @media print {
+            body * {
+                visibility: hidden !important;
+            }
+            #printContainer, #printContainer * {
+                visibility: visible !important;
+            }
+            #printContainer {
+                position: fixed !important;
+                top: 0;
+                left: 0;
+                width: auto !important;
+                margin: 0 auto;
+            }
+            table {
+                page-break-inside: auto;
+            }
+            tr {
+                page-break-inside: avoid;
+            }
+            thead {
+                display: table-header-group;
+            }
         }
-        #printContainer {
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            width: 210mm;
-            background: white;
-            padding: 10mm;
-            box-sizing: border-box;
-        }
-        #printContainer table {
-            page-break-inside: auto;
-        }
-        #printContainer tr {
-            page-break-inside: avoid;
-        }
-        #printContainer thead {
-            display: table-header-group;
-        }
-    }
-`;
+    `;
     document.head.appendChild(style);
 
     document.body.appendChild(printContainer);
