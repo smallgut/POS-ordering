@@ -177,6 +177,7 @@ async function printQuotation(orderId) {
     printContainer.id = 'printContainer';
     printContainer.style.padding = '10mm';
     printContainer.style.boxSizing = 'border-box';
+    printContainer.style.background = 'white';
 
     // Header
     const header = document.createElement('h1');
@@ -232,22 +233,23 @@ async function printQuotation(orderId) {
         }
         @media print {
             body * {
-                visibility: hidden !important; /* Hide all visually */
-            }
-            #printContainer, #printContainer * {
-                visibility: visible !important; /* Show only print container */
+                display: none !important; /* Completely remove others */
             }
             #printContainer {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
+                display: block !important;
+                position: static !important;
+                width: auto !important;
+                margin: 0 auto;
+                background: white !important;
             }
-            #printContainer thead {
-                display: table-header-group;
+            #printContainer table {
+                page-break-inside: auto;
             }
             #printContainer tr {
                 page-break-inside: avoid;
+            }
+            #printContainer thead {
+                display: table-header-group;
             }
         }
     `;
@@ -260,7 +262,6 @@ async function printQuotation(orderId) {
     document.head.removeChild(style);
     document.body.removeChild(printContainer);
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
