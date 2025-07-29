@@ -227,37 +227,39 @@ async function printQuotation(orderId) {
     // Print style (fixes blank pages)
     const style = document.createElement('style');
     style.textContent = `
-        @page {
-            size: A4;
-            margin: 10mm;
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+    @media print {
+        /* Hide all other elements but keep layout space out */
+        body * {
+            visibility: hidden !important;
         }
-        @media print {
-            /* Hide all other elements completely so they don't reserve space */
-            body * {
-                display: none !important;
-            }
-            /* Position print container at top-left of the page */
-            #printContainer {
-                display: block !important;
-                position: fixed !important;
-                top: 0;
-                left: 0;
-                width: 210mm;
-                background: white;
-                padding: 10mm;
-                box-sizing: border-box;
-            }
-            #printContainer table {
-                page-break-inside: auto;
-            }
-            #printContainer tr {
-                page-break-inside: avoid;
-            }
-            #printContainer thead {
-                display: table-header-group;
-            }
+        /* Show the container and place it at top */
+        #printContainer, #printContainer * {
+            visibility: visible !important;
         }
-    `;
+        #printContainer {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 210mm;
+            background: white;
+            padding: 10mm;
+            box-sizing: border-box;
+        }
+        #printContainer table {
+            page-break-inside: auto;
+        }
+        #printContainer tr {
+            page-break-inside: avoid;
+        }
+        #printContainer thead {
+            display: table-header-group;
+        }
+    }
+`;
     document.head.appendChild(style);
 
     document.body.appendChild(printContainer);
