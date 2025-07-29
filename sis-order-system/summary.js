@@ -161,7 +161,6 @@ function getItemCategory(itemName) {
 }
 
 async function printQuotation(orderId) {
-    // Fetch latest order
     const { data: order, error } = await supabase
         .from('orders')
         .select('*')
@@ -172,22 +171,20 @@ async function printQuotation(orderId) {
         return;
     }
 
-    // Create print container
     const printContainer = document.createElement('div');
     printContainer.id = 'printContainer';
     printContainer.style.background = 'white';
     printContainer.style.padding = '10mm';
     printContainer.style.boxSizing = 'border-box';
     printContainer.style.width = '100%';
-    printContainer.style.maxWidth = '180mm'; // Prevent overflow
+    printContainer.style.maxWidth = '180mm';
+    printContainer.style.margin = '0 auto';
 
-    // Header
     const header = document.createElement('h2');
     header.style.textAlign = 'center';
     header.textContent = '二姐叫菜 - 估價單';
     printContainer.appendChild(header);
 
-    // Order Info (vertical layout)
     const info = document.createElement('div');
     info.style.margin = '10px 0';
     info.innerHTML = `
@@ -200,7 +197,6 @@ async function printQuotation(orderId) {
     `;
     printContainer.appendChild(info);
 
-    // Table (only 商品 / 數量 / 單位)
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
@@ -224,7 +220,6 @@ async function printQuotation(orderId) {
     `;
     printContainer.appendChild(table);
 
-    // Print style
     const style = document.createElement('style');
     style.textContent = `
         @page {
@@ -239,11 +234,10 @@ async function printQuotation(orderId) {
                 visibility: visible !important;
             }
             #printContainer {
-                position: fixed !important;
-                top: 0;
-                left: 0;
-                width: auto !important;
+                position: static !important; /* FIX: prevents repeating on every page */
                 margin: 0 auto;
+                width: auto !important;
+                overflow: visible !important;
             }
             table {
                 page-break-inside: auto;
@@ -261,7 +255,6 @@ async function printQuotation(orderId) {
     document.body.appendChild(printContainer);
     window.print();
 
-    // Cleanup
     document.head.removeChild(style);
     document.body.removeChild(printContainer);
 }
