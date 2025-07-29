@@ -224,7 +224,7 @@ async function printQuotation(orderId) {
     `;
     printContainer.appendChild(table);
 
-    // Print style (fixed)
+    // Print style (fixes blank pages)
     const style = document.createElement('style');
     style.textContent = `
         @page {
@@ -232,23 +232,29 @@ async function printQuotation(orderId) {
             margin: 10mm;
         }
         @media print {
+            /* Hide all other elements completely so they don't reserve space */
             body * {
-                visibility: hidden !important; /* Hide visually, keep layout */
+                display: none !important;
             }
-            #printContainer, #printContainer * {
-                visibility: visible !important; /* Show print container */
-            }
+            /* Position print container at top-left of the page */
             #printContainer {
-                position: static !important;
-                margin: 0 auto;
+                display: block !important;
+                position: fixed !important;
+                top: 0;
+                left: 0;
+                width: 210mm;
                 background: white;
-                width: auto !important;
+                padding: 10mm;
+                box-sizing: border-box;
             }
-            #printContainer thead {
-                display: table-header-group;
+            #printContainer table {
+                page-break-inside: auto;
             }
             #printContainer tr {
                 page-break-inside: avoid;
+            }
+            #printContainer thead {
+                display: table-header-group;
             }
         }
     `;
