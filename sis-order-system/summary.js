@@ -161,133 +161,101 @@ function getItemCategory(itemName) {
 }
 
 async function printQuotation(orderId) {
-    // Fetch the latest order data to reflect updated quotation
+    // Fetch latest order
     const { data: order, error } = await supabase
         .from('orders')
         .select('*')
         .eq('id', orderId)
         .single();
     if (error) {
-        console.error('Fetch order error:', error);
         alert('載入訂單資料時發生錯誤：' + error.message);
         return;
     }
 
-    // Create a temporary print container
+    // Create print container
     const printContainer = document.createElement('div');
-    printContainer.style.position = 'absolute';
-    printContainer.style.width = '210mm'; // A4 width
-    
-    printContainer.style.padding = '20mm';
+    printContainer.id = 'printContainer';
+    printContainer.style.padding = '10mm';
     printContainer.style.boxSizing = 'border-box';
 
-    // Add header
+    // Header
     const header = document.createElement('h1');
     header.style.textAlign = 'center';
-    header.style.fontSize = '24px';
-    header.style.margin = '20px 0';
     header.textContent = '二姐叫菜 - 估價單';
     printContainer.appendChild(header);
 
-    // Add customer details
+    // Customer info
     const customerDiv = document.createElement('div');
-    customerDiv.style.margin = '10px 0';
     customerDiv.textContent = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
     printContainer.appendChild(customerDiv);
 
-    // Add table
+    // Table
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
-    table.style.margin = '20px 0';
-
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    headerRow.style.backgroundColor = '#f2f2f2';
-    ['日期', '商品', '數量', '單位', '客戶', '提交時間', '備註|', '報價'].forEach(headerText => {
-        const th = document.createElement('th');
-        th.style.border = '1px solid #ddd';
-        th.style.padding = '8px';
-        th.textContent = headerText;
-        headerRow.appendChild(th);
-    });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
-
-    const tbody = document.createElement('tbody');
-    order.items.forEach((item, index) => {
-        const row = document.createElement('tr');
-        const submitTime = index === 0
-            ? new Date(order.created_at).toLocaleTimeString('zh-TW', {
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-              })
-            : '';
-        const customer = index === 0 ? order.customer_name : '';
-        const remark = index === 0 ? (order.remark || '(無)') : '';
-        const quotation = index === 0 && order.quotation ? `$${order.quotation.toFixed(2)}` : '';
-
-        row.innerHTML = `
-            <td style="border: 1px solid #ddd; padding: 8px;">${index === 0 ? order.created_at.split('T')[0] : ''}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.qty}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.unit || '無單位'}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${customer}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${submitTime}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${remark}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${quotation}</td>
-        `;
-        tbody.appendChild(row);
-    });
-    table.appendChild(tbody);
+    table.innerHTML = `
+        <thead>
+            <tr style="background:#f2f2f2;">
+                <th style="border:1px solid #ddd;padding:8px;">日期</th>
+                <th style="border:1px solid #ddd;padding:8px;">商品</th>
+                <th style="border:1px solid #ddd;padding:8px;">數量</th>
+                <th style="border:1px solid #ddd;padding:8px;">單位</th>
+                <th style="border:1px solid #ddd;padding:8px;">客戶</th>
+                <th style="border:1px solid #ddd;padding:8px;">提交時間</th>
+                <th style="border:1px solid #ddd;padding:8px;">備註</th>
+                <th style="border:1px solid #ddd;padding:8px;">報價</th>
+            </tr>
+        </thead>
+        <tbody>
+            ${order.items.map((item, i) => `
+                <tr>
+                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? order.created_at.split('T')[0] : ''}</td>
+                    <td style="border:1px solid #ddd;padding:8px;">${item.name}</td>
+                    <td style="border:1px solid #ddd;padding:8px;">${item.qty}</td>
+                    <td style="border:1px solid #ddd;padding:8px;">${item.unit || '無單位'}</td>
+                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? order.customer_name : ''}</td>
+                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false}) : ''}</td>
+                    <td style="border:1px solid #ddd;padding:8px;">${i===0 ? (order.remark||'(無)') : ''}</td>
+                    <td style="border:1px solid #ddd;padding:8px;">${i===0 && order.quotation ? `$${order.quotation.toFixed(2)}` : ''}</td>
+                </tr>
+            `).join('')}
+        </tbody>
+    `;
     printContainer.appendChild(table);
 
-    // Add print-specific styles to hide everything else
+    // Print style
     const style = document.createElement('style');
     style.textContent = `
         @page {
-        size: A4;
-        margin: 10mm;
-    }
-    @media print {
-        body * { visibility: hidden; }
-        #printContainer, #printContainer * { visibility: visible; }
-        #printContainer {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 190mm;
-            padding: 10mm;
-            box-sizing: border-box;
+            size: A4;
+            margin: 10mm;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            page-break-inside: auto;
+        @media print {
+            body * {
+                display: none !important;
+            }
+            #printContainer {
+                display: block !important;
+                width: auto !important;
+                position: static !important;
+            }
+            #printContainer table {
+                page-break-inside: auto;
+            }
+            #printContainer tr {
+                page-break-inside: avoid;
+            }
+            #printContainer thead {
+                display: table-header-group;
+            }
         }
-        thead {
-            display: table-header-group;
-        }
-        tfoot {
-            display: table-footer-group;
-        }
-        tr {
-            page-break-inside: avoid;
-            page-break-after: auto;
-        }
-    }
-`;
+    `;
     document.head.appendChild(style);
 
-    // Append to body and print
-    printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
-    console.log('Print content generated:', printContainer.innerHTML);
     window.print();
 
-    // Clean up
+    // Cleanup
     document.head.removeChild(style);
     document.body.removeChild(printContainer);
 }
