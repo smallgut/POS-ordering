@@ -175,7 +175,7 @@ async function printQuotation(orderId) {
 
     // Create a temporary print container
     const printContainer = document.createElement('div');
-    printContainer.style.position = 'fixed'; // Use fixed to control page rendering
+    printContainer.style.position = 'absolute';
     printContainer.style.top = '0';
     printContainer.style.left = '0';
     printContainer.style.width = '210mm'; // A4 width
@@ -184,7 +184,7 @@ async function printQuotation(orderId) {
     printContainer.style.boxSizing = 'border-box';
     printContainer.style.fontFamily = 'Arial, sans-serif';
     printContainer.style.fontSize = '12pt';
-    printContainer.style.overflow = 'hidden'; // Strictly limit content
+    printContainer.style.overflow = 'hidden'; // Prevent overflow
 
     // Add header and details
     const content = document.createElement('div');
@@ -227,8 +227,7 @@ async function printQuotation(orderId) {
     itemsTable.appendChild(thead);
 
     const tbody = document.createElement('tbody');
-    // Limit items to fit A4 (adjust based on testing)
-    const maxItems = 10; // Starting point, adjust as needed
+    const maxItems = 10; // Adjust based on testing
     order.items.slice(0, maxItems).forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -252,7 +251,7 @@ async function printQuotation(orderId) {
     content.appendChild(itemsTable);
     printContainer.appendChild(content);
 
-    // Add print-specific styles using a safe method
+    // Add print-specific styles
     const style = document.createElement('style');
     style.textContent = `
         @media print {
@@ -265,9 +264,11 @@ async function printQuotation(orderId) {
     `;
     document.head.appendChild(style);
 
-    // Append to body and print
+    // Append to body and ensure rendering before print
     printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
+    // Small delay to ensure rendering
+    await new Promise(resolve => setTimeout(resolve, 100));
     console.log('Print content generated:', printContainer.innerHTML);
     window.print();
 
