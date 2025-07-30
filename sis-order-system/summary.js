@@ -181,7 +181,7 @@ async function printQuotation(orderId) {
     printContainer.style.boxSizing = 'border-box';
     printContainer.style.fontFamily = 'Arial, sans-serif';
     printContainer.style.fontSize = '12pt';
-    printContainer.style.maxHeight = '257mm'; // A4 height minus padding (297mm - 2 * 20mm)
+    printContainer.style.height = 'auto'; // Allow dynamic height
 
     // Add header and details
     const content = document.createElement('div');
@@ -207,7 +207,7 @@ async function printQuotation(orderId) {
     itemsTable.style.width = '100%';
     itemsTable.style.borderCollapse = 'collapse';
     itemsTable.style.marginTop = '10px';
-    itemsTable.style.pageBreakInside = 'avoid'; // Prevent table split across pages
+    itemsTable.style.pageBreakInside = 'avoid'; // Prevent table split
 
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
@@ -244,9 +244,10 @@ async function printQuotation(orderId) {
         @media print {
             body * { visibility: hidden; }
             #printContainer, #printContainer * { visibility: visible; }
-            #printContainer { position: absolute; left: 0; top: 0; width: 100%; }
+            #printContainer { position: absolute; left: 0; top: 0; width: 210mm; height: 297mm; overflow: hidden; }
             @page { size: A4; margin: 0; }
-            #printContainer { overflow: hidden; max-height: 297mm; }
+            #printContainer { break-inside: avoid; }
+            table { page-break-inside: avoid; }
         }
     `;
     document.head.appendChild(style);
