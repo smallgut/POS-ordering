@@ -180,17 +180,17 @@ async function printQuotation(orderId) {
     printContainer.style.left = '0';
     printContainer.style.width = '210mm'; // A4 width
     printContainer.style.height = '297mm'; // A4 height
-    printContainer.style.padding = '20mm';
+    printContainer.style.padding = '10mm'; // Reduced padding to fit more content
     printContainer.style.boxSizing = 'border-box';
     printContainer.style.fontFamily = 'Arial, sans-serif';
-    printContainer.style.fontSize = '12pt';
+    printContainer.style.fontSize = '10pt'; // Reduced font size to fit more items
     printContainer.style.overflow = 'hidden'; // Prevent overflow
 
     // Add header and details
     const content = document.createElement('div');
-    content.style.marginBottom = '20px';
+    content.style.marginBottom = '10px'; // Reduced margin
     content.innerHTML = `
-        <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px;">二姐叫菜 - 估價單</h1>
+        <h1 style="text-align: center; font-size: 20px; margin-bottom: 10px;">二姐叫菜 - 估價單</h1>
         <p>⽇期: ${order.created_at.split('T')[0]}</p>
         <p>提交時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW', {
             hour12: false,
@@ -202,14 +202,14 @@ async function printQuotation(orderId) {
         <p>聯絡電話: ${order.customer_contact || '(無)'}</p>
         <p>備註: ${order.remark || '(無)'}</p>
         <p>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}</p>
-        <h3 style="margin-top: 20px;">商品 數量 單位</h3>
+        <h3 style="margin-top: 10px;">商品 數量 單位</h3>
     `;
 
     // Add items table for tidy layout
     const itemsTable = document.createElement('table');
     itemsTable.style.width = '100%';
     itemsTable.style.borderCollapse = 'collapse';
-    itemsTable.style.marginTop = '10px';
+    itemsTable.style.marginTop = '5px'; // Reduced margin
     itemsTable.style.pageBreakInside = 'avoid'; // Prevent table split
 
     const thead = document.createElement('thead');
@@ -217,9 +217,10 @@ async function printQuotation(orderId) {
     ['商品', '數量', '單位'].forEach(headerText => {
         const th = document.createElement('th');
         th.style.border = '1px solid #ddd';
-        th.style.padding = '8px';
+        th.style.padding = '5px'; // Reduced padding
         th.style.textAlign = 'left';
         th.style.backgroundColor = '#f2f2f2';
+        th.style.fontSize = '10pt'; // Match container font size
         th.textContent = headerText;
         headerRow.appendChild(th);
     });
@@ -227,25 +228,15 @@ async function printQuotation(orderId) {
     itemsTable.appendChild(thead);
 
     const tbody = document.createElement('tbody');
-    const maxItems = 10; // Adjust based on testing
-    order.items.slice(0, maxItems).forEach(item => {
+    order.items.forEach(item => { // Removed maxItems limit
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td style="border: 1px solid #ddd; padding: 8px; width: 60%;">${item.name}</td>
-            <td style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 20%;">${item.qty}</td>
-            <td style="border: 1px solid #ddd; padding: 8px; width: 20%;">${item.unit || '無單位'}</td>
+            <td style="border: 1px solid #ddd; padding: 5px; width: 60%; font-size: 10pt;">${item.name}</td>
+            <td style="border: 1px solid #ddd; padding: 5px; text-align: center; width: 20%; font-size: 10pt;">${item.qty}</td>
+            <td style="border: 1px solid #ddd; padding: 5px; width: 20%; font-size: 10pt;">${item.unit || '無單位'}</td>
         `;
         tbody.appendChild(row);
     });
-    if (order.items.length > maxItems) {
-        const noteRow = document.createElement('tr');
-        noteRow.innerHTML = `
-            <td colspan="3" style="border: 1px solid #ddd; padding: 8px; text-align: center; color: red;">
-                注意：超過 ${maxItems} 項商品，僅顯示前 ${maxItems} 項，其餘請查閱系統。
-            </td>
-        `;
-        tbody.appendChild(noteRow);
-    }
     itemsTable.appendChild(tbody);
 
     content.appendChild(itemsTable);
