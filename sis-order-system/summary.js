@@ -255,8 +255,8 @@ async function printQuotation(orderId) {
     const style = document.createElement('style');
     style.textContent = `
         @media print {
-            body * { display: none; }
-            #printContainer { display: block !important; visibility: visible; }
+            body > *:not(#printContainer) { display: none; }
+            #printContainer { display: block !important; visibility: visible; position: relative !important; }
             @page { size: A4; margin: 0; }
             #printContainer { break-inside: avoid; }
             table { page-break-inside: avoid; }
@@ -267,8 +267,8 @@ async function printQuotation(orderId) {
     // Append to body and ensure rendering before print
     printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
-    // Small delay to ensure rendering
-    await new Promise(resolve => setTimeout(resolve, 100));
+    // Increased delay to ensure rendering
+    await new Promise(resolve => setTimeout(resolve, 500));
     console.log('Print content generated:', printContainer.innerHTML);
     window.print();
 
