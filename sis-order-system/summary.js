@@ -177,11 +177,11 @@ async function printQuotation(orderId) {
     const printContainer = document.createElement('div');
     printContainer.style.position = 'absolute';
     printContainer.style.width = '210mm'; // A4 width
-    printContainer.style.height = '297mm'; // A4 height
     printContainer.style.padding = '20mm';
     printContainer.style.boxSizing = 'border-box';
-    printContainer.style.fontFamily = 'Arial, sans-serif'; // Consistent font
-    printContainer.style.fontSize = '12pt'; // Readable size
+    printContainer.style.fontFamily = 'Arial, sans-serif';
+    printContainer.style.fontSize = '12pt';
+    printContainer.style.maxHeight = '257mm'; // A4 height minus padding (297mm - 2 * 20mm)
 
     // Add header and details
     const content = document.createElement('div');
@@ -207,6 +207,7 @@ async function printQuotation(orderId) {
     itemsTable.style.width = '100%';
     itemsTable.style.borderCollapse = 'collapse';
     itemsTable.style.marginTop = '10px';
+    itemsTable.style.pageBreakInside = 'avoid'; // Prevent table split across pages
 
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
@@ -226,9 +227,9 @@ async function printQuotation(orderId) {
     order.items.forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
-            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${item.qty}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.unit || '無單位'}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; width: 60%;">${item.name}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center; width: 20%;">${item.qty}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; width: 20%;">${item.unit || '無單位'}</td>
         `;
         tbody.appendChild(row);
     });
@@ -237,13 +238,15 @@ async function printQuotation(orderId) {
     content.appendChild(itemsTable);
     printContainer.appendChild(content);
 
-    // Add print-specific styles to hide everything else
+    // Add print-specific styles to enforce single page
     const style = document.createElement('style');
     style.textContent = `
         @media print {
             body * { visibility: hidden; }
             #printContainer, #printContainer * { visibility: visible; }
             #printContainer { position: absolute; left: 0; top: 0; width: 100%; }
+            @page { size: A4; margin: 0; }
+            #printContainer { overflow: hidden; max-height: 297mm; }
         }
     `;
     document.head.appendChild(style);
