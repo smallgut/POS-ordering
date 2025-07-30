@@ -180,69 +180,37 @@ async function printQuotation(orderId) {
     printContainer.style.height = '297mm'; // A4 height
     printContainer.style.padding = '20mm';
     printContainer.style.boxSizing = 'border-box';
+    printContainer.style.fontFamily = 'Arial, sans-serif'; // Consistent font
+    printContainer.style.fontSize = '12pt'; // Readable size
 
-    // Add header
-    const header = document.createElement('h1');
-    header.style.textAlign = 'center';
-    header.style.fontSize = '24px';
-    header.style.margin = '20px 0';
-    header.textContent = '二姐叫菜 - 估價單';
-    printContainer.appendChild(header);
+    // Add header and details
+    const content = document.createElement('div');
+    content.style.marginBottom = '20px';
+    content.innerHTML = `
+        <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px;">二姐叫菜 - 估價單</h1>
+        <p>⽇期: ${order.created_at.split('T')[0]}</p>
+        <p>提交時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW', {
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        })}</p>
+        <p>客⼾姓名: ${order.customer_name || '(無)'}</p>
+        <p>聯絡電話: ${order.customer_contact || '(無)'}</p>
+        <p>備註: ${order.remark || '(無)'}</p>
+        <p>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}</p>
+        <h3 style="margin-top: 20px;">商品 數量 單位</h3>
+    `;
 
-    // Add customer details
-    const customerDiv = document.createElement('div');
-    customerDiv.style.margin = '10px 0';
-    customerDiv.textContent = `客戶姓名: ${order.customer_name || '(無)'}, 聯絡電話: ${order.customer_contact || '(無)'}`;
-    printContainer.appendChild(customerDiv);
-
-    // Add table
-    const table = document.createElement('table');
-    table.style.width = '100%';
-    table.style.borderCollapse = 'collapse';
-    table.style.margin = '20px 0';
-
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    headerRow.style.backgroundColor = '#f2f2f2';
-    ['日期', '商品', '數量', '單位', '客戶', '提交時間', '備註|', '報價'].forEach(headerText => {
-        const th = document.createElement('th');
-        th.style.border = '1px solid #ddd';
-        th.style.padding = '8px';
-        th.textContent = headerText;
-        headerRow.appendChild(th);
+    // Add items list
+    order.items.forEach(item => {
+        const itemDiv = document.createElement('p');
+        itemDiv.style.margin = '5px 0';
+        itemDiv.textContent = `${item.name} ${item.qty} ${item.unit || '無單位'}`;
+        content.appendChild(itemDiv);
     });
-    thead.appendChild(headerRow);
-    table.appendChild(thead);
 
-    const tbody = document.createElement('tbody');
-    order.items.forEach((item, index) => {
-        const row = document.createElement('tr');
-        const submitTime = index === 0
-            ? new Date(order.created_at).toLocaleTimeString('zh-TW', {
-                hour12: false,
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-              })
-            : '';
-        const customer = index === 0 ? order.customer_name : '';
-        const remark = index === 0 ? (order.remark || '(無)') : '';
-        const quotation = index === 0 && order.quotation ? `$${order.quotation.toFixed(2)}` : '';
-
-        row.innerHTML = `
-            <td style="border: 1px solid #ddd; padding: 8px;">${index === 0 ? order.created_at.split('T')[0] : ''}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.qty}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${item.unit || '無單位'}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${customer}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${submitTime}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${remark}</td>
-            <td style="border: 1px solid #ddd; padding: 8px;">${quotation}</td>
-        `;
-        tbody.appendChild(row);
-    });
-    table.appendChild(tbody);
-    printContainer.appendChild(table);
+    printContainer.appendChild(content);
 
     // Add print-specific styles to hide everything else
     const style = document.createElement('style');
