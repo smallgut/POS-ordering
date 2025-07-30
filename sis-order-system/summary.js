@@ -1,4 +1,4 @@
-// sis-order-system/summary.js
+// sis-order-system/summary.js 
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
@@ -37,7 +37,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
         const { data: orders, error } = await query;
         if (error) {
             console.error('Supabase query error:', error);
-            throw new Error(`Supabase query failed: ${error.message}`);
+            throw new Error(Supabase query failed: ${error.message});
         }
 
         console.log('Fetched orders:', orders);
@@ -73,9 +73,9 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                           })
                         : '';
                     const remark = isFirstItem ? (order.remark || '(無)') : '';
-                    const quotationValue = isFirstItem ? (order.quotation ? `$${order.quotation.toFixed(2)}` : '') : '';
+                    const quotationValue = isFirstItem ? (order.quotation ? $${order.quotation.toFixed(2)} : '') : '';
                     const quotationInput = isFirstItem
-                        ? `<input type="text" class="quotation-input border p-1 rounded" value="${quotationValue}" data-order-id="${order.id}" placeholder="$0.00" style="width: 80px;">`
+                        ? <input type="text" class="quotation-input border p-1 rounded" value="${quotationValue}" data-order-id="${order.id}" placeholder="$0.00" style="width: 80px;">
                         : '';
                     const printButton = isFirstItem
                         ? '<button class="print-btn bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">列印估價單</button>'
@@ -84,7 +84,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                     console.log('Generating row for order:', order.id, 'isFirstItem:', isFirstItem, 'printButton:', printButton);
 
                     const row = document.createElement('tr');
-                    row.innerHTML = `
+                    row.innerHTML = 
                         <td class="border p-3">${isFirstItem ? order.created_at.split('T')[0] : ''}</td>
                         <td class="border p-3">${item.name}</td>
                         <td class="border p-3">${item.qty}</td>
@@ -94,7 +94,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         <td class="border p-3">${remark}</td>
                         <td class="border p-3">${quotationInput}</td>
                         <td class="border p-3">${printButton}</td>
-                    `;
+                    ;
                     tableBody.appendChild(row);
 
                     if (isFirstItem) {
@@ -102,7 +102,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         input.addEventListener('change', async (e) => {
                             const value = e.target.value.replace(/[^0-9.]/g, '');
                             const formattedValue = value ? parseFloat(value).toFixed(2) : null;
-                            e.target.value = formattedValue ? `$${formattedValue}` : '';
+                            e.target.value = formattedValue ? $${formattedValue} : '';
                             const orderId = e.target.getAttribute('data-order-id');
                             const { error } = await supabase
                                 .from('orders')
@@ -116,7 +116,7 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
                         printBtn.addEventListener('click', () => printQuotation(order.id)); // Pass order ID
                     }
 
-                    const key = `${item.name}_${item.unit || '無單位'}`;
+                    const key = ${item.name}_${item.unit || '無單位'};
                     if (!itemTotals[key]) {
                         itemTotals[key] = { name: item.name, unit: item.unit || '無單位', totalQty: 0 };
                     }
@@ -128,11 +128,11 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
 
             Object.values(itemTotals).forEach(item => {
                 const row = document.createElement('tr');
-                row.innerHTML = `
+                row.innerHTML = 
                     <td class="border p-3">${item.name}</td>
                     <td class="border p-3">${item.unit}</td>
                     <td class="border p-3">${item.totalQty}</td>
-                `;
+                ;
                 statsBody.appendChild(row);
             });
         }
@@ -161,6 +161,7 @@ function getItemCategory(itemName) {
 }
 
 async function printQuotation(orderId) {
+    // Fetch latest order
     const { data: order, error } = await supabase
         .from('orders')
         .select('*')
@@ -171,36 +172,39 @@ async function printQuotation(orderId) {
         return;
     }
 
+    // Create print container
     const printContainer = document.createElement('div');
     printContainer.id = 'printContainer';
     printContainer.style.background = 'white';
     printContainer.style.padding = '10mm';
     printContainer.style.boxSizing = 'border-box';
     printContainer.style.width = '100%';
-    printContainer.style.maxWidth = '180mm';
-    printContainer.style.margin = '0 auto';
+    printContainer.style.maxWidth = '180mm'; // Prevent overflow
 
+    // Header
     const header = document.createElement('h2');
     header.style.textAlign = 'center';
     header.textContent = '二姐叫菜 - 估價單';
     printContainer.appendChild(header);
 
+    // Order Info (vertical layout)
     const info = document.createElement('div');
     info.style.margin = '10px 0';
-    info.innerHTML = `
+    info.innerHTML = 
         <div>日期: ${order.created_at.split('T')[0]}</div>
         <div>提交時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false})}</div>
         <div>客戶姓名: ${order.customer_name || '(無)'}</div>
         <div>聯絡電話: ${order.customer_contact || '(無)'}</div>
         <div>備註: ${order.remark || '(無)'}</div>
-        <div>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(未提供)'}</div>
-    `;
+        <div>報價: ${order.quotation ? $${order.quotation.toFixed(2)} : '(未提供)'}</div>
+    ;
     printContainer.appendChild(info);
 
+    // Table (only 商品 / 數量 / 單位)
     const table = document.createElement('table');
     table.style.width = '100%';
     table.style.borderCollapse = 'collapse';
-    table.innerHTML = `
+    table.innerHTML = 
         <thead>
             <tr style="background:#f2f2f2;">
                 <th style="border:1px solid #ddd;padding:5px;">商品</th>
@@ -209,19 +213,20 @@ async function printQuotation(orderId) {
             </tr>
         </thead>
         <tbody>
-            ${order.items.map(item => `
+            ${order.items.map(item => 
                 <tr>
                     <td style="border:1px solid #ddd;padding:5px;">${item.name}</td>
                     <td style="border:1px solid #ddd;padding:5px;">${item.qty}</td>
                     <td style="border:1px solid #ddd;padding:5px;">${item.unit || '無單位'}</td>
                 </tr>
-            `).join('')}
+            ).join('')}
         </tbody>
-    `;
+    ;
     printContainer.appendChild(table);
 
+    // Print style
     const style = document.createElement('style');
-    style.textContent = `
+    style.textContent = 
         @page {
             size: A4;
             margin: 10mm;
@@ -234,10 +239,11 @@ async function printQuotation(orderId) {
                 visibility: visible !important;
             }
             #printContainer {
-                position: static !important; /* FIX: prevents repeating on every page */
-                margin: 0 auto;
+                position: fixed !important;
+                top: 0;
+                left: 0;
                 width: auto !important;
-                overflow: visible !important;
+                margin: 0 auto;
             }
             table {
                 page-break-inside: auto;
@@ -249,12 +255,13 @@ async function printQuotation(orderId) {
                 display: table-header-group;
             }
         }
-    `;
+    ;
     document.head.appendChild(style);
 
     document.body.appendChild(printContainer);
     window.print();
 
+    // Cleanup
     document.head.removeChild(style);
     document.body.removeChild(printContainer);
 }
