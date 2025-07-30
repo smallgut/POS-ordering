@@ -181,7 +181,7 @@ async function printQuotation(orderId) {
     printContainer.style.boxSizing = 'border-box';
     printContainer.style.fontFamily = 'Arial, sans-serif';
     printContainer.style.fontSize = '12pt';
-    printContainer.style.height = 'auto'; // Allow dynamic height
+    printContainer.style.height = 'auto'; // Dynamic height
 
     // Add header and details
     const content = document.createElement('div');
@@ -224,7 +224,9 @@ async function printQuotation(orderId) {
     itemsTable.appendChild(thead);
 
     const tbody = document.createElement('tbody');
-    order.items.forEach(item => {
+    // Limit items to fit A4 (adjust based on testing, e.g., 10 items as a starting point)
+    const maxItems = 10; // Adjust this value based on your content height
+    order.items.slice(0, maxItems).forEach(item => {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td style="border: 1px solid #ddd; padding: 8px; width: 60%;">${item.name}</td>
@@ -233,23 +235,34 @@ async function printQuotation(orderId) {
         `;
         tbody.appendChild(row);
     });
+    // Add note if items are truncated
+    if (order.items.length > maxItems) {
+        const noteRow = document.createElement('tr');
+        noteRow.innerHTML = `
+            <td colspan="3" style="border: 1px solid #ddd; padding: 8px; text-align: center; color: red;">
+                注意：超過 ${maxItems} 項商品，僅顯示前 ${maxItems} 項，其餘請查閱系統。
+            </td>
+        `;
+        tbody.appendChild(noteRow);
+    }
     itemsTable.appendChild(tbody);
 
     content.appendChild(itemsTable);
     printContainer.appendChild(content);
 
-    // Add print-specific styles to enforce single page
+    // Add print-specific styles using a safer method for Trusted Types
     const style = document.createElement('style');
     style.textContent = `
         @media print {
             body * { visibility: hidden; }
             #printContainer, #printContainer * { visibility: visible; }
-            #printContainer { position: absolute; left: 0; top: 0; width: 210mm; height: 297mm; overflow: hidden; }
+            #printContainer { position: relative; width: 210mm; height: 297mm; overflow: hidden; display: block; }
             @page { size: A4; margin: 0; }
-            #printContainer { break-inside: avoid; }
             table { page-break-inside: avoid; }
+            #printContainer { break-inside: avoid; }
         }
     `;
+    // Use textContent instead of innerHTML to avoid TrustedScript warnings
     document.head.appendChild(style);
 
     // Append to body and print
