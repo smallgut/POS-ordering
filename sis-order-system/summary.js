@@ -202,14 +202,39 @@ async function printQuotation(orderId) {
         <h3 style="margin-top: 20px;">商品 數量 單位</h3>
     `;
 
-    // Add items list
-    order.items.forEach(item => {
-        const itemDiv = document.createElement('p');
-        itemDiv.style.margin = '5px 0';
-        itemDiv.textContent = `${item.name} ${item.qty} ${item.unit || '無單位'}`;
-        content.appendChild(itemDiv);
-    });
+    // Add items table for tidy layout
+    const itemsTable = document.createElement('table');
+    itemsTable.style.width = '100%';
+    itemsTable.style.borderCollapse = 'collapse';
+    itemsTable.style.marginTop = '10px';
 
+    const thead = document.createElement('thead');
+    const headerRow = document.createElement('tr');
+    ['商品', '數量', '單位'].forEach(headerText => {
+        const th = document.createElement('th');
+        th.style.border = '1px solid #ddd';
+        th.style.padding = '8px';
+        th.style.textAlign = 'left';
+        th.style.backgroundColor = '#f2f2f2';
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    itemsTable.appendChild(thead);
+
+    const tbody = document.createElement('tbody');
+    order.items.forEach(item => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td style="border: 1px solid #ddd; padding: 8px;">${item.name}</td>
+            <td style="border: 1px solid #ddd; padding: 8px; text-align: center;">${item.qty}</td>
+            <td style="border: 1px solid #ddd; padding: 8px;">${item.unit || '無單位'}</td>
+        `;
+        tbody.appendChild(row);
+    });
+    itemsTable.appendChild(tbody);
+
+    content.appendChild(itemsTable);
     printContainer.appendChild(content);
 
     // Add print-specific styles to hide everything else
