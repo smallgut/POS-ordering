@@ -12,7 +12,54 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+async function checkLogin() {
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    while (attempts < maxAttempts) {
+        const username = prompt('請輸入用戶名:');
+        if (username === null) return false; // User canceled
+        const password = prompt('請輸入密碼:');
+        if (password === null) return false; // User canceled
+
+        const { data, error } = await supabase
+            .from('authorized_users')
+            .select('username, password_hash')
+            .eq('username', username)
+            .single();
+
+        if (error || !data) {
+            attempts++;
+            alert(`用戶信息錯誤，剩餘嘗試次數: ${maxAttempts - attempts}`);
+            if (attempts === maxAttempts) {
+                alert('嘗試次數超過限制，返回首頁。');
+                window.location.href = 'index.html';
+                return false;
+            }
+            continue;
+        }
+
+        // Verify password using crypt
+        const isValid = await supabase.rpc('verify_password', {
+            provided_password: password,
+            stored_hash: data.password_hash
+        });
+        if (isValid) return true;
+
+        attempts++;
+        alert(`用戶信息錯誤，剩餘嘗試次數: ${maxAttempts - attempts}`);
+        if (attempts === maxAttempts) {
+            alert('嘗試次數超過限制，返回首頁。');
+            window.location.href = 'index.html';
+            return false;
+        }
+    }
+    return false;
+}
+
 async function loadOrders(dateFilter = '', categoryFilter = '') {
+    if (!(await checkLogin())) return;
+
     const tableBody = document.querySelector('#orderSummary tbody');
     const noOrdersMessage = document.getElementById('noOrdersMessage');
     const statsBody = document.querySelector('#itemStats tbody');
@@ -228,7 +275,7 @@ async function printQuotation(orderId) {
     itemsTable.appendChild(thead);
 
     const tbody = document.createElement('tbody');
-    order.items.forEach(item => { // Removed maxItems limit
+    order.items.forEach(item => { // No limit on items
         const row = document.createElement('tr');
         row.innerHTML = `
             <td style="border: 1px solid #ddd; padding: 5px; width: 60%; font-size: 10pt;">${item.name}</td>
@@ -258,7 +305,6 @@ async function printQuotation(orderId) {
     // Append to body and ensure rendering before print
     printContainer.id = 'printContainer';
     document.body.appendChild(printContainer);
-    // Increased delay to ensure rendering
     await new Promise(resolve => setTimeout(resolve, 500));
     console.log('Print content generated:', printContainer.innerHTML);
     window.print();
