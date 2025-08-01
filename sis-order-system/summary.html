@@ -3,82 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二姐叫菜 - 每日訂單</title>
+    <title>訂單摘要 | Summary</title>
     <link rel="stylesheet" href="/assets/output.css">
     <script type="module" src="/summary.js"></script>
 </head>
-<body class="bg-gray-50">
-    <nav class="bg-primary text-white p-4">
+<body class="bg-gray-50"
+      style="background-image: url('/images/store.jpg');
+             background-size: cover;
+             background-position: center;
+             background-attachment: fixed;">
+
+    <nav class="bg-primary p-4" style="color:white;">
         <div class="container mx-auto flex justify-between">
-            <a href="index.html" class="text-lg font-bold">下單分類</a>
-            <div>
-                <a href="checkout.html" class="px-2">結帳</a>
-                <a href="summary.html" class="px-2">每日訂單</a>
-            </div>
+            <a href="index.html" class="text-lg font-bold" style="color:white;">回到首頁</a>
         </div>
     </nav>
 
-    <section class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 每日訂單</h1>
-        <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁</a>
+    <!-- Frosted-glass wrapper -->
+    <section class="container mx-auto py-8"
+             style="background: rgba(255,255,255,0.65);
+                    padding: 20px;
+                    border-radius: 12px;
+                    backdrop-filter: blur(8px);
+                    -webkit-backdrop-filter: blur(8px);
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+        <h1 class="text-2xl font-bold mb-4">訂單摘要 | Order Summary</h1>
 
-        <h2 class="text-xl font-semibold mb-4">訂單查詢</h2>
-        <div class="flex space-x-4 mb-4">
+        <!-- Filters -->
+        <div class="flex gap-4 mb-6">
             <div>
-                <label for="dateFilter" class="block mb-2">選擇日期</label>
+                <label for="dateFilter" class="block mb-1">日期篩選 | Date Filter:</label>
                 <input type="date" id="dateFilter" class="p-2 border rounded">
             </div>
             <div>
-                <label for="categoryFilter" class="block mb-2">商品類別</label>
+                <label for="categoryFilter" class="block mb-1">分類篩選 | Category Filter:</label>
                 <select id="categoryFilter" class="p-2 border rounded">
-                    <option value="">所有類別</option>
+                    <option value="">全部 | All</option>
                     <option value="蔬果類">蔬果類</option>
                     <option value="鮮肉類">鮮肉類</option>
                     <option value="海鮮類">海鮮類</option>
                     <option value="其他類">其他類</option>
                 </select>
             </div>
-            <button id="searchButton" class="mt-6 bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">查詢</button>
+            <div class="flex items-end">
+                <button id="searchButton" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">搜尋 | Search</button>
+            </div>
         </div>
 
-        <h2 class="text-xl font-semibold mb-4">訂單明細</h2>
+        <!-- Order Summary Table -->
         <table id="orderSummary" class="w-full border-collapse mb-8">
             <thead>
                 <tr class="bg-secondary">
-                    <th class="border p-3">日期 | Date</th>
-                    <th class="border p-3">商品 | Item</th>
-                    <th class="border p-3">數量 | Quantity</th>
-                    <th class="border p-3">單位 | Unit</th>
-                    <th class="border p-3">客戶 | Customer</th>
-                    <th class="border p-3">提交時間 | Submit Order Time</th>
-                    <th class="border p-3">備註 | Remark</th>
-                    <th class="border p-3">報價 | Quotation</th>
-                    <th class="border p-3">列印 | Print</th>
+                    <th class="border p-3">日期</th>
+                    <th class="border p-3">商品</th>
+                    <th class="border p-3">數量</th>
+                    <th class="border p-3">單位</th>
+                    <th class="border p-3">客戶</th>
+                    <th class="border p-3">提交時間</th>
+                    <th class="border p-3">備註</th>
+                    <th class="border p-3">報價</th>
+                    <th class="border p-3">操作</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
-        <p id="noOrdersMessage" class="text-red-600 hidden">暫無訂單</p>
+        <p id="noOrdersMessage" class="text-red-600 hidden">沒有訂單資料！</p>
 
-        <h2 class="text-xl font-semibold mb-4">商品總量統計</h2>
+        <!-- Item Statistics Table -->
+        <h2 class="text-xl font-bold mb-2">統計資料 | Statistics</h2>
         <table id="itemStats" class="w-full border-collapse">
             <thead>
                 <tr class="bg-secondary">
-                    <th class="border p-3">商品名稱</th>
+                    <th class="border p-3">商品</th>
                     <th class="border p-3">單位</th>
-                    <th class="border p-3">總訂購數量</th>
+                    <th class="border p-3">總數量</th>
                 </tr>
             </thead>
             <tbody></tbody>
         </table>
-        <p id="noStatsMessage" class="text-red-600 hidden">暫無統計數據</p>
+        <p id="noStatsMessage" class="text-red-600 hidden">沒有統計資料！</p>
     </section>
 
-    <footer class="bg-primary text-white text-center p-4 mt-8">
-        <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="underline">回到頂部</a>
+    <footer class="bg-primary text-center p-4 mt-8" style="color:white;">
+        <p>&copy; 2025 二姐叫菜 | All Rights Reserved</p>
+        <a href="#" class="underline" style="color:white;">回到頂部</a>
     </footer>
-
-    <a href="checkout.html" class="cart-button fixed bottom-4 right-4 bg-primary text-white p-4 rounded-full">🛒</a>
 </body>
 </html>
