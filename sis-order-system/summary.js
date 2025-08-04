@@ -57,7 +57,7 @@ async function checkLogin() {
     return false;
 }
 
-async function loadOrders(dateFilter = '', categoryFilter = '') {
+async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
     if (!(await checkLogin())) return;
 
     const tableBody = document.querySelector('#orderSummary tbody');
@@ -72,14 +72,24 @@ async function loadOrders(dateFilter = '', categoryFilter = '') {
     }
 
     try {
-        console.log('Fetching orders with filters:', { dateFilter, categoryFilter });
+        console.log('Fetching orders with filters:', { startDate, endDate, categoryFilter });
         let query = supabase.from('orders').select('*').order('created_at', { ascending: false });
-        if (dateFilter) {
-            const date = new Date(dateFilter);
-            const start = new Date(date.getTime() + 8 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T00:00:00Z';
-            const end = new Date(date.getTime() + 8 * 60 * 60 * 1000).toISOString().split('T')[0] + 'T23:59:59Z';
-            query = query.gte('created_at', start).lte('created_at', end);
+
+        // Default to last 3 days if no date range selected
+        if (!startDate && !endDate) {
+            const today = new Date();
+            today.setHours(today.getHours() + 8); // Adjust to UTC+8
+            const threeDaysAgo = new Date(today);
+            threeDaysAgo.setDate(today.getDate() - 3);
+            startDate = threeDaysAgo.toISOString().split('T')[0] + 'T00:00:00Z';
+            endDate = today.toISOString().split('T')[0] + 'T23:59:59Z';
+        } else if (startDate || endDate) {
+            startDate = startDate ? new Date(startDate).toISOString().split('T')[0] + 'T00:00:00Z' : '';
+            endDate = endDate ? new Date(endDate).toISOString().split('T')[0] + 'T23:59:59Z' : '';
         }
+
+        if (startDate) query = query.gte('created_at', startDate);
+        if (endDate) query = query.lte('created_at', endDate);
 
         const { data: orders, error } = await query;
         if (error) {
@@ -318,9 +328,10 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
     document.getElementById('searchButton').addEventListener('click', () => {
-        const dateFilter = document.getElementById('dateFilter').value;
+        const startDate = document.getElementById('startDate').value;
+        const endDate = document.getElementById('endDate').value;
         const categoryFilter = document.getElementById('categoryFilter').value;
-        console.log('Search button clicked with filters:', { dateFilter, categoryFilter });
-        loadOrders(dateFilter, categoryFilter);
+        console.log('Search button clicked with filters:', { startDate, endDate, categoryFilter });
+        loadOrders(startDate, endDate, categoryFilter);
     });
 });
