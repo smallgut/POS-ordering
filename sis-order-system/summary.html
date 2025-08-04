@@ -30,25 +30,34 @@
         <h1 class="text-2xl font-bold mb-4">訂單摘要 | Order Summary</h1>
 
         <!-- Filters -->
-        <div class="flex gap-4 mb-6">
+<div class="flex gap-4 mb-6">
+    <div>
+        <label class="block mb-1">日期篩選 | Date Filter:</label>
+        <div class="flex gap-2">
             <div>
-                <label for="dateFilter" class="block mb-1">日期篩選 | Date Filter:</label>
-                <input type="date" id="dateFilter" class="p-2 border rounded">
+                <label for="startDate" class="sr-only">開始日期 | Start Date</label>
+                <input type="date" id="startDate" class="p-2 border rounded">
             </div>
             <div>
-                <label for="categoryFilter" class="block mb-1">分類篩選 | Category Filter:</label>
-                <select id="categoryFilter" class="p-2 border rounded">
-                    <option value="">全部 | All</option>
-                    <option value="蔬果類">蔬果類</option>
-                    <option value="鮮肉類">鮮肉類</option>
-                    <option value="海鮮類">海鮮類</option>
-                    <option value="其他類">其他類</option>
-                </select>
-            </div>
-            <div class="flex items-end">
-                <button id="searchButton" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">搜尋 | Search</button>
+                <label for="endDate" class="sr-only">結束日期 | End Date</label>
+                <input type="date" id="endDate" class="p-2 border rounded">
             </div>
         </div>
+    </div>
+    <div>
+        <label for="categoryFilter" class="block mb-1">分類篩選 | Category Filter:</label>
+        <select id="categoryFilter" class="p-2 border rounded">
+            <option value="">全部 | All</option>
+            <option value="蔬果類">蔬果類</option>
+            <option value="鮮肉類">鮮肉類</option>
+            <option value="海鮮類">海鮮類</option>
+            <option value="其他類">其他類</option>
+        </select>
+    </div>
+    <div class="flex items-end">
+        <button id="searchButton" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">搜尋 | Search</button>
+    </div>
+</div>
 
         <!-- Order Summary Table -->
         <table id="orderSummary" class="w-full border-collapse mb-8">
