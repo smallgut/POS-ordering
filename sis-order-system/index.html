@@ -46,10 +46,13 @@
             <li><a href="others.html" class="text-primary hover:underline">其他類</a></li>
            
         </ul>
-            <!-- Search Function -->
+ <!-- Search Function -->
 <div class="mb-6">
     <label for="searchInput" class="block mb-1">搜尋商品 | Search Item:</label>
-    <input type="text" id="searchInput" class="p-2 border rounded w-full" placeholder="輸入商品名稱...">
+    <div class="flex gap-2">
+        <input type="text" id="searchInput" class="p-2 border rounded w-full" placeholder="輸入商品名稱...">
+        <button id="confirmButton" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">確認 | Confirm</button>
+    </div>
     <div id="searchResults" class="mt-2 text-sm"></div>
 </div>
         </nav>
