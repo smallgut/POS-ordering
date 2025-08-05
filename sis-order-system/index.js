@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Search functionality
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
+    const confirmButton = document.getElementById('confirmButton');
 
     // Mapping of goods to their locations (category > subcategory)
     const itemLocations = {
@@ -151,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '山苦瓜': ['蔬果類', '瓜類'],
         '絲瓜': ['蔬果類', '瓜類'],
         '大黃瓜': ['蔬果類', '瓜類'],
-        '青木瓜': ['蔬果類', '瓜類'],
+        '青木 papaya': ['蔬果類', '瓜類'],
         '菜瓜': ['蔬果類', '瓜類'],
         '佛手瓜': ['蔬果類', '瓜類'],
         '絝瓜 (蒲仔)': ['蔬果類', '瓜類'],
@@ -269,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '太白粉': ['其他類', '其他']
     };
 
-    searchInput.addEventListener('input', () => {
+    confirmButton.addEventListener('click', () => {
         const query = searchInput.value.trim().toLowerCase();
         searchResults.innerHTML = '';
 
@@ -287,6 +288,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 searchResults.textContent = '未找到相關商品！';
             }
+        } else {
+            searchResults.textContent = '請輸入商品名稱！';
         }
     });
 });
