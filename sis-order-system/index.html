@@ -46,18 +46,16 @@
             <li><a href="others.html" class="text-primary hover:underline">其他類</a></li>
            
         </ul>
- <!-- Search Function -->
-<div class="mb-6">
-    <label for="searchInput" class="block mb-1">搜尋商品 | Search Item:</label>
-    <div class="flex gap-2">
-        <input type="text" id="searchInput" class="p-2 border rounded w-full" placeholder="輸入商品名稱...">
-        <button id="confirmButton" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">確認 | Confirm</button>
-    </div>
-    <div id="searchResults" class="mt-2 text-sm"></div>
-</div>
-        </nav>
+         </nav>
     </section>
-
+<!-- Search Function -->
+<section class="search-section py-6">
+    <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold mb-4">搜尋商品</h2>
+        <input type="text" id="searchInput" placeholder="輸入商品名稱（如：薑、egg）" class="w-full p-2 border rounded-md mb-4">
+        <div id="searchResults" class="text-lg"></div>
+    </div>
+</section>
     <section class="container mx-auto py-4">
         <nav class="bg-primary text-white p-4">
         <h2 class="text-xl font-semibold mb-4">聯絡我們</h2>
