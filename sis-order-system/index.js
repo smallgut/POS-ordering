@@ -1,5 +1,6 @@
 // sis-order-system/index.js
 document.addEventListener('DOMContentLoaded', () => {
+    // Cart button logic (unchanged)
     const cartButton = document.querySelector('.cart-button');
     if (cartButton) {
         cartButton.addEventListener('click', () => {
@@ -19,6 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('searchResults');
     const confirmButton = document.getElementById('confirmButton');
+
+    // Check if elements exist
+    if (!searchInput || !searchResults || !confirmButton) {
+        console.error('Search elements missing:', {
+            searchInput: !!searchInput,
+            searchResults: !!searchResults,
+            confirmButton: !!confirmButton
+        });
+        return;
+    }
 
     // Mapping of goods to their locations (category > subcategory)
     const itemLocations = {
@@ -96,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '金針菇': ['蔬果類', '菇類'],
         '白精靈菇': ['蔬果類', '菇類'],
         '美白菇': ['蔬果類', '菇類'],
-        // Ingredients from veg.html
+        // Seasonings from veg.html
         '薑': ['蔬果類', '配料類'],
         '老薑': ['蔬果類', '配料類'],
         '嫩薑': ['蔬果類', '配料類'],
@@ -134,29 +145,29 @@ document.addEventListener('DOMContentLoaded', () => {
         '蓮子': ['蔬果類', '配料類'],
         '山葵 (哇沙米)': ['蔬果類', '配料類'],
         // Root Vegetables from veg.html
-        '馬鈴薯 (馬K)': ['蔬果類', '根莖類'],
+        '馬鈴薯': ['蔬果類', '根莖類'],
         '刈薯': ['蔬果類', '根莖類'],
         '甜薯': ['蔬果類', '根莖類'],
-        '紅蘿蔔 (紅K)': ['蔬果類', '根莖類'],
-        '白蘿蔔 (白K)': ['蔬果類', '根莖類'],
+        '紅蘿蔔': ['蔬果類', '根莖類'],
+        '白蘿蔔': ['蔬果類', '根莖類'],
         '山藥': ['蔬果類', '根莖類'],
         '地瓜': ['蔬果類', '根莖類'],
         '小條地瓜': ['蔬果類', '根莖類'],
         '芋頭': ['蔬果類', '根莖類'],
         '紅地瓜': ['蔬果類', '根莖類'],
         '馬蹄': ['蔬果類', '根莖類'],
-        // Gourd Vegetables from veg.html
+        // Melons from veg.html
         '小黃瓜': ['蔬果類', '瓜類'],
         '青苦瓜': ['蔬果類', '瓜類'],
         '白苦瓜': ['蔬果類', '瓜類'],
         '山苦瓜': ['蔬果類', '瓜類'],
         '絲瓜': ['蔬果類', '瓜類'],
         '大黃瓜': ['蔬果類', '瓜類'],
-        '青木 papaya': ['蔬果類', '瓜類'],
+        '青木瓜': ['蔬果類', '瓜類'],
         '菜瓜': ['蔬果類', '瓜類'],
         '佛手瓜': ['蔬果類', '瓜類'],
         '絝瓜 (蒲仔)': ['蔬果類', '瓜類'],
-        // Pork, Beef, Lamb from meat.html
+        // Meat from meat.html
         '紅燒肉': ['鮮肉類', '豬牛羊'],
         '羊肉片': ['鮮肉類', '豬牛羊'],
         '鹹牛肉': ['鮮肉類', '豬牛羊'],
@@ -166,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '培根': ['鮮肉類', '豬牛羊'],
         '軟排': ['鮮肉類', '豬牛羊'],
         '豬柳': ['鮮肉類', '豬牛羊'],
-        // Chicken, Duck, Goose from meat.html
+        // Poultry from meat.html
         '茶雞': ['鮮肉類', '雞鴨鵝'],
         '雞翅': ['鮮肉類', '雞鴨鵝'],
         '雞頭骨': ['鮮肉類', '雞鴨鵝'],
@@ -222,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '山藥卷': ['其他類', '加工食品'],
         '春捲皮': ['其他類', '加工食品'],
         '泡菜': ['其他類', '加工食品'],
-        // Bean Noodles from others.html
+        // Tofu and Noodles from others.html
         '豆漿': ['其他類', '豆麵類'],
         '豆乾': ['其他類', '豆麵類'],
         '四角油豆腐': ['其他類', '豆麵類'],
@@ -267,29 +278,36 @@ document.addEventListener('DOMContentLoaded', () => {
         '台糖白砂糖': ['其他類', '其他'],
         '海味味精': ['其他類', '其他'],
         '鹽巴': ['其他類', '其他'],
-        '太白粉': ['其他類', '其他']
+        '太白粉': ['其他類', '其他'],
+        // Alias for 'egg'
+        'egg': ['其他類', '其他']
     };
 
     confirmButton.addEventListener('click', () => {
         const query = searchInput.value.trim().toLowerCase();
         searchResults.innerHTML = '';
 
-        if (query) {
-            const matches = Object.keys(itemLocations).filter(item =>
-                item.toLowerCase().includes(query)
-            );
-            if (matches.length > 0) {
-                matches.forEach(item => {
-                    const [category, subcategory] = itemLocations[item];
-                    const result = document.createElement('div');
-                    result.textContent = `${item} 位於 ${category} 中的 ${subcategory}`;
-                    searchResults.appendChild(result);
-                });
-            } else {
-                searchResults.textContent = '未找到相關商品！';
-            }
-        } else {
+        if (!query) {
             searchResults.textContent = '請輸入商品名稱！';
+            searchResults.className = 'text-red-500';
+            return;
+        }
+
+        const matches = Object.keys(itemLocations).filter(item =>
+            item.toLowerCase().includes(query)
+        );
+
+        if (matches.length > 0) {
+            matches.forEach(item => {
+                const [category, subcategory] = itemLocations[item];
+                const result = document.createElement('div');
+                result.textContent = `${item} 位於 ${category} 中的 ${subcategory}`;
+                result.className = 'py-1 text-gray-800';
+                searchResults.appendChild(result);
+            });
+        } else {
+            searchResults.textContent = '未找到相關商品！';
+            searchResults.className = 'text-red-500';
         }
     });
 });
