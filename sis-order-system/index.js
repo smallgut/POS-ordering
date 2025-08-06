@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const [category, subcategory] = itemLocations[item];
                 const result = document.createElement('div');
                 result.textContent = `${item} 位於 ${category} 中的 ${subcategory}`;
-                result.className = 'py-1 text-gray-800';
+                result.className = 'py-1 text-white';
                 searchResults.appendChild(result);
             });
         } else {
