@@ -4,7 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>小威叫菜下單系統</title>
-    <link rel="stylesheet" href="/dist/assets/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/images/store.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .content-overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+
 </head>
 <body class="bg-gray-50">
     <header class="bg-primary text-white py-4">
@@ -18,26 +33,34 @@
             </nav>
         </div>
     </header>
-
-    <main class="py-8">
-        <section class="hero text-center">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-4">小威叫菜下單系統</h2>
-                <p class="text-lg mb-6">簡單方便，快速下單，輕鬆送貨到店</p>
+<body class="font-sans">
+    <nav class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-lg font-bold">下單分類</a>
+            <div class="space-x-4">
+                <a href="checkout.html" class="px-2 hover:underline">結帳</a>
+                <a href="summary.html" class="px-2 hover:underline">每日訂單</a>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <section class="categories py-6">
-            <div class="container mx-auto px-4">
-                <h2 class="text-2xl font-bold mb-4">商品分類</h2>
-                <ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <li><a href="veg.html" class="block p-4 bg-secondary rounded-md hover:bg-gray-200">蔬果類</a></li>
-                    <li><a href="meat.html" class="block p-4 bg-secondary rounded-md hover:bg-gray-200">鮮肉類</a></li>
-                    <li><a href="seafood.html" class="block p-4 bg-secondary rounded-md hover:bg-gray-200">海鮮類</a></li>
-                    <li><a href="others.html" class="block p-4 bg-secondary rounded-md hover:bg-gray-200">其他類</a></li>
-                </ul>
-            </div>
-        </section>
+
+    <section class="container mx-auto py-8">
+        <nav class="bg-primary text-white p-4">
+        <h1 class="text-2xl font-bold mb-4">小威叫菜下單系統</h1>
+        <p class="mb-4">簡單方便，快速下單，輕鬆送貨到店</p>
+
+        <h2 class="text-xl font-semibold mb-4">商品分類</h2>
+        <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
+            <li><a href="veg.html" class="text-primary hover:underline">蔬果類</a></li>
+            <li><a href="meat.html" class="text-primary hover:underline">鮮肉類</a></li>
+            <li><a href="seafood.html" class="text-primary hover:underline">海鮮類</a></li>
+            
+            <li><a href="others.html" class="text-primary hover:underline">其他類</a></li>
+           
+        </ul>
+         </nav>
+    </section>
 
         <section class="search-section py-6">
             <div class="container mx-auto px-4">
