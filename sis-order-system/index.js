@@ -1,3 +1,4 @@
+// sis-order-system/index.js
 document.addEventListener('DOMContentLoaded', () => {
     // Cart button logic (unchanged)
     const cartButton = document.querySelector('.cart-button');
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mapping of goods to their locations (category > subcategory)
     const itemLocations = {
+        // Vegetables from veg.html
         '麻糬茄子': ['蔬果類', '蔬菜'],
         '茄子': ['蔬果類', '蔬菜'],
         '芹菜': ['蔬果類', '蔬菜'],
@@ -85,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '蘆筍 (台灣)': ['蔬果類', '蔬菜'],
         '埔里晈白筍': ['蔬果類', '蔬菜'],
         '筊白筍': ['蔬果類', '蔬菜'],
+        // Fruits from veg.html
         '檸檬': ['蔬果類', '水果'],
         '柳丁': ['蔬果類', '水果'],
         '香蕉': ['蔬果類', '水果'],
@@ -96,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '芭樂': ['蔬果類', '水果'],
         '葡萄柚': ['蔬果類', '水果'],
         '巨峰葡萄': ['蔬果類', '水果'],
+        // Mushrooms from veg.html
         '香菇': ['蔬果類', '菇類'],
         '杏鮑菇': ['蔬果類', '菇類'],
         '鴻禧菇': ['蔬果類', '菇類'],
@@ -103,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '金針菇': ['蔬果類', '菇類'],
         '白精靈菇': ['蔬果類', '菇類'],
         '美白菇': ['蔬果類', '菇類'],
+        // Seasonings from veg.html
         '薑': ['蔬果類', '配料類'],
         '老薑': ['蔬果類', '配料類'],
         '嫩薑': ['蔬果類', '配料類'],
@@ -139,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '牛蒡絲': ['蔬果類', '配料類'],
         '蓮子': ['蔬果類', '配料類'],
         '山葵 (哇沙米)': ['蔬果類', '配料類'],
+        // Root Vegetables from veg.html
         '馬鈴薯': ['蔬果類', '根莖類'],
         '刈薯': ['蔬果類', '根莖類'],
         '甜薯': ['蔬果類', '根莖類'],
@@ -150,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '芋頭': ['蔬果類', '根莖類'],
         '紅地瓜': ['蔬果類', '根莖類'],
         '馬蹄': ['蔬果類', '根莖類'],
+        // Melons from veg.html
         '小黃瓜': ['蔬果類', '瓜類'],
         '青苦瓜': ['蔬果類', '瓜類'],
         '白苦瓜': ['蔬果類', '瓜類'],
@@ -160,6 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '菜瓜': ['蔬果類', '瓜類'],
         '佛手瓜': ['蔬果類', '瓜類'],
         '絝瓜 (蒲仔)': ['蔬果類', '瓜類'],
+        // Meat from meat.html
         '紅燒肉': ['鮮肉類', '豬牛羊'],
         '羊肉片': ['鮮肉類', '豬牛羊'],
         '鹹牛肉': ['鮮肉類', '豬牛羊'],
@@ -169,6 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '培根': ['鮮肉類', '豬牛羊'],
         '軟排': ['鮮肉類', '豬牛羊'],
         '豬柳': ['鮮肉類', '豬牛羊'],
+        // Poultry from meat.html
         '茶雞': ['鮮肉類', '雞鴨鵝'],
         '雞翅': ['鮮肉類', '雞鴨鵝'],
         '雞頭骨': ['鮮肉類', '雞鴨鵝'],
@@ -179,6 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '烤鴨': ['鮮肉類', '雞鴨鵝'],
         '生鴨頭': ['鮮肉類', '雞鴨鵝'],
         '煙燻鳳爪': ['鮮肉類', '雞鴨鵝'],
+        // Seafood from seafood.html
         '蚵仔': ['海鮮類', '海鮮類'],
         '蝦米': ['海鮮類', '海鮮類'],
         '鮭魚片': ['海鮮類', '海鮮類'],
@@ -188,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '蛤仔 (蛤蜊)': ['海鮮類', '海鮮類'],
         '圓鱈': ['海鮮類', '海鮮類'],
         '鯛魚片': ['海鮮類', '海鮮類'],
+        // Cooked Food from others.html
         '肉羹': ['其他類', '熟食'],
         '肉鬆': ['其他類', '熟食'],
         '素肉鬆': ['其他類', '熟食'],
@@ -207,6 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '花枝丸': ['其他類', '熟食'],
         '新竹貢丸': ['其他類', '熟食'],
         '大貢丸': ['其他類', '熟食'],
+        // Processed Food from others.html
         '福茂大貢': ['其他類', '加工食品'],
         '純瑪琳': ['其他類', '加工食品'],
         '玉米粒': ['其他類', '加工食品'],
@@ -221,6 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '山藥卷': ['其他類', '加工食品'],
         '春捲皮': ['其他類', '加工食品'],
         '泡菜': ['其他類', '加工食品'],
+        // Tofu and Noodles from others.html
         '豆漿': ['其他類', '豆麵類'],
         '豆乾': ['其他類', '豆麵類'],
         '四角油豆腐': ['其他類', '豆麵類'],
@@ -241,6 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '意麵': ['其他類', '豆麵類'],
         '陽春麵': ['其他類', '豆麵類'],
         '新竹米粉': ['其他類', '豆麵類'],
+        // Others from others.html
         '台灣啤酒 330ml': ['其他類', '其他'],
         '可口可樂 330ml': ['其他類', '其他'],
         '礦泉水': ['其他類', '其他'],
@@ -265,15 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
         '海味味精': ['其他類', '其他'],
         '鹽巴': ['其他類', '其他'],
         '太白粉': ['其他類', '其他'],
+        // Alias for 'egg'
         'egg': ['其他類', '其他']
-    };
-
-    // Map categories to their respective pages
-    const categoryToPage = {
-        '蔬果類': 'veg.html',
-        '鮮肉類': 'meat.html',
-        '海鮮類': 'seafood.html',
-        '其他類': 'others.html'
     };
 
     confirmButton.addEventListener('click', () => {
@@ -293,10 +300,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (matches.length > 0) {
             matches.forEach(item => {
                 const [category, subcategory] = itemLocations[item];
-                const result = document.createElement('a');
+                const result = document.createElement('div');
                 result.textContent = `${item} 位於 ${category} 中的 ${subcategory}`;
-                result.href = `${categoryToPage[category]}?item=${encodeURIComponent(item)}`;
-                result.className = 'py-1 text-white hover:underline block';
+                result.className = 'py-1 text-white';
                 searchResults.appendChild(result);
             });
         } else {
