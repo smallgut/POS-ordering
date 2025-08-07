@@ -38,8 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
     addToCartButtons.forEach(button => {
         button.addEventListener('click', () => {
             const subcategory = button.getAttribute('data-item');
-            const selectElement = document.getElementById(subcategoryToSelectId[subcategory]);
+            console.log('Subcategory:', subcategory); // Debug: Log subcategory
+            console.log('subcategoryToSelectId:', subcategoryToSelectId); // Debug: Log mapping
+            const selectId = subcategoryToSelectId[subcategory];
+            console.log('Select ID:', selectId); // Debug: Log select ID
+            const selectElement = document.getElementById(selectId);
+            console.log('Select Element:', selectElement); // Debug: Log select element
             const item = selectElement ? selectElement.value : '';
+            console.log('Selected Item:', item); // Debug: Log selected item
             const qtyInput = document.querySelector(`.qty-input[data-item="${subcategory}"]`);
             const unitSelect = document.querySelector(`.unit-select[data-item="${subcategory}"]`);
             const qty = parseFloat(qtyInput.value) || 0;
