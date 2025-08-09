@@ -218,7 +218,6 @@ function getItemCategory(itemName) {
 }
 
 async function printQuotation(orderId) {
-    // Fetch order
     const { data: order, error } = await supabase
         .from('orders')
         .select('*')
@@ -230,14 +229,12 @@ async function printQuotation(orderId) {
         return;
     }
 
-    // Create a dedicated print window for the receipt
     const printWindow = window.open('', '', 'width=400,height=600');
     if (!printWindow) {
         alert('無法開啟列印視窗，請檢查瀏覽器彈出視窗設定');
         return;
     }
 
-    // Build receipt content (monospace text style)
     let content = `
         <html>
         <head>
@@ -253,14 +250,15 @@ async function printQuotation(orderId) {
                     line-height: 1.2;
                     margin: 0;
                     padding: 2mm;
+                    box-sizing: border-box;
                 }
                 .center { text-align: center; }
                 .line { border-top: 1px dashed #000; margin: 2px 0; }
                 .bold { font-weight: bold; }
-                .item-line { display: flex; justify-content: space-between; }
-                .left { flex: 1; }
-                .mid { width: 20mm; text-align: right; }
-                .right { width: 15mm; text-align: right; }
+                .item-line { display: flex; }
+                .left { flex: 1; word-break: break-word; }
+                .mid { width: 10mm; text-align: right; }
+                .right { width: 18mm; text-align: right; }
             </style>
         </head>
         <body>
@@ -272,14 +270,15 @@ async function printQuotation(orderId) {
             <div>備註: ${order.remark || '(無)'}</div>
             <div>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}</div>
             <div class="line"></div>
-            <div class="center bold">品名    數量  單位</div>
+            <div class="center bold">品名    數量    單位</div>
             <div class="line"></div>
     `;
 
     order.items.forEach(item => {
-        let name = (item.name || '').substring(0, 8); // cut to fit
+        let name = item.name || '';
         let qty = String(item.qty);
         let unit = item.unit || '';
+
         content += `
             <div class="item-line">
                 <div class="left">${name}</div>
@@ -296,13 +295,13 @@ async function printQuotation(orderId) {
         </html>
     `;
 
-    // Write to print window and print
     printWindow.document.write(content);
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();
     printWindow.close();
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
