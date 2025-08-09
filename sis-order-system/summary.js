@@ -218,103 +218,91 @@ function getItemCategory(itemName) {
 }
 
 async function printQuotation(orderId) {
-    // Fetch latest order data
+    // Fetch order
     const { data: order, error } = await supabase
         .from('orders')
         .select('*')
         .eq('id', orderId)
         .single();
+
     if (error) {
         alert('載入訂單資料時發生錯誤：' + error.message);
         return;
     }
 
-    // Create narrow print container
-    const printContainer = document.createElement('div');
-    printContainer.id = 'printContainer';
-    printContainer.style.width = '48mm';
-    printContainer.style.padding = '2mm';
-    printContainer.style.fontFamily = 'monospace';
-    printContainer.style.fontSize = '12px';
-    printContainer.style.lineHeight = '1.2';
-    printContainer.style.boxSizing = 'border-box';
-    printContainer.style.whiteSpace = 'pre';
-    printContainer.style.wordWrap = 'break-word';
+    // Create a dedicated print window for the receipt
+    const printWindow = window.open('', '', 'width=400,height=600');
+    if (!printWindow) {
+        alert('無法開啟列印視窗，請檢查瀏覽器彈出視窗設定');
+        return;
+    }
 
-    // Title
-    const title = document.createElement('div');
-    title.style.textAlign = 'center';
-    title.style.fontWeight = 'bold';
-    title.style.marginBottom = '4px';
-    title.textContent = '二姐叫菜 - 估價單';
-    printContainer.appendChild(title);
-
-    // Order info
-    const infoLines = [
-        `日期: ${order.created_at.split('T')[0]}`,
-        `時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false})}`,
-        `客戶: ${order.customer_name || '(無)'}`,
-        `電話: ${order.customer_contact || '(無)'}`,
-        `備註: ${order.remark || '(無)'}`,
-        `報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}`
-    ];
-    infoLines.forEach(line => {
-        const p = document.createElement('div');
-        p.textContent = line;
-        printContainer.appendChild(p);
-    });
-
-    // Separator
-    const sep = document.createElement('div');
-    sep.style.borderTop = '1px dashed black';
-    sep.style.margin = '4px 0';
-    printContainer.appendChild(sep);
-
-    // Column headers (centered)
-    const headerLine = `品名        數量  單位`;
-    const headerDiv = document.createElement('div');
-    headerDiv.style.textAlign = 'center';
-    headerDiv.textContent = headerLine;
-    printContainer.appendChild(headerDiv);
-
-    const headerSep = document.createElement('div');
-    headerSep.style.borderTop = '1px solid black';
-    headerSep.style.margin = '2px 0';
-    printContainer.appendChild(headerSep);
-
-    // Items aligned in columns
-    order.items.forEach(item => {
-        const name = (item.name || '').padEnd(8, ' ').slice(0, 8); // max 8 chars
-        const qty = String(item.qty).padStart(3, ' ');
-        const unit = (item.unit || '').padEnd(3, ' ').slice(0, 3);
-        const line = `${name}  ${qty}  ${unit}`;
-
-        const itemDiv = document.createElement('div');
-        itemDiv.textContent = line;
-        printContainer.appendChild(itemDiv);
-    });
-
-    // Print style
-    const style = document.createElement('style');
-    style.textContent = `
-        @media print {
-            body * { display: none !important; }
-            #printContainer { display: block !important; }
-            @page { size: 58mm auto; margin: 0; }
-        }
+    // Build receipt content (monospace text style)
+    let content = `
+        <html>
+        <head>
+            <style>
+                @page {
+                    size: 58mm auto;
+                    margin: 0;
+                }
+                body {
+                    width: 48mm;
+                    font-family: monospace;
+                    font-size: 12px;
+                    line-height: 1.2;
+                    margin: 0;
+                    padding: 2mm;
+                }
+                .center { text-align: center; }
+                .line { border-top: 1px dashed #000; margin: 2px 0; }
+                .bold { font-weight: bold; }
+                .item-line { display: flex; justify-content: space-between; }
+                .left { flex: 1; }
+                .mid { width: 20mm; text-align: right; }
+                .right { width: 15mm; text-align: right; }
+            </style>
+        </head>
+        <body>
+            <div class="center bold">二姐叫菜 - 估價單</div>
+            <div>日期: ${order.created_at.split('T')[0]}</div>
+            <div>時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false})}</div>
+            <div>客戶: ${order.customer_name || '(無)'}</div>
+            <div>電話: ${order.customer_contact || '(無)'}</div>
+            <div>備註: ${order.remark || '(無)'}</div>
+            <div>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}</div>
+            <div class="line"></div>
+            <div class="center bold">品名    數量  單位</div>
+            <div class="line"></div>
     `;
-    document.head.appendChild(style);
 
-    // Append and print
-    document.body.appendChild(printContainer);
-    await new Promise(r => setTimeout(r, 200)); // allow DOM to render
-    window.print();
+    order.items.forEach(item => {
+        let name = (item.name || '').substring(0, 8); // cut to fit
+        let qty = String(item.qty);
+        let unit = item.unit || '';
+        content += `
+            <div class="item-line">
+                <div class="left">${name}</div>
+                <div class="mid">${qty}</div>
+                <div class="right">${unit}</div>
+            </div>
+        `;
+    });
 
-    // Cleanup
-    document.head.removeChild(style);
-    document.body.removeChild(printContainer);
+    content += `
+            <div class="line"></div>
+            <div class="center">感謝您的惠顧</div>
+        </body>
+        </html>
+    `;
+
+    // Write to print window and print
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
