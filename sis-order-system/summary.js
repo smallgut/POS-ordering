@@ -258,7 +258,7 @@ async function printQuotation(orderId) {
                 .item-line { display: flex; }
                 .left { flex: 1; word-break: break-word; }
                 .mid { width: 10mm; text-align: right; }
-                .right { width: 30mm; text-align: right; }
+                .right { width: 24mm; text-align: right; }
             </style>
         </head>
         <body>
