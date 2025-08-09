@@ -218,108 +218,99 @@ function getItemCategory(itemName) {
 }
 
 async function printQuotation(orderId) {
-    // Fetch the latest order data to reflect updated quotation
+    // Fetch latest order data
     const { data: order, error } = await supabase
         .from('orders')
         .select('*')
         .eq('id', orderId)
         .single();
     if (error) {
-        console.error('Fetch order error:', error);
         alert('載入訂單資料時發生錯誤：' + error.message);
         return;
     }
 
-    // Create a temporary print container
+    // Create narrow print container
     const printContainer = document.createElement('div');
-    printContainer.style.position = 'absolute';
-    printContainer.style.top = '0';
-    printContainer.style.left = '0';
-    printContainer.style.width = '210mm'; // A4 width
-    printContainer.style.height = '297mm'; // A4 height
-    printContainer.style.padding = '10mm'; // Reduced padding to fit more content
+    printContainer.id = 'printContainer';
+    printContainer.style.width = '48mm';
+    printContainer.style.padding = '2mm';
+    printContainer.style.fontFamily = 'monospace';
+    printContainer.style.fontSize = '12px';
+    printContainer.style.lineHeight = '1.2';
     printContainer.style.boxSizing = 'border-box';
-    printContainer.style.fontFamily = 'Arial, sans-serif';
-    printContainer.style.fontSize = '10pt'; // Reduced font size to fit more items
-    printContainer.style.overflow = 'hidden'; // Prevent overflow
+    printContainer.style.whiteSpace = 'pre';
+    printContainer.style.wordWrap = 'break-word';
 
-    // Add header and details
-    const content = document.createElement('div');
-    content.style.marginBottom = '10px'; // Reduced margin
-    content.innerHTML = `
-        <h1 style="text-align: center; font-size: 20px; margin-bottom: 10px;">二姐叫菜 - 估價單</h1>
-        <p>⽇期: ${order.created_at.split('T')[0]}</p>
-        <p>提交時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        })}</p>
-        <p>客⼾姓名: ${order.customer_name || '(無)'}</p>
-        <p>聯絡電話: ${order.customer_contact || '(無)'}</p>
-        <p>備註: ${order.remark || '(無)'}</p>
-        <p>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}</p>
-        <h3 style="margin-top: 10px;">商品 數量 單位</h3>
-    `;
+    // Title
+    const title = document.createElement('div');
+    title.style.textAlign = 'center';
+    title.style.fontWeight = 'bold';
+    title.style.marginBottom = '4px';
+    title.textContent = '二姐叫菜 - 估價單';
+    printContainer.appendChild(title);
 
-    // Add items table for tidy layout
-    const itemsTable = document.createElement('table');
-    itemsTable.style.width = '100%';
-    itemsTable.style.borderCollapse = 'collapse';
-    itemsTable.style.marginTop = '5px'; // Reduced margin
-    itemsTable.style.pageBreakInside = 'avoid'; // Prevent table split
-
-    const thead = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    ['商品', '數量', '單位'].forEach(headerText => {
-        const th = document.createElement('th');
-        th.style.border = '1px solid #ddd';
-        th.style.padding = '5px'; // Reduced padding
-        th.style.textAlign = 'left';
-        th.style.backgroundColor = '#f2f2f2';
-        th.style.fontSize = '10pt'; // Match container font size
-        th.textContent = headerText;
-        headerRow.appendChild(th);
+    // Order info
+    const infoLines = [
+        `日期: ${order.created_at.split('T')[0]}`,
+        `時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false})}`,
+        `客戶: ${order.customer_name || '(無)'}`,
+        `電話: ${order.customer_contact || '(無)'}`,
+        `備註: ${order.remark || '(無)'}`,
+        `報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}`
+    ];
+    infoLines.forEach(line => {
+        const p = document.createElement('div');
+        p.textContent = line;
+        printContainer.appendChild(p);
     });
-    thead.appendChild(headerRow);
-    itemsTable.appendChild(thead);
 
-    const tbody = document.createElement('tbody');
-    order.items.forEach(item => { // No limit on items
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td style="border: 1px solid #ddd; padding: 5px; width: 60%; font-size: 10pt;">${item.name}</td>
-            <td style="border: 1px solid #ddd; padding: 5px; text-align: center; width: 20%; font-size: 10pt;">${item.qty}</td>
-            <td style="border: 1px solid #ddd; padding: 5px; width: 20%; font-size: 10pt;">${item.unit || '無單位'}</td>
-        `;
-        tbody.appendChild(row);
+    // Separator
+    const sep = document.createElement('div');
+    sep.style.borderTop = '1px dashed black';
+    sep.style.margin = '4px 0';
+    printContainer.appendChild(sep);
+
+    // Column headers (centered)
+    const headerLine = `品名        數量  單位`;
+    const headerDiv = document.createElement('div');
+    headerDiv.style.textAlign = 'center';
+    headerDiv.textContent = headerLine;
+    printContainer.appendChild(headerDiv);
+
+    const headerSep = document.createElement('div');
+    headerSep.style.borderTop = '1px solid black';
+    headerSep.style.margin = '2px 0';
+    printContainer.appendChild(headerSep);
+
+    // Items aligned in columns
+    order.items.forEach(item => {
+        const name = (item.name || '').padEnd(8, ' ').slice(0, 8); // max 8 chars
+        const qty = String(item.qty).padStart(3, ' ');
+        const unit = (item.unit || '').padEnd(3, ' ').slice(0, 3);
+        const line = `${name}  ${qty}  ${unit}`;
+
+        const itemDiv = document.createElement('div');
+        itemDiv.textContent = line;
+        printContainer.appendChild(itemDiv);
     });
-    itemsTable.appendChild(tbody);
 
-    content.appendChild(itemsTable);
-    printContainer.appendChild(content);
-
-    // Add print-specific styles
+    // Print style
     const style = document.createElement('style');
     style.textContent = `
         @media print {
-            body > *:not(#printContainer) { display: none; }
-            #printContainer { display: block !important; visibility: visible; position: relative !important; }
-            @page { size: A4; margin: 0; }
-            #printContainer { break-inside: avoid; }
-            table { page-break-inside: avoid; }
+            body * { display: none !important; }
+            #printContainer { display: block !important; }
+            @page { size: 58mm auto; margin: 0; }
         }
     `;
     document.head.appendChild(style);
 
-    // Append to body and ensure rendering before print
-    printContainer.id = 'printContainer';
+    // Append and print
     document.body.appendChild(printContainer);
-    await new Promise(resolve => setTimeout(resolve, 500));
-    console.log('Print content generated:', printContainer.innerHTML);
+    await new Promise(r => setTimeout(r, 200)); // allow DOM to render
     window.print();
 
-    // Clean up
+    // Cleanup
     document.head.removeChild(style);
     document.body.removeChild(printContainer);
 }
