@@ -218,88 +218,107 @@ function getItemCategory(itemName) {
 }
 
 async function printQuotation(orderId) {
-    // Fetch latest order data
     const { data: order, error } = await supabase
         .from('orders')
         .select('*')
         .eq('id', orderId)
         .single();
+
     if (error) {
         alert('載入訂單資料時發生錯誤：' + error.message);
         return;
     }
 
-    // Create print container
-    const printContainer = document.createElement('div');
-    printContainer.id = 'printContainer';
-    printContainer.innerHTML = `
-        <style>
-            @page {
-                size: 58mm auto;
-                margin: 0;
-            }
-            body {
-                width: 48mm;
-                font-family: monospace;
-                font-size: 12px;
-                line-height: 1.3;
-                margin: 0;
-                padding: 2mm;
-                box-sizing: border-box;
-                white-space: nowrap; /* Prevent breaking unless needed */
-            }
-            .center { text-align: center; }
-            .line { border-top: 1px dashed #000; margin: 2px 0; }
-            .bold { font-weight: bold; }
-            .item-line { display: flex; align-items: baseline; }
-            .left { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-            .mid { width: 10mm; text-align: right; padding-right: 1mm; } /* shifted right */
-            .right { width: 14mm; text-align: right; padding-right: 1mm; } /* shifted right */
-        </style>
+    const printWindow = window.open('', '', 'width=400,height=600');
+    if (!printWindow) {
+        alert('無法開啟列印視窗，請檢查瀏覽器彈出視窗設定');
+        return;
+    }
 
-        <div class="center bold">二姐叫菜 - 估價單</div>
-        <div>日期: ${order.created_at.split('T')[0]}</div>
-        <div>時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false})}</div>
-        <div>客戶: ${order.customer_name || '(無)'}</div>
-        <div>電話: ${order.customer_contact || '(無)'}</div>
-        <div>備註: ${order.remark || '(無)'}</div>
-        <div>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}</div>
-
-        <div class="line"></div>
-        <div class="item-line bold">
-            <div class="left">商品</div>
-            <div class="mid">數量</div>
-            <div class="right">單位</div>
-        </div>
-        <div class="line"></div>
-
-        ${order.items.map(item => `
-            <div class="item-line">
-                <div class="left">${item.name}</div>
-                <div class="mid">${item.qty}</div>
-                <div class="right">${item.unit || '無單位'}</div>
+    let content = `
+        <html>
+        <head>
+            <style>
+                @page {
+                    size: 58mm auto;
+                    margin: 0;
+                }
+                body {
+                    width: 48mm;
+                    font-family: monospace;
+                    font-size: 12px;
+                    line-height: 1.3;
+                    margin: 0;
+                    padding: 2mm;
+                    box-sizing: border-box;
+                    white-space: nowrap; /* prevent wrapping unless too long */
+                }
+                .center { text-align: center; }
+                .line { border-top: 1px dashed #000; margin: 2px 0; }
+                .bold { font-weight: bold; }
+                .item-line { display: flex; align-items: baseline; }
+                .left {
+                    flex: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+                .mid {
+                    width: 10mm;          /* wider for quantity */
+                    text-align: right;
+                    padding-right: 1mm;   /* shift right */
+                }
+                .right {
+                    width: 14mm;          /* wider for unit */
+                    text-align: right;
+                    padding-right: 1mm;   /* shift right */
+                    overflow: hidden;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="center bold">二姐叫菜 - 估價單</div>
+            <div>日期: ${order.created_at.split('T')[0]}</div>
+            <div>時間: ${new Date(order.created_at).toLocaleTimeString('zh-TW',{hour12:false})}</div>
+            <div>客戶: ${order.customer_name || '(無)'}</div>
+            <div>電話: ${order.customer_contact || '(無)'}</div>
+            <div>備註: ${order.remark || '(無)'}</div>
+            <div>報價: ${order.quotation ? `$${order.quotation.toFixed(2)}` : '(無)'}</div>
+            <div class="line"></div>
+            <div class="item-line bold">
+                <div class="left">商品</div>
+                <div class="mid">數量</div>
+                <div class="right">單位</div>
             </div>
-        `).join('')}
+            <div class="line"></div>
     `;
 
-    // Print style (ensures only receipt is visible)
-    const style = document.createElement('style');
-    style.textContent = `
-        @media print {
-            body * { display: none !important; }
-            #printContainer { display: block !important; }
-        }
+    order.items.forEach(item => {
+        let name = item.name || '';
+        let qty = String(item.qty);
+        let unit = item.unit || '無單位';
+
+        content += `
+            <div class="item-line">
+                <div class="left">${name}</div>
+                <div class="mid">${qty}</div>
+                <div class="right">${unit}</div>
+            </div>
+        `;
+    });
+
+    content += `
+            <div class="line"></div>
+            <div class="center">感謝您的惠顧</div>
+        </body>
+        </html>
     `;
-    document.head.appendChild(style);
 
-    // Append and print
-    document.body.appendChild(printContainer);
-    await new Promise(r => setTimeout(r, 200)); // short delay for rendering
-    window.print();
-
-    // Cleanup
-    document.head.removeChild(style);
-    document.body.removeChild(printContainer);
+    printWindow.document.write(content);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
