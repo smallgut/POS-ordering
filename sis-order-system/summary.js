@@ -251,28 +251,25 @@ async function printQuotation(orderId) {
                     margin: 0;
                     padding: 2mm;
                     box-sizing: border-box;
-                    white-space: nowrap; /* prevent wrapping unless too long */
                 }
                 .center { text-align: center; }
                 .line { border-top: 1px dashed #000; margin: 2px 0; }
                 .bold { font-weight: bold; }
-                .item-line { display: flex; align-items: baseline; }
+                .item-line { display: flex; }
                 .left {
                     flex: 1;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
+                    word-break: break-word; /* allow wrapping if too long */
                 }
                 .mid {
-                    width: 10mm;          /* wider for quantity */
+                    width: 8mm;          /* slightly smaller qty column */
                     text-align: right;
-                    padding-right: 1mm;   /* shift right */
+                    padding-right: 1mm;
                 }
                 .right {
-                    width: 14mm;          /* wider for unit */
-                    text-align: right;
-                    padding-right: 1mm;   /* shift right */
-                    overflow: hidden;
+                    width: 16mm;         /* bigger for unit text */
+                    text-align: left;    /* align to left so no cut-off */
+                    padding-left: 1mm;   /* small shift for visibility */
+                    word-break: break-word;
                 }
             </style>
         </head>
@@ -320,7 +317,6 @@ async function printQuotation(orderId) {
     printWindow.print();
     printWindow.close();
 }
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
