@@ -19,3 +19,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const category = localStorage.getItem('selectedCategory');
+    const subcategory = localStorage.getItem('selectedSubcategory');
+    const item = localStorage.getItem('selectedItem');
+
+    if (category && subcategory && item) {
+        const subDropdown = document.getElementById('subcategoryDropdown');
+        if (subDropdown) {
+            subDropdown.value = subcategory;
+            subDropdown.dispatchEvent(new Event('change'));
+        }
+
+        setTimeout(() => {
+            const itemElement = [...document.querySelectorAll('.item-name')]
+                .find(el => el.textContent.trim() === item);
+            if (itemElement) {
+                itemElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                itemElement.classList.add('bg-yellow-200');
+            }
+        }, 500);
+
+        localStorage.removeItem('selectedCategory');
+        localStorage.removeItem('selectedSubcategory');
+        localStorage.removeItem('selectedItem');
+    }
+});
+</script>
