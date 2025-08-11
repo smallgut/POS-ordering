@@ -17,19 +17,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Search functionality
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-    const confirmButton = document.getElementById('confirmButton');
+    if (matches.length > 0) {
+    matches.forEach(item => {
+        const [category, subcategory] = itemLocations[item];
+        const result = document.createElement('div');
+        result.textContent = `${item} 位於 ${category} 中的 ${subcategory}`;
+        result.className = 'py-1 text-white cursor-pointer hover:bg-gray-700';
 
-    // Check if elements exist
-    if (!searchInput || !searchResults || !confirmButton) {
-        console.error('Search elements missing:', {
-            searchInput: !!searchInput,
-            searchResults: !!searchResults,
-            confirmButton: !!confirmButton
+        // Make result clickable
+        result.addEventListener('click', () => {
+            // Store in localStorage for target page
+            localStorage.setItem('selectedCategory', category);
+            localStorage.setItem('selectedSubcategory', subcategory);
+            localStorage.setItem('selectedItem', item);
+
+            // Redirect based on category
+            switch (category) {
+                case '蔬果類':
+                    window.location.href = 'veg.html';
+                    break;
+                case '鮮肉類':
+                    window.location.href = 'meat.html';
+                    break;
+                case '海鮮類':
+                    window.location.href = 'seafood.html';
+                    break;
+                case '其他類':
+                    window.location.href = 'others.html';
+                    break;
+                default:
+                    alert('未知的類別');
+            }
         });
-        return;
-    }
+
+        searchResults.appendChild(result);
+    });
+}
 
     // Mapping of goods to their locations (category > subcategory)
     const itemLocations = {
