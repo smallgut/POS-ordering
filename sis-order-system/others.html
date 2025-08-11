@@ -1,230 +1,270 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>二姐叫菜 - 其他商品</title>
-    <link rel="stylesheet" href="/dist/assets/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('/images/Others.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .content-overlay {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
-    <header class="bg-primary text-white py-4">
-        <div class="container mx-auto px-4">
-            <nav class="flex justify-between items-center">
-                <h1 class="text-xl font-bold">下單分類</h1>
-                <ul class="flex space-x-4">
-                    <li><a href="checkout.html" class="hover:underline">結帳</a></li>
-                    <li><a href="summary.html" class="hover:underline">每日訂單</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main class="py-8">
-        <section class="hero text-center">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-4">二姐叫菜 - 其他商品</h2>
-                <p class="text-lg mb-6">精選商品，價錢相宜，商品送達，省錢省時</p>
-                <a href="index.html" class="text-primary hover:underline">回到主頁 | Back to Home</a>
+<body class="font-sans">
+    <nav class="bg-primary text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-lg font-bold">下單分類</a>
+            <div class="space-x-4">
+                <a href="checkout.html" class="px-2 hover:underline">結帳</a>
+                <a href="summary.html" class="px-2 hover:underline">每日訂單</a>
             </div>
-        </section>
+        </div>
+    </nav>
 
-        <section class="categories py-6">
-            <div class="container mx-auto px-4">
-                <div class="mb-6">
-                    <h3 class="text-xl font-bold mb-2">熟食</h3>
-                    <div class="flex flex-col sm:flex-row gap-4 items-center">
-                        <select id="cookedFoodSelect" class="p-2 border rounded-md">
-                            <option value="">選擇熟食</option>
-                            <option value="肉羹">肉羹</option>
-                            <option value="肉鬆">肉鬆</option>
-                            <option value="素肉鬆">素肉鬆</option>
-                            <option value="滷蛋">滷蛋</option>
-                            <option value="三色蛋">三色蛋</option>
-                            <option value="甜不辣">甜不辣</option>
-                            <option value="米血糕">米血糕</option>
-                            <option value="素獅子頭">素獅子頭</option>
-                            <option value="米腸">米腸</option>
-                            <option value="糯米腸">糯米腸</option>
-                            <option value="士林大香腸">士林大香腸</option>
-                            <option value="蒜味香腸">蒜味香腸</option>
-                            <option value="雞米花">雞米花</option>
-                            <option value="芋籤">芋籤</option>
-                            <option value="洪牌豬血糕">洪牌豬血糕</option>
-                            <option value="白魚丸">白魚丸</option>
-                            <option value="花枝丸">花枝丸</option>
-                            <option value="新竹貢丸">新竹貢丸</option>
-                            <option value="大貢丸">大貢丸</option>
-                        </select>
-                        <input type="number" step="0.5" min="0.5" class="qty-input w-20 p-2 border rounded-md" data-item="cookedFood">
-                        <select class="unit-select p-2 border rounded-md" data-item="cookedFood">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                            <option value="顆">顆</option>
-                        </select>
-                        <button class="add-to-cart bg-primary text-white p-2 rounded-md hover:bg-blue-700" data-item="cookedFood">加入購物車</button>
-                    </div>
+    <section class="container mx-auto py-8">
+        <div class="content-overlay">
+            <h1 class="text-2xl font-bold mb-4">二姐叫菜 - 其他商品</h1>
+            <p class="mb-4 text-gray-600">精選商品，價錢相宜，商品送達，省錢省時</p>
+            <a href="index.html" class="text-primary hover:underline mb-4 inline-block">回到主頁 | Back to Home</a>
+
+            <!-- Four Parallel Dropdown Lists -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Cooked Food Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">熟食</h2>
+                    <select id="cookedFoodDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇熟食</option>
+                        <option value="肉羹">肉羹</option>
+                        <option value="肉鬆">肉鬆</option>
+                        <option value="素肉鬆">素肉鬆</option>
+                        <option value="滷蛋">滷蛋</option>
+                        <option value="三色蛋">三色蛋</option>
+                        <option value="甜不辣">甜不辣</option>
+                        <option value="米血糕">米血糕</option>
+                        <option value="素獅子頭">素獅子頭</option>
+                        <option value="米腸">米腸</option>
+                        <option value="糯米腸">糯米腸</option>
+                        <option value="士林大香腸">士林大香腸</option>
+                        <option value="蒜味香腸">蒜味香腸</option>
+                        <option value="雞米花">雞米花</option>
+                        <option value="芋籤">芋籤</option>
+                        <option value="洪牌豬血糕">洪牌豬血糕</option>
+                        <option value="白魚丸">白魚丸</option>
+                        <option value="花枝丸">花枝丸</option>
+                        <option value="新竹貢丸">新竹貢丸</option>
+                        <option value="大貢丸">大貢丸</option>
+                    </select>
+                    <input type="number" id="cookedFoodQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="cookedFoodUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="顆">顆</option>
+                    </select>
+                    <button id="cookedFoodAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
-                <div class="mb-6">
-                    <h3 class="text-xl font-bold mb-2">加工食品</h3>
-                    <div class="flex flex-col sm:flex-row gap-4 items-center">
-                        <select id="processedFoodSelect" class="p-2 border rounded-md">
-                            <option value="">選擇加工食品</option>
-                            <option value="福茂大貢">福茂大貢</option>
-                            <option value="純瑪琳">純瑪琳</option>
-                            <option value="玉米粒">玉米粒</option>
-                            <option value="大茂黑瓜">大茂黑瓜</option>
-                            <option value="番茄鲭魚">番茄鲭魚</option>
-                            <option value="鳗魚缶頭">鳗魚缶頭</option>
-                            <option value="土豆麵筋">土豆麵筋</option>
-                            <option value="辣筍絲">辣筍絲</option>
-                            <option value="脆筍絲">脆筍絲</option>
-                            <option value="月亮蝦餅">月亮蝦餅</option>
-                            <option value="薯條">薯條</option>
-                            <option value="山藥卷">山藥卷</option>
-                            <option value="春捲皮">春捲皮</option>
-                            <option value="泡菜">泡菜</option>
-                        </select>
-                        <input type="number" step="0.5" min="0.5" class="qty-input w-20 p-2 border rounded-md" data-item="processedFood">
-                        <select class="unit-select p-2 border rounded-md" data-item="processedFood">
-                            <option value="無單位">無單位</option>
-                            <option value="罐">罐</option>
-                            <option value="瓶">瓶</option>
-                            <option value="盒">盒</option>
-                            <option value="包">包</option>
-                        </select>
-                        <button class="add-to-cart bg-primary text-white p-2 rounded-md hover:bg-blue-700" data-item="processedFood">加入購物車</button>
-                    </div>
+
+                <!-- Processed Food Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">加工食品</h2>
+                    <select id="processedFoodDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇加工食品</option>
+                        <option value="福茂大貢">福茂大貢</option>
+                        <option value="純瑪琳">純瑪琳</option>
+                        <option value="玉米粒">玉米粒</option>
+                        <option value="大茂黑瓜">大茂黑瓜</option>
+                        <option value="番茄鲭魚">番茄鲭魚</option>
+                        <option value="鳗魚缶頭">鳗魚缶頭</option>
+                        <option value="土豆麵筋">土豆麵筋</option>
+                        <option value="辣筍絲">辣筍絲</option>
+                        <option value="脆筍絲">脆筍絲</option>
+                        <option value="月亮蝦餅">月亮蝦餅</option>
+                        <option value="薯條">薯條</option>
+                        <option value="山藥卷">山藥卷</option>
+                        <option value="春捲皮">春捲皮</option>
+                        <option value="泡菜">泡菜</option>
+                    </select>
+                    <input type="number" id="processedFoodQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="processedFoodUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="罐">罐</option>
+                        <option value="瓶">瓶</option>
+                        <option value="盒">盒</option>
+                        <option value="包">包</option>
+                    </select>
+                    <button id="processedFoodAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
-                <div class="mb-6">
-                    <h3 class="text-xl font-bold mb-2">豆麵類</h3>
-                    <div class="flex flex-col sm:flex-row gap-4 items-center">
-                        <select id="tofuNoodleSelect" class="p-2 border rounded-md">
-                            <option value="">選擇豆麵類</option>
-                            <option value="豆漿">豆漿</option>
-                            <option value="豆乾">豆乾</option>
-                            <option value="四角油豆腐">四角油豆腐</option>
-                            <option value="中華豆腐">中華豆腐</option>
-                            <option value="板豆腐">板豆腐</option>
-                            <option value="雞蛋豆腐">雞蛋豆腐</option>
-                            <option value="五香豆乾">五香豆乾</option>
-                            <option value="豆乾絲">豆乾絲</option>
-                            <option value="油豆腐">油豆腐</option>
-                            <option value="豆皮">豆皮</option>
-                            <option value="白豆乾">白豆乾</option>
-                            <option value="炸豆皮">炸豆皮</option>
-                            <option value="豆腐">豆腐</option>
-                            <option value="芙蓉豆腐">芙蓉豆腐</option>
-                            <option value="麵">麵</option>
-                            <option value="涼麵">涼麵</option>
-                            <option value="油麵">油麵</option>
-                            <option value="意麵">意麵</option>
-                            <option value="陽春麵">陽春麵</option>
-                            <option value="新竹米粉">新竹米粉</option>
-                        </select>
-                        <input type="number" step="0.5" min="0.5" class="qty-input w-20 p-2 border rounded-md" data-item="tofuNoodle">
-                        <select class="unit-select p-2 border rounded-md" data-item="tofuNoodle">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                            <option value="包">包</option>
-                            <option value="個">個</option>
-                            <option value="盒">盒</option>
-                            <option value="件">件</option>
-                        </select>
-                        <button class="add-to-cart bg-primary text-white p-2 rounded-md hover:bg-blue-700" data-item="tofuNoodle">加入購物車</button>
-                    </div>
+
+                <!-- Beans and Noodles Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">豆麵類</h2>
+                    <select id="beansNoodlesDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇豆麵類</option>
+                        <option value="豆漿">豆漿</option>
+                        <option value="豆乾">豆乾</option>
+                        <option value="四角油豆腐">四角油豆腐</option>
+                        <option value="中華豆腐">中華豆腐</option>
+                        <option value="板豆腐">板豆腐</option>
+                        <option value="雞蛋豆腐">雞蛋豆腐</option>
+                        <option value="五香豆乾">五香豆乾</option>
+                        <option value="豆乾絲">豆乾絲</option>
+                        <option value="油豆腐">油豆腐</option>
+                        <option value="豆皮">豆皮</option>
+                        <option value="白豆乾">白豆乾</option>
+                        <option value="炸豆皮">炸豆皮</option>
+                        <option value="豆腐">豆腐</option>
+                        <option value="芙蓉豆腐">芙蓉豆腐</option>
+                        
+                        <option value="麵">麵</option>
+                        <option value="涼麵">涼麵</option>
+                        <option value="油麵">油麵</option>
+                        <option value="意麵">意麵</option>
+                        <option value="陽春麵">陽春麵</option>
+                        <option value="新竹米粉">新竹米粉</option>
+                        
+                    </select>
+                    <input type="number" id="beansNoodlesQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="beansNoodlesUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="包">包</option>
+                        <option value="個">個</option>
+                        <option value="盒">盒</option>
+                        <option value="件">件</option>
+                        
+                    </select>
+                    <button id="beansNoodlesAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
-                <div class="mb-6">
-                    <h3 class="text-xl font-bold mb-2">其他</h3>
-                    <div class="flex flex-col sm:flex-row gap-4 items-center">
-                        <select id="otherSelect" class="p-2 border rounded-md">
-                            <option value="">選擇其他</option>
-                            <option value="台灣啤酒 330ml">台灣啤酒 330ml</option>
-                            <option value="可口可樂 330ml">可口可樂 330ml</option>
-                            <option value="礦泉水">礦泉水</option>
-                            <option value="紅油蔥">紅油蔥</option>
-                            <option value="蒜花生">蒜花生</option>
-                            <option value="白大蛋">白大蛋</option>
-                            <option value="皮蛋">皮蛋</option>
-                            <option value="鳥蛋">鳥蛋</option>
-                            <option value="碎菜脯">碎菜脯</option>
-                            <option value="沙拉">沙拉</option>
-                            <option value="杏仁粉粿">杏仁粉粿</option>
-                            <option value="仙草">仙草</option>
-                            <option value="珍珠圓">珍珠圓</option>
-                            <option value="椰子絲">椰子絲</option>
-                            <option value="愛玉">愛玉</option>
-                            <option value="香椿醬">香椿醬</option>
-                            <option value="黑胡椒醬">黑胡椒醬</option>
-                            <option value="龜甲萬醬油 (商業)">龜甲萬醬油 (商業)</option>
-                            <option value="牛頭牌沙茶醬">牛頭牌沙茶醬</option>
-                            <option value="味噌">味噌</option>
-                            <option value="台糖白砂糖">台糖白砂糖</option>
-                            <option value="海味味精">海味味精</option>
-                            <option value="鹽巴">鹽巴</option>
-                            <option value="太白粉">太白粉</option>
-                        </select>
-                        <input type="number" step="0.5" min="0.5" class="qty-input w-20 p-2 border rounded-md" data-item="other">
-                        <select class="unit-select p-2 border rounded-md" data-item="other">
-                            <option value="無單位">無單位</option>
-                            <option value="斤">斤</option>
-                            <option value="包">包</option>
-                            <option value="盒">盒</option>
-                            <option value="顆">顆</option>
-                            <option value="罐">罐</option>
-                        </select>
-                        <button class="add-to-cart bg-primary text-white p-2 rounded-md hover:bg-blue-700" data-item="other">加入購物車</button>
-                    </div>
+
+                <!-- Others Dropdown -->
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <h2 class="text-xl font-semibold mb-2">其他</h2>
+                    <select id="othersDropdown" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="">選擇其他</option>
+                        <option value="台灣啤酒 330ml">台灣啤酒 330ml</option>
+                        <option value="可口可樂 330ml">可口可樂 330ml</option>
+                        <option value="礦泉水">礦泉水</option>
+                        <option value="紅油蔥">紅油蔥</option>
+                        <option value="蒜花生">蒜花生</option>
+                        <option value="白大蛋">白大蛋</option>
+                        <option value="皮蛋">皮蛋</option>
+                        <option value="鳥蛋">鳥蛋</option>
+                        <option value="碎菜脯">碎菜脯</option>
+                        <option value="沙拉">沙拉</option>
+                        <option value="杏仁粉粿">杏仁粉粿</option>
+                        <option value="仙草">仙草</option>
+                        <option value="珍珠圓">珍珠圓</option>
+                        <option value="椰子絲">椰子絲</option>
+                        <option value="愛玉">愛玉</option>
+                        <option value="香椿醬">香椿醬</option>
+                        <option value="黑胡椒醬">黑胡椒醬</option>
+                        <option value="龜甲萬醬油 (商業)">龜甲萬醬油 (商業)</option>
+                        <option value="牛頭牌沙茶醬">牛頭牌沙茶醬</option>
+                        <option value="味噌">味噌</option>
+                        <option value="台糖白砂糖">台糖白砂糖</option>
+                        <option value="海味味精">海味味精</option>
+                        <option value="鹽巴">鹽巴</option>
+                        <option value="太白粉">太白粉</option>
+                        
+                    </select>
+                    <input type="number" id="othersQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
+                    <select id="othersUnit" class="w-full p-2 border rounded-lg mb-2">
+                        <option value="無單位">無單位</option>
+                        <option value="斤">斤</option>
+                        <option value="包">包</option>
+                        <option value="盒">盒</option>
+                        <option value="顆">顆</option>
+                        <option value="罐">罐</option>
+                    </select>
+                    <button id="othersAddToCart" class="w-full bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700">加入購物車</button>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer class="bg-primary text-white py-4 text-center">
-        <div class="container mx-auto px-4">
-            <p>© 2025 二姐叫菜 | All Rights Reserved</p>
-            <a href="#" class="underline">Back to Top</a>
         </div>
+    </section>
+
+    <footer class="bg-gray-800 text-white p-4 text-center">
+        <p>© 2025 二姐叫菜 | All Rights Reserved</p>
+        <a href="#top" class="text-primary hover:underline">Back to Top</a>
     </footer>
 
-    <script type="module" src="/others.js"></script>
+    <script>
+        // Add to Cart functionality for each category
+        document.getElementById('cookedFoodAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('cookedFoodDropdown').value;
+            const qty = parseFloat(document.getElementById('cookedFoodQty').value) || 0;
+            const unit = document.getElementById('cookedFoodUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('cookedFoodDropdown').selectedIndex = 0;
+                document.getElementById('cookedFoodQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('processedFoodAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('processedFoodDropdown').value;
+            const qty = parseFloat(document.getElementById('processedFoodQty').value) || 0;
+            const unit = document.getElementById('processedFoodUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('processedFoodDropdown').selectedIndex = 0;
+                document.getElementById('processedFoodQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('beansNoodlesAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('beansNoodlesDropdown').value;
+            const qty = parseFloat(document.getElementById('beansNoodlesQty').value) || 0;
+            const unit = document.getElementById('beansNoodlesUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('beansNoodlesDropdown').selectedIndex = 0;
+                document.getElementById('beansNoodlesQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+
+        document.getElementById('othersAddToCart').addEventListener('click', () => {
+            const item = document.getElementById('othersDropdown').value;
+            const qty = parseFloat(document.getElementById('othersQty').value) || 0;
+            const unit = document.getElementById('othersUnit').value;
+            if (item && qty >= 0.5) {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push({ name: item, qty, unit });
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${item} (${qty} ${unit}) 已加入購物車！`);
+                // Reset dropdown and quantity
+                document.getElementById('othersDropdown').selectedIndex = 0;
+                document.getElementById('othersQty').value = '';
+            } else {
+                alert('請選擇商品並輸入至少0.5的數量');
+            }
+        });
+    </script>
 </body>
 </html>
