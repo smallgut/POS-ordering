@@ -41,9 +41,9 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Cooked Food Dropdown -->
                 <div class="bg-white p-4 rounded-lg shadow">
-                    <h2 class="text-xl font-semibold mb-2">熟食</h2>
+                    <h2 class="text-xl font-semibold mb-2">冷凍食品火鍋</h2>
                     <select id="cookedFoodDropdown" class="w-full p-2 border rounded-lg mb-2">
-                        <option value="">選擇熟食</option>
+                        <option value="">選擇冷凍食品火鍋</option>
                         <option value="肉羹">肉羹</option>
                         <option value="肉鬆">肉鬆</option>
                         <option value="素肉鬆">素肉鬆</option>
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (category && subcategory && item) {
         // Map subcategory names to dropdown IDs for Others page
         const subcategoryToDropdownId = {
-            '熟食': 'cookedFoodDropdown',
+            '冷凍食品火鍋': 'cookedFoodDropdown',
             '加工食品': 'processedFoodDropdown',
             '豆麵類': 'beansNoodlesDropdown',
             '其他': 'othersDropdown'
