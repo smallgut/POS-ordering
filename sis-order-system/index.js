@@ -216,6 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '蝦餃': ['其他類', '冷凍食品火鍋'],
         '魚餃': ['其他類', '冷凍食品火鍋'],
         '燕餃': ['其他類', '冷凍食品火鍋'],
+        '綜合火鍋料': ['其他類', '冷凍食品火鍋'],
         // Processed Food from others.html
         
         '純瑪琳': ['其他類', '加工食品'],
