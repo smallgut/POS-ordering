@@ -91,5 +91,42 @@
             }
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const category = localStorage.getItem('selectedCategory');
+    const subcategory = localStorage.getItem('selectedSubcategory');
+    const item = localStorage.getItem('selectedItem');
+
+    if (category && subcategory && item) {
+        // Map subcategory names to dropdown IDs for this page
+        const subcategoryToDropdownId = {
+            '海鮮類': 'seafoodDropdown'
+        };
+
+        const dropdownId = subcategoryToDropdownId[subcategory];
+        if (dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            if (dropdown) {
+                dropdown.value = item; // Auto-select searched item
+                dropdown.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                dropdown.classList.add('bg-yellow-200'); // temporary highlight
+                setTimeout(() => dropdown.classList.remove('bg-yellow-200'), 2000);
+
+                // Optional: focus the quantity field
+                const qtyInputId = dropdownId.replace('Dropdown', 'Qty');
+                const qtyInput = document.getElementById(qtyInputId);
+                if (qtyInput) {
+                    qtyInput.focus();
+                }
+            }
+        }
+
+        // Clear storage to prevent re-triggering on refresh
+        localStorage.removeItem('selectedCategory');
+        localStorage.removeItem('selectedSubcategory');
+        localStorage.removeItem('selectedItem');
+    }
+});
+</script>
 </body>
 </html>
