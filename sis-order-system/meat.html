@@ -135,5 +135,43 @@
             }
         });
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const category = localStorage.getItem('selectedCategory');
+    const subcategory = localStorage.getItem('selectedSubcategory');
+    const item = localStorage.getItem('selectedItem');
+
+    if (category && subcategory && item) {
+        // Map subcategory names to dropdown IDs in this page
+        const subcategoryToDropdownId = {
+            '豬牛羊': 'porkBeefLambDropdown',
+            '雞鴨鵝': 'chickenDuckDropdown'
+        };
+
+        const dropdownId = subcategoryToDropdownId[subcategory];
+        if (dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            if (dropdown) {
+                dropdown.value = item; // Select the searched item
+                dropdown.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                dropdown.classList.add('bg-yellow-200'); // highlight
+                setTimeout(() => dropdown.classList.remove('bg-yellow-200'), 2000);
+
+                // Optional: auto-focus the quantity field right after selecting
+                const qtyInputId = dropdownId.replace('Dropdown', 'Qty');
+                const qtyInput = document.getElementById(qtyInputId);
+                if (qtyInput) {
+                    qtyInput.focus();
+                }
+            }
+        }
+
+        // Clear storage after use
+        localStorage.removeItem('selectedCategory');
+        localStorage.removeItem('selectedSubcategory');
+        localStorage.removeItem('selectedItem');
+    }
+});
+</script>
 </body>
 </html>
