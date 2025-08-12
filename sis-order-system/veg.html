@@ -391,21 +391,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const item = localStorage.getItem('selectedItem');
 
     if (category && subcategory && item) {
-        const subDropdown = document.getElementById('subcategoryDropdown');
-        if (subDropdown) {
-            subDropdown.value = subcategory;
-            subDropdown.dispatchEvent(new Event('change'));
+        // Map subcategory names to dropdown IDs in this page
+        const subcategoryToDropdownId = {
+            '蔬菜': 'vegDropdown',
+            '水果': 'fruitDropdown',
+            '菇類': 'mushroomDropdown',
+            '配料類': 'seasoningDropdown',
+            '根莖類': 'rootVegDropdown',
+            '瓜類': 'gourdDropdown'
+        };
+
+        const dropdownId = subcategoryToDropdownId[subcategory];
+        if (dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            if (dropdown) {
+                dropdown.value = item; // Select the searched item
+                dropdown.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                dropdown.classList.add('bg-yellow-200'); // Optional highlight
+                setTimeout(() => dropdown.classList.remove('bg-yellow-200'), 2000);
+            }
         }
 
-        setTimeout(() => {
-            const itemElement = [...document.querySelectorAll('.item-name')]
-                .find(el => el.textContent.trim() === item);
-            if (itemElement) {
-                itemElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                itemElement.classList.add('bg-yellow-200');
-            }
-        }, 500);
-
+        // Clear storage so it won't auto-select next time
         localStorage.removeItem('selectedCategory');
         localStorage.removeItem('selectedSubcategory');
         localStorage.removeItem('selectedItem');
