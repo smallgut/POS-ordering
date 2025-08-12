@@ -212,6 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '大貢丸': ['其他類', '冷凍食品火鍋'],
         '福茂大貢丸': ['其他類', '冷凍食品火鍋'],
         '福茂小貢丸': ['其他類', '冷凍食品火鍋'],
+        '餛飩': ['其他類', '冷凍食品火鍋'],
         // Processed Food from others.html
         
         '純瑪琳': ['其他類', '加工食品'],
