@@ -13,6 +13,7 @@ if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentUsername = ''; // Store the current username after login
+let isLoading = false; // Prevent multiple loadOrders calls
 
 async function checkLogin() {
     let attempts = 0;
@@ -24,6 +25,7 @@ async function checkLogin() {
         const password = prompt('請輸入密碼:');
         if (password === null) return false; // User canceled
 
+        console.log('Attempting login for username:', username);
         const { data, error } = await supabase
             .from('authorized_users')
             .select('username, password_hash')
@@ -31,6 +33,7 @@ async function checkLogin() {
             .single();
 
         if (error || !data) {
+            console.error('Login query error:', error);
             attempts++;
             alert(`用戶信息錯誤，剩餘嘗試次數: ${maxAttempts - attempts}`);
             if (attempts === maxAttempts) {
@@ -59,6 +62,7 @@ async function checkLogin() {
         }
         if (isValid) {
             currentUsername = username; // Store the current username
+            console.log('Login successful for username:', currentUsername);
             return true;
         }
 
@@ -74,8 +78,13 @@ async function checkLogin() {
 }
 
 async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
+    if (isLoading) {
+        console.log('Load orders already in progress, skipping...');
+        return;
+    }
     if (!(await checkLogin())) return;
 
+    isLoading = true;
     const tableBody = document.querySelector('#ordersTableBody');
     const noDataMessage = document.querySelector('#noDataMessage');
     const statsTableBody = document.querySelector('#statisticsTableBody');
@@ -84,19 +93,23 @@ async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
     if (!tableBody || !noDataMessage || !statsTableBody || !noStatsMessage) {
         console.error('Required elements missing');
         alert('頁面載入錯誤：缺少必要的表格或訊息元素。');
+        isLoading = false;
         return;
     }
 
-    let query = supabase.from('orders').select('*').order('created_at', { ascending: false });
+    // Optional: Paginate to reduce load time (fetch first 50 orders)
+    let query = supabase.from('orders').select('*').order('created_at', { ascending: false }).limit(50);
 
     if (startDate) query = query.gte('created_at', `${startDate}T00:00:00Z`);
     if (endDate) query = query.lte('created_at', `${endDate}T23:59:59Z`);
 
+    console.log('Fetching orders with filters:', { startDate, endDate, categoryFilter });
     const { data: orders, error } = await query;
 
     if (error) {
         console.error('Load orders error:', error);
         alert('載入訂單時發生錯誤：' + error.message);
+        isLoading = false;
         return;
     }
 
@@ -106,6 +119,7 @@ async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
     if (orders.length === 0) {
         noDataMessage.classList.remove('hidden');
         noStatsMessage.classList.remove('hidden');
+        isLoading = false;
         return;
     }
 
@@ -119,6 +133,10 @@ async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
         '海鮮類': ['白蝦', '草蝦', '明蝦', '泰國蝦', '大頭蝦', '鮮魚', '鱈魚', '鮭魚', '鯖魚', '虱目魚', '吳郭魚', '鱸魚', '鯛魚', '沙丁魚', '秋刀魚', '文蛤', '蛤蜊', '淡菜', '鮮蚵', '干貝', '花枝', '透抽', '軟絲', '魷魚'],
         '其他類': ['肉羹', '肉鬆', '素肉鬆', '滷蛋', '三色蛋', '甜不辣', '米血糕', '素獅子頭', '米腸', '糯米腸', '士林大香腸', '蒜味香腸', '雞米花', '芋籤', '洪牌豬血糕', '白魚丸', '花枝丸', '新竹貢丸', '大貢丸', '福茂大貢', '純瑪琳', '玉米粒', '大茂黑瓜', '番茄鲭魚', '鳗魚缶頭', '土豆麵筋', '辣筍絲', '脆筍絲', '月亮蝦餅', '薯條', '山藥卷', '春捲皮', '泡菜', '豆漿', '豆乾', '四角油豆腐', '中華豆腐', '板豆腐', '雞蛋豆腐', '五香豆乾', '豆乾絲', '油豆腐', '豆皮', '白豆乾', '炸豆皮', '豆腐', '芙蓉豆腐', '麵', '涼麵', '油麵', '意麵', '陽春麵', '新竹米粉', '台灣啤酒 330ml', '可口可樂 330ml', '礦泉水', '紅油蔥', '蒜花生', '白大蛋', '皮蛋', '鳥蛋', '碎菜脯', '沙拉', '杏仁粉粿', '仙草', '珍珠圓', '椰子絲', '愛玉', '香椿醬', '黑胡椒醬', '龜甲萬醬油 (商業)', '牛頭牌沙茶醬', '味噌', '台糖白砂糖', '海味味精', '鹽巴', '太白粉', 'egg']
     };
+
+    // Use document fragment to optimize DOM updates
+    const tableFragment = document.createDocumentFragment();
+    const statsFragment = document.createDocumentFragment();
 
     // Filter orders by category if specified
     let filteredOrders = orders;
@@ -145,7 +163,7 @@ async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
                 <button data-id="${order.id}" class="print-button text-green-600 hover:underline ml-4">列印</button>
             </td>
         `;
-        tableBody.appendChild(row);
+        tableFragment.appendChild(row);
     });
 
     // Calculate statistics
@@ -167,8 +185,12 @@ async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
             <td class="border p-3">${stat.unit}</td>
             <td class="border p-3">${stat.totalQty.toFixed(2)}</td>
         `;
-        statsTableBody.appendChild(row);
+        statsFragment.appendChild(row);
     });
+
+    tableBody.appendChild(tableFragment);
+    statsTableBody.appendChild(statsFragment);
+    isLoading = false;
 
     // Attach event listeners for quote and print buttons
     document.querySelectorAll('.quote-button').forEach(button => {
@@ -261,8 +283,101 @@ function printOrder(order) {
     printWindow.close();
 }
 
+async function updateCredentials() {
+    console.log('Update credentials button clicked, currentUsername:', currentUsername);
+    if (!currentUsername) {
+        console.error('No current username set. Please log in first.');
+        alert('請先登入再更新憑證。');
+        return;
+    }
+
+    const newUsername = prompt('輸入新用戶名:');
+    if (newUsername === null) {
+        console.log('Update canceled by user (username prompt).');
+        return; // User canceled
+    }
+    if (!newUsername.trim()) {
+        console.error('Empty username provided.');
+        alert('新用戶名不能為空');
+        return;
+    }
+
+    const newPassword = prompt('輸入新密碼:');
+    if (newPassword === null) {
+        console.log('Update canceled by user (password prompt).');
+        return; // User canceled
+    }
+    if (!newPassword.trim()) {
+        console.error('Empty password provided.');
+        alert('新密碼不能為空');
+        return;
+    }
+
+    try {
+        // Check if new username already exists
+        const { data: existingUser, error: checkError } = await supabase
+            .from('authorized_users')
+            .select('username')
+            .eq('username', newUsername.trim())
+            .single();
+        if (checkError && checkError.code !== 'PGRST116') { // PGRST116 = no rows found
+            console.error('Error checking username existence:', checkError);
+            throw checkError;
+        }
+        if (existingUser) {
+            console.error('Username already exists:', newUsername);
+            alert('此用戶名已被使用，請選擇其他用戶名。');
+            return;
+        }
+
+        // Hash the new password
+        const { data: hashData, error: hashError } = await supabase.rpc('hash_password', { password: newPassword.trim() });
+        if (hashError) {
+            console.error('Password hashing error:', hashError);
+            throw hashError;
+        }
+        const newHash = hashData; // Assuming RPC returns the hash directly
+        console.log('Password hashed successfully.');
+
+        // Update the user row in Supabase
+        const { data: updatedRows, error: updateError } = await supabase
+            .from('authorized_users')
+            .update({ username: newUsername.trim(), password_hash: newHash })
+            .eq('username', currentUsername)
+            .select();
+
+        if (updateError) {
+            console.error('Update error:', updateError);
+            throw updateError;
+        }
+
+        if (updatedRows.length === 0) {
+            console.error('No rows updated. Current username may not exist:', currentUsername);
+            alert('更新失敗：找不到當前用戶，可能已被刪除。');
+            return;
+        }
+
+        console.log('Credentials updated successfully:', updatedRows);
+        alert('用戶名和密碼已成功更新！請重新登入。');
+        currentUsername = newUsername.trim(); // Update stored username
+        window.location.href = 'summary.html'; // Force re-login
+    } catch (error) {
+        console.error('Update credentials error:', error);
+        alert('更新失敗：' + error.message);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
+    const updateButton = document.getElementById('updateCredentials');
+    if (updateButton) {
+        console.log('Update credentials button found, attaching event listener.');
+        updateButton.addEventListener('click', updateCredentials);
+    } else {
+        console.error('Update credentials button not found in DOM.');
+        alert('頁面錯誤：找不到更新憑證按鈕。');
+    }
+
     loadOrders();
     document.getElementById('searchButton').addEventListener('click', () => {
         const startDate = document.getElementById('startDate').value;
