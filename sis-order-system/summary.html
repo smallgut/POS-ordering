@@ -1,101 +1,141 @@
-<!DOCTYPE html>
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>訂單摘要 | Summary</title>
-    <link rel="stylesheet" href="/assets/output.css">
-    <script type="module" src="/summary.js"></script>
+    <title>二姐叫菜 - 每日訂單</title>
+    <link rel="stylesheet" href="/dist/assets/index.css">
 </head>
-<body class="bg-gray-50"
-      style="background-image: url('/images/store.jpg');
-             background-size: cover;
-             background-position: center;
-             background-attachment: fixed;">
-
-    <nav class="bg-primary p-4" style="color:white;">
-        <div class="container mx-auto flex justify-between">
-            <a href="index.html" class="text-lg font-bold" style="color:white;">回到首頁</a>
+<body class="bg-gray-50">
+    <header class="bg-primary text-white py-4">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold">回到首頁</a>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- Frosted-glass wrapper -->
-    <section class="container mx-auto py-8"
-             style="background: rgba(255,255,255,0.65);
-                    padding: 20px;
-                    border-radius: 12px;
-                    backdrop-filter: blur(8px);
-                    -webkit-backdrop-filter: blur(8px);
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
-        <h1 class="text-2xl font-bold mb-4">訂單摘要 | Order Summary</h1>
+    <main class="py-8">
+        <section class="hero text-center">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold mb-4">訂單摘要 | Order Summary</h2>
+            </div>
+        </section>
 
-        <!-- Filters -->
-<div class="flex gap-4 mb-6">
-    <div>
-        <label class="block mb-1">日期篩選 | Date Filter:</label>
-        <div class="flex gap-2">
-            <div>
-                <label for="startDate" class="sr-only">開始日期 | Start Date</label>
-                <input type="date" id="startDate" class="p-2 border rounded">
+        <section class="filters py-6">
+            <div class="container mx-auto px-4 flex flex-col sm:flex-row gap-4 items-center">
+                <label>日期篩選 | Date Filter:</label>
+                <input type="date" id="startDate" class="p-2 border rounded-md">
+                <input type="date" id="endDate" class="p-2 border rounded-md">
             </div>
-            <div>
-                <label for="endDate" class="sr-only">結束日期 | End Date</label>
-                <input type="date" id="endDate" class="p-2 border rounded">
-            </div>
+        </section>
+
+    <section class="categories py-6">
+        <div class="container mx-auto px-4">
+            <label>分類篩選 | Category Filter:</label>
+            <select id="categoryFilter" class="p-2 border rounded-md">
+                <option value="">全部 | All</option>
+                <option value="蔬果類">蔬果類</option>
+                <option value="鮮肉類">鮮肉類</option>
+                <option value="海鮮類">海鮮類</option>
+                <option value="其他類">其他類</option>
+            </select>
         </div>
-    </div>
-    <div>
-        <label for="categoryFilter" class="block mb-1">分類篩選 | Category Filter:</label>
-        <select id="categoryFilter" class="p-2 border rounded">
-            <option value="">全部 | All</option>
-            <option value="蔬果類">蔬果類</option>
-            <option value="鮮肉類">鮮肉類</option>
-            <option value="海鮮類">海鮮類</option>
-            <option value="其他類">其他類</option>
-        </select>
-    </div>
-    <div class="flex items-end">
-        <button id="searchButton" class="bg-primary text-white px-4 py-2 rounded hover:bg-blue-700">搜尋 | Search</button>
-    </div>
-</div>
-
-        <!-- Order Summary Table -->
-        <table id="orderSummary" class="w-full border-collapse mb-8">
-            <thead>
-                <tr class="bg-secondary">
-                    <th class="border p-3">日期</th>
-                    <th class="border p-3">商品</th>
-                    <th class="border p-3">數量</th>
-                    <th class="border p-3">單位</th>
-                    <th class="border p-3">客戶</th>
-                    <th class="border p-3">提交時間</th>
-                    <th class="border p-3">備註</th>
-                    <th class="border p-3">報價</th>
-                    <th class="border p-3">操作</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <p id="noOrdersMessage" class="text-red-600 hidden">沒有訂單資料！</p>
-
-        <!-- Item Statistics Table -->
-        <h2 class="text-xl font-bold mb-2">統計資料 | Statistics</h2>
-        <table id="itemStats" class="w-full border-collapse">
-            <thead>
-                <tr class="bg-secondary">
-                    <th class="border p-3">商品</th>
-                    <th class="border p-3">單位</th>
-                    <th class="border p-3">總數量</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <p id="noStatsMessage" class="text-red-600 hidden">沒有統計資料！</p>
     </section>
 
-    <footer class="bg-primary text-center p-4 mt-8" style="color:white;">
-        <p>&copy; 2025 二姐叫菜 | All Rights Reserved</p>
-        <a href="#" class="underline" style="color:white;">回到頂部</a>
+    <section class="search py-6">
+        <div class="container mx-auto px-4">
+            <button id="searchButton" class="bg-primary text-white p-2 rounded-md hover:bg-blue-700">搜尋 | Search</button>
+        </div>
+    </section>
+
+        <section class="orders py-6">
+            <div class="container mx-auto px-4">
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="border p-3">日期</th>
+                            <th class="border p-3">商品</th>
+                            <th class="border p-3">數量</th>
+                            <th class="border p-3">單位</th>
+                            <th class="border p-3">客戶</th>
+                            <th class="border p-3">提交時間</th>
+                            <th class="border p-3">備註</th>
+                            <th class="border p-3">報價</th>
+                            <th class="border p-3">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody"></tbody>
+                </table>
+                <p id="noDataMessage" class="text-red-500 mt-4 hidden">沒有訂單資料！</p>
+            </div>
+        </section>
+
+        <section class="statistics py-6">
+            <div class="container mx-auto px-4">
+                <h3 class="text-2xl font-bold mb-4">統計資料 | Statistics</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="border p-3">商品</th>
+                            <th class="border p-3">單位</th>
+                            <th class="border p-3">總數量</th>
+                        </tr>
+                    </thead>
+                    <tbody id="statisticsTableBody"></tbody>
+                </table>
+                <p id="noStatsMessage" class="text-red-500 mt-4 hidden">沒有統計資料！</p>
+                <button id="updateCredentials" class="bg-primary text-white p-2 rounded-md hover:bg-blue-700 mt-4">更新用戶名和密碼 | Update Credentials</button>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-primary text-white py-4 text-center">
+        <div class="container mx-auto px-4">
+            <p>© 2025 二姐叫菜 | All Rights Reserved</p>
+            <a href="#" class="underline">回到頂部</a>
+        </div>
     </footer>
+
+    <script type="module" src="/summary.js"></script>
 </body>
 </html>
