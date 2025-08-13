@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Mapping of goods to their locations (category > subcategory)
     const itemLocations = {
         // ... keep your full mapping here (蔬果類, 鮮肉類, etc.) ...
-        '紅油蔥': ['其他類', '其他'],
         '麻糬茄子': ['蔬果類', '蔬菜'],
         '茄子': ['蔬果類', '蔬菜'],
         '芹菜': ['蔬果類', '蔬菜'],
