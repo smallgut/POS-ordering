@@ -261,45 +261,6 @@ function printOrder(order) {
     printWindow.close();
 }
 
-async function updateCredentials() {
-    const newUsername = prompt('輸入新用戶名:');
-    if (newUsername === null) return; // User canceled
-    if (!newUsername.trim()) {
-        alert('新用戶名不能為空');
-        return;
-    }
-
-    const newPassword = prompt('輸入新密碼:');
-    if (newPassword === null) return; // User canceled
-    if (!newPassword.trim()) {
-        alert('新密碼不能為空');
-        return;
-    }
-
-    try {
-        // Hash the new password
-        const { data: hashData, error: hashError } = await supabase.rpc('hash_password', { password: newPassword });
-        if (hashError) throw hashError;
-
-        const newHash = hashData; // Assuming RPC returns the hash directly
-
-        // Update the user row in Supabase
-        const { error: updateError } = await supabase
-            .from('authorized_users')
-            .update({ username: newUsername.trim(), password_hash: newHash })
-            .eq('username', currentUsername);
-
-        if (updateError) throw updateError;
-
-        alert('用戶名和密碼已成功更新！請重新登入。');
-        currentUsername = newUsername.trim(); // Update stored username
-        window.location.href = 'summary.html'; // Force re-login
-    } catch (error) {
-        console.error('Update credentials error:', error);
-        alert('更新失敗：' + error.message);
-    }
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
@@ -310,5 +271,4 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Search button clicked with filters:', { startDate, endDate, categoryFilter });
         loadOrders(startDate, endDate, categoryFilter);
     });
-    document.getElementById('updateCredentials').addEventListener('click', updateCredentials);
 });
