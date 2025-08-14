@@ -317,6 +317,75 @@ async function printQuotation(orderId) {
     printWindow.print();
     printWindow.close();
 }
+
+async function updateCredentials() {
+    // Step 1: Verify current login
+    const currentUsername = prompt('請輸入目前的用戶名:');
+    if (!currentUsername) return;
+    const currentPassword = prompt('請輸入目前的密碼:');
+    if (!currentPassword) return;
+
+    // Verify current credentials
+    const { data: userData, error: fetchError } = await supabase
+        .from('authorized_users')
+        .select('id, username, password_hash')
+        .eq('username', currentUsername)
+        .single();
+
+    if (fetchError || !userData) {
+        alert('目前的用戶名或密碼錯誤。');
+        return;
+    }
+
+    const isValid = await supabase.rpc('verify_password', {
+        provided_password: currentPassword,
+        stored_hash: userData.password_hash
+    });
+
+    if (!isValid) {
+        alert('目前的用戶名或密碼錯誤。');
+        return;
+    }
+
+    // Step 2: Prompt for new credentials
+    const newUsername = prompt('請輸入新的用戶名:');
+    if (!newUsername) return;
+    const newPassword = prompt('請輸入新的密碼:');
+    if (!newPassword) return;
+
+    // Step 3: Hash new password using Supabase RPC
+    const { data: newHash, error: hashError } = await supabase
+        .rpc('hash_password', { password: newPassword });
+
+    if (hashError || !newHash) {
+        alert('密碼加密失敗，請稍後再試。');
+        return;
+    }
+
+    // Step 4: Update in Supabase
+    const { error: updateError } = await supabase
+        .from('authorized_users')
+        .update({
+            username: newUsername,
+            password_hash: newHash
+        })
+        .eq('id', userData.id);
+
+    if (updateError) {
+        alert('更新失敗: ' + updateError.message);
+    } else {
+        alert('用戶名與密碼已成功更新！');
+    }
+}
+
+// Add event listener after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    const updateBtn = document.getElementById('updateCredentialsBtn');
+    if (updateBtn) {
+        updateBtn.addEventListener('click', updateCredentials);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
     loadOrders();
