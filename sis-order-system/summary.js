@@ -344,16 +344,16 @@ async function updateCredentials() {
         .maybeSingle();
 
     if (fetchError || !userData) {
+        console.error('Fetch error or no user found:', fetchError, userData);
         alert('目前的用戶名或密碼錯誤。');
         return;
     }
 
     // 2️⃣ Verify password
-    const { data: isValid, error: verifyError } = await supabase
-        .rpc('verify_password', {
-            provided_password: currentPassword,
-            stored_hash: userData.password_hash
-        });
+    const { data: isValid, error: verifyError } = await supabase.rpc('verify_password', {
+        provided_password: currentPassword,
+        stored_hash: userData.password_hash
+    });
 
     if (verifyError) {
         console.error('verify_password error:', verifyError);
@@ -361,7 +361,7 @@ async function updateCredentials() {
         return;
     }
 
-    if (isValid !== true) {
+    if (!isValid) { // ← fixed
         alert('目前的用戶名或密碼錯誤。');
         return;
     }
@@ -373,10 +373,11 @@ async function updateCredentials() {
     if (!newPassword) return;
 
     // 4️⃣ Hash new password
-    const { data: newHash, error: hashError } = await supabase
+    const { data: hashedPassword, error: hashError } = await supabase
         .rpc('hash_password', { password: newPassword });
 
-    if (hashError || !newHash) {
+    if (hashError || !hashedPassword) { // ← fixed
+        console.error('hash_password error:', hashError);
         alert('密碼加密失敗，請稍後再試。');
         return;
     }
@@ -386,28 +387,20 @@ async function updateCredentials() {
         .from('authorized_users')
         .update({
             username: newUsername,
-            password_hash: newHash
+            password_hash: hashedPassword // ← use hashedPassword.data
         })
         .eq('id', userData.id);
 
     if (updateError) {
+        console.error('Update error:', updateError);
         alert('更新失敗: ' + updateError.message);
         return;
     }
 
     alert('用戶名與密碼已成功更新！請重新登入。');
-
-    // 6️⃣ Force re-login
     window.location.reload();
 }
 
-// Add event listener after DOM loads
-document.addEventListener('DOMContentLoaded', () => {
-    const updateBtn = document.getElementById('updateCredentialsBtn');
-    if (updateBtn) {
-        updateBtn.addEventListener('click', updateCredentials);
-    }
-});
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Summary page loaded, initializing...');
