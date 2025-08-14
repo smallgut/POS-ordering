@@ -383,13 +383,13 @@ async function updateCredentials() {
     }
 
     // 5️⃣ Update in Supabase
-    const { error: updateError } = await supabase
-        .from('authorized_users')
-        .update({
-            username: newUsername,
-            password_hash: hashedPassword // ← use hashedPassword.data
-        })
-        .eq('id', userData.id);
+const { error: updateError } = await supabase
+  .from('authorized_users')
+  .update({
+    username: newUsername,
+    password_hash: hashedPassword
+  })
+  .eq('id', userData.id); // keep this to target the specific row
 
     if (updateError) {
         console.error('Update error:', updateError);
