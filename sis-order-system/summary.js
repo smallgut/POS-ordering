@@ -18,9 +18,9 @@ async function checkLogin() {
 
     while (attempts < maxAttempts) {
         const username = prompt('請輸入用戶名:');
-        if (username === null) return false; // User canceled
+        if (username === null) return false;
         const password = prompt('請輸入密碼:');
-        if (password === null) return false; // User canceled
+        if (password === null) return false;
 
         const { data, error } = await supabase
             .from('authorized_users')
@@ -39,12 +39,18 @@ async function checkLogin() {
             continue;
         }
 
-        // Verify password using crypt
-        const isValid = await supabase.rpc('verify_password', {
+        const { data: isValid, error: verifyError } = await supabase.rpc('verify_password', {
             provided_password: password,
             stored_hash: data.password_hash
         });
-        if (isValid) return true;
+
+        if (verifyError) {
+            console.error('verify_password error:', verifyError);
+        }
+
+        if (isValid === true) {
+            return true; // login ok
+        }
 
         attempts++;
         alert(`用戶信息錯誤，剩餘嘗試次數: ${maxAttempts - attempts}`);
@@ -60,12 +66,12 @@ async function checkLogin() {
 async function loadOrders(startDate = '', endDate = '', categoryFilter = '') {
     if (!(await checkLogin())) return;
     
-// Show the update credentials button after successful login
-const updateBtn = document.getElementById('updateCredentialsBtn');
-if (updateBtn) {
-    updateBtn.classList.remove('hidden');
-    updateBtn.addEventListener('click', updateCredentials);
-}
+// ✅ Only show and attach button after successful login
+    const updateBtn = document.getElementById('updateCredentialsBtn');
+    if (updateBtn) {
+        updateBtn.classList.remove('hidden');
+        updateBtn.onclick = updateCredentials;
+    }
     const tableBody = document.querySelector('#orderSummary tbody');
     const noOrdersMessage = document.getElementById('noOrdersMessage');
     const statsBody = document.querySelector('#itemStats tbody');
@@ -335,7 +341,7 @@ async function updateCredentials() {
         .from('authorized_users')
         .select('id, username, password_hash')
         .eq('username', currentUsername)
-        .maybeSingle(); // safer than single()
+        .maybeSingle();
 
     if (fetchError || !userData) {
         alert('目前的用戶名或密碼錯誤。');
@@ -349,7 +355,13 @@ async function updateCredentials() {
             stored_hash: userData.password_hash
         });
 
-    if (verifyError || !isValid) {
+    if (verifyError) {
+        console.error('verify_password error:', verifyError);
+        alert('驗證密碼時發生錯誤。');
+        return;
+    }
+
+    if (isValid !== true) {
         alert('目前的用戶名或密碼錯誤。');
         return;
     }
@@ -369,7 +381,7 @@ async function updateCredentials() {
         return;
     }
 
-    // 5️⃣ Update
+    // 5️⃣ Update in Supabase
     const { error: updateError } = await supabase
         .from('authorized_users')
         .update({
@@ -380,9 +392,13 @@ async function updateCredentials() {
 
     if (updateError) {
         alert('更新失敗: ' + updateError.message);
-    } else {
-        alert('用戶名與密碼已成功更新！');
+        return;
     }
+
+    alert('用戶名與密碼已成功更新！請重新登入。');
+
+    // 6️⃣ Force re-login
+    window.location.reload();
 }
 
 // Add event listener after DOM loads
