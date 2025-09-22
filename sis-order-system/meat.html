@@ -71,9 +71,9 @@
 
                 <!-- Chicken, Duck Dropdown -->
                 <div class="bg-white p-4 rounded-lg shadow">
-                    <h2 class="text-xl font-semibold mb-2">雞鴨鵝</h2>
+                    <h2 class="text-xl font-semibold mb-2">雞鴨鵝/其他</h2>
                     <select id="chickenDuckDropdown" class="w-full p-2 border rounded-lg mb-2">
-                        <option value="">選擇雞鴨鵝</option>
+                        <option value="">選擇雞鴨鵝/其他</option>
                         <option value="茶雞">茶雞</option>
                         <option value="雞翅">雞翅</option>
                         <option value="雞頭骨">雞頭骨</option>
@@ -86,6 +86,7 @@
                         <option value="烤鴨">烤鴨</option>
                         <option value="生鴨頭">生鴨頭</option>
                         <option value="煙燻鳳爪">煙燻鳳爪</option>
+                        <option value="田雞">田雞</option>
                     </select>
                     <input type="number" id="chickenDuckQty" class="w-full p-2 border rounded-lg mb-2" placeholder="數量" step="0.5" min="0.5" value="">
                     <select id="chickenDuckUnit" class="w-full p-2 border rounded-lg mb-2">
@@ -152,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Map subcategory names to dropdown IDs in this page
         const subcategoryToDropdownId = {
             '豬牛羊': 'porkBeefLambDropdown',
-            '雞鴨鵝': 'chickenDuckDropdown'
+            '雞鴨鵝/其他': 'chickenDuckDropdown'
         };
 
         const dropdownId = subcategoryToDropdownId[subcategory];
